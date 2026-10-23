@@ -1940,7 +1940,7 @@ def ui_assets():
     const ROLE = { valid_bound: ["counted", "#17150f"], scenario: ["what-if", "#a86e12"], excluded_overlap: ["overlap", "#8a8474"],
       excluded_unmatched: ["not matched", "#8a8474"], excluded_invalid: ["not a measurement", "#8a8474"] };
     const TABS = [["audit", "Audit"], ["settle", "What would settle it"], ["design", "Design before you run"],
-      ["stress", "Claim stress-test"], ["evidence", "Evidence agent"], ["report", "Report"], ["method", "Method & proof"]];
+      ["stress", "Claim stress-test"], ["evidence", "Evidence agent"], ["report", "Report"], ["method", "Method & checks"]];
     let CW = 760;
     const R = 8.314462618, REF = { "0 °C": 273.15, "20 °C": 293.15, "25 °C": 298.15 };
 
@@ -2461,7 +2461,7 @@ def ui_assets():
       const root = el(`<div class="nt">
         <div class="nt-mast"><div class="nt-mark">Nitro<i>Trace</i></div>
           <div class="nt-tag">Given an ammonia measurement and the controls actually run: <b>what contamination remains unbounded, and how stringent must new measurements be to close the gap?</b></div>
-          <div class="nt-figs"><div class="nt-fig"><b>${b.nitrotrace_correct}/${b.n_synthetic}</b><span>verdicts</span></div><div class="nt-fig"><b>${propOk}/${propN}</b><span>proofs</span></div><div class="nt-fig"><b>0.05%</b><span>vs Choi 2020</span></div></div></div>
+          <div class="nt-figs"><div class="nt-fig"><b>${b.nitrotrace_correct}/${b.n_synthetic}</b><span>verdicts</span></div><div class="nt-fig"><b>${propOk}/${propN}</b><span>checks</span></div><div class="nt-fig"><b>0.05%</b><span>vs Choi 2020</span></div></div></div>
         <nav class="nt-nav"></nav><div class="nt-body"></div></div>`);
       host.appendChild(root);
       const nav = root.querySelector(".nt-nav"), body = root.querySelector(".nt-body");
