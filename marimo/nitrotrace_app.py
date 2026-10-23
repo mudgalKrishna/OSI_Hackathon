@@ -17,136 +17,133 @@ with app.setup(hide_code=True):
 
 @app.cell(hide_code=True)
 def data():
-    # Curated published records (Choi 2020, Bragulla 2026), 32 synthetic benchmark records,
+    # Curated published records (Choi 2020, Bragulla 2026), 33 synthetic benchmark records,
     # the protocol rulebook and the source registry, compressed. Provenance: docs/DATA_SOURCES.md.
     _BLOB = (
-        "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"
+        "eNrtfVtvG0mW5l8JCJg1haIoXkTdPP3gkuvibVuuttzd2Cl4iRSZIrOdzGTlRbK6t4B6GvS8DXoGmJfdtwXmeR8WC+xjz/v+CP+S/c45EZGRyaQsqe2qsisKqCqRGcyM"
+        "iHP5vnPiZMSftqZBHua751kwL+M4GPaH+5NkOJkH+eQqyBdRMu/9IU+TreM/cctJNNs63rqh9VZ3q4iKOESrz3UrFRYqiHuKWqu3P/yrOh2qca+v8Ksd/SsVLJdpEgVq"
+        "uginr1UnC1dZOiunRZQm27hlFk7TbDYprld041V5Hkf5IpzhyizMp1m0ooa48nIRqkVa5qF5Rl6uVvG1wmPUeXl+HoczFRRq0FfLp7vLKFEXaaaGg954pBaqWGRpOV+o"
+        "MV1V6YXq94bqmfp6ePZ8TwXJDA1CVWTBCh+C+DrHvc6v1ZMT1Rns9Q7VX//3fPepOv1677PtnqKOBGWxSLNcYTBpVvCvMYoszFdpMqNBYwLwTVIE6ElAI1D44rCvVqvz"
+        "yTKNca8R3SmiW9D4ZXZy3CmQ28md0Q/5kTpPS3Sz3tUlvsP8Z+hPFhWLZVhE0yDGnODJeZQXIa7Sk/GZZKASPHnnVJ0HuNhTTwqFx0+jbFrGQUbjxYRH80R16An6sZdB"
+        "XIY8x7Mwiy7Rn4ssXaIP+OkyDPIyC5d4zDb3LKL+h1mImUeXlCtpGV9XJSmemszCVYj/oHvhZYT/T8Oe+grPKMLlKsyCoqTf44YrzGjOH/Av/TQvApoTusbDxtVlOOtB"
+        "WdLzPMzQv4l+Jml1vgqnUZhDeUh0aMQjx0fMzxRPz1gykyVug4tlEuFXWyxrfIzTqzDbOib549pqVX1gUViFTaOkQPPLNEZXJsunW8fjfncLX6I7QczdKIKsmEARto5x"
+        "BQOXvwfDo0Hv8PvuVjLBTMUQXUF9HaCJnhT+cVpmU22bZyPu1zQwJhFA69Wgq7L0Sj04jYosnYcJGccDnqKLNC0wa6G6wO++K/EXTYXTrCvmotCft3/+C26k7QXfD3tH"
+        "Q/VUFWkRxF3XXLpiRF2tIVApujweqxXpdU73IXlADJdhEvAotowy43tM/UWUQWhbx0VWhhi9dEuPhY1Ma11lej1ryL9SMm3U5Z46hUqcx0Hyeoetb0q6QQrY2/oe80qu"
+        "S6YP0/rtn7Z4DuHSxn2axuA8jGk6hjIRZbIqs+gi4k5GS/pQXDeViOY/0fM3CYp0KfLSmoPZqPSmb5XmsN9QGVHiiVWR7pa2pNnkinqPJrMwhrHRN0U6mYZxzDOHb/IJ"
+        "DBz6EsCqLsOJ6czW8UUQ5+GdVcdRkYfqr/++px5H+bTMc2pUqQx5PPMk1+3Cj5Ij/q4MYkxWV10toulC3F6UsJlWzr/mC/HDNMFNrArdQ2Eea38Ev1U4HrlyT+wjHR+l"
+        "OmdPlIz77Eg8EeZxBo9++vwNfzRiEPVh1Z9ou35K9gqTaHztOKzJr7eOh0eHvcG40cY4sck3AW7SH4yGaBG+WaX05W38Q1gEE+OAen357Hgy8nsBawM3moiuDbb+FmVw"
+        "hH8rD3Efg9/k66EcJFBz/7rrf6hkjtWv+UcyneqbgJs9Ojv77bMvHpP4XvGDobKxY/thDBeBr66LcBLMhdEYP+ASAqcdBrwHtxPMSdPI0+AnrwFgjbuZS2KjeKJ7deuV"
+        "tXDSw/eFTPu9fetj+O/3hUt7e/3v7wtCX1TDfuAokfO1+m9q2NvDf9Fn/Hewj4nvnAafddn1d9VJMPwMFIEcv3pKOrd9e+Uis50SA6O+5Zi+YrogbxpdXMCZ8nw4l7Ui"
+        "soBJu6KpYq0Q3xBYzHHJrBF0lEzjcgY1AsRAYOBfqe4ChB3laZGueOYgHbAh7iB7aOlgEb5hNbiAKHFXItmVdbyZWDgI4jSZ55BD5d8dtaorbYf83fYWHsCsiGkzayIR"
+        "K9GCymaD1/DkYJrkoYVDbbKrjkO7IBWyTNGGbUL5RzFTWXOFWC88r7llkapzEONgRUZeeeppNBPn3Pl//0e9/af/qQa4F6atwmpSslc0Va0BjAFqCBAkssCE3CKOWf/R"
+        "bcIZ8yuKOWhwWg1IQ/Rd1OtwVRC5x1Q6iH7bqEbHMitMGU2YDlNwr0fzKCbQev5ytLOHO+/EgFTTn2w90tnf642GUNbO6LA3PlBPt2+OeebBZajBuVxCSlBEFg5iiEU6"
+        "U3G0jAr6jQwSfQVKEgN4mQXTEGMOV8z1nXkI5AszB+pbkKpnT58/fqXgzEBrKLRJ1B/DLK2FUA/Ug78fmbDogWgaozWHRkLmiUrI3S0v2iFpsMP7kOS/InGDNeJvZ2bC"
+        "k0XM0GqWtuW7+97R4fioN/wwMUHXavMD1fl7Es02cb5Rb8QKRF80ON9GZVAd/jlMO6bgsaiFhfgyOpfZVRdlIj8gujgQOi9evVK+zpfRnHB/b/s+LII0KYPrxqDhIVNR"
+        "ILZG6iL1eqjD905wnkPqUx2sjgFC+gKIr47rZTrcEUgo0hmYUGSbFBNZCDCRK8Tczm1IP1lbdKx+lZbxjBzg6D/+TSHCnodZz5rpr5SImuOYG6MVJyypxywquIA+NRyF"
+        "cRDvO4gZvVP7fwYxzPxdMUyIp0NMMZimq7vgZQhYarmqWrgCiYuHHOlwpfc3xCvaUBzX+fCWAQh79h8xALHOaC0AubeAHIE4evv2h3/eU9+OX62lI7S1dJUGtZvSESOb"
+        "jfj7fq//N6cj3hGdmA69j+jk58wY7cS/L8Z4agkDoXuYQwUE3okvWC/7SvJA+DlL9/b0cJUh7wmmNJmDnKfTy3cxw2b7W5FC/Rv1D9npzlePv6BpgfCSHc6lAioxdwUi"
+        "RtVB//OoKCnZQe2fnNwl4f1E//g8mL6eZwwpThR5jADF7QhHKRTolOT4TAg7Cym2umAnlibpEnihRQIjpUR3AWS6DrNtxbnkSmL698jaLimnrMh/C+A1M+dJWmsMiL1W"
+        "necnvwOifgF3e81ZZzIbC/hGWTlVB+fapciAEhnQZ8YUCcCaXQDq4UelZqMveQxYDcgX6RWI+eKaVFOIoHhtTqWHb6ZhOBPymIerACYdIvGElFVSCLNHkAjPTEOs+fxZ"
+        "ChZx+vylCqHKLKIqBWa7cdy8rx0aMu5YCoCcctXRGQTCF1CTAuPVjnEbT5FYczrlVD7xMCHROzzhTD66NutvclxBUWTReQmHypxYR7fg5Qi47CxnmL8gdwGnoQjak0GB"
+        "70yh10hzRRmGvYMqLSEfWvMSdyO4ZUa8Z1EUq/x4dzcsM9jbajntpdl8V9O/3W+endC/g+Hh/t5g/6AORUTs9hVM6oxM6vPKpE5cqT9UmoseOkDFU0feiMTA2YlaBAFd"
+        "iqavIXukBDKa8S6lFaey9JVfw62mlFkoomUInLsKo/mCPR5sg3wEi5hTqYdjyoTQlJEPFJJ6cNDbrzgz3ZlkQrQpvr4XrKEXO80+PCQbBlEHNwINKq6rGM7csQsPTv6G"
+        "ZKcZsWbBMESCZJWVCQ+RBoI57KlDtQ4DxLIUIRmcqR6m2pVxC4UGZY2hcEgK/Bm4T6jurGSx92HspUt0T+Rz8axcnQ13z0ZE40nGeXCdqwcBlK5QozFaPti+mWDzouI6"
+        "u5a1Rsl2vx82fXjDmoAxi5+MRXd/LksBqpOHyNCXqxSqR0b0JCE+xK2376Pzz4xPNt61WuqpCZlQyMnxyLIAja3GzNXvFyGnM6gpsTEnbcO4Sn57hvuTt8dnIGFtESLK"
+        "bzQM1lS67dZxAvJxezGy8jcE9cUJsKkoVzwKug2vDzNKQBzTAsJaQ1m3rwSeK0ElWs01KFNxC1yQD8IR0iSRoBAQx+hL2K7JEXzfGj1ilnAPiX6lp76a5/pq9LE7xW//"
+        "8S8sK5k8FYcXBTSAjU8CrdalAqKDzSUConodUK1uA0m3lYPwGnZBYULOmXz1+Gm1ZGBZwUQ3qy0ZVJzhLisGN2Ax8tdjJ4NFH36aNQJSzvFDQ3tUBzPZJdJ6DA/dOxLn"
+        "/5Cmqms57bHaq65wELDd0G6OBU0RBGaaMRqJGwrbXNrDDF0IFgnIeAE8jYyRpoUeo6sxQvJg9G1/xPA0XQJ4h5T/GQ/wYQh4AUaF26T6/d7+voSZuhVHm4oyQKQQ99Hs"
+        "E6qSOEYSl6YFd6NJ2NbgiCwSBbZ9RGO/qrq9df81D1FYYuaqMTwbeNEfgSW46hJBcBgLPWdCio9LrrzRyLRxWURsDG4OXWDj0aslXb8098tYmrMq/kgMlpxdWTioLPom"
+        "Oikzc0/driKtVu19aKMrRw9MuoOJ59sf/oWJ47uW+WbhFGldMDNWLegh5PG9VjR8woLGjPRXcPyGDI+dGipnCVYcFZHgBKeJQLSnAHpbN+SG5Km3yw1hgJV1Wh4pUpvX"
+        "Ljqm6/4asxBM4D4sadmYc8pX0WsInbn8oN/Xru1p9NlWpSBmYciEubzgQDn6Y/XgZRXHVuSyNaWhliX+PA9ZA0hLAuQiNAmAz6NKN3DAacC66DDS3oOWjNhzHR0buJFK"
+        "t6pIr2iLq6pgTkoHOc6qcUETZ0W5vZXkyNZo2SqlGIjSFMTlWEl0WEb9SKvu6eifVmFdtQG3RcYXiQ56MO4ipX435tWmizRCzqs/ofxHOJg46tWSVbuhtZNTO0ErJ5/W"
+        "53yaoQVXkHqxw0kdot7CyrusJs5CJ3z+5iRaZaXNbJr7ZHSRM/+SFcGjmKwGSveZMk06JJjyGo6OwcSdEOZUU6kiwCd8iQ4PKXjlVkdHvaOjo79T8ywAT76iRBc9iGJ6"
+        "/sApJFkip/XzThWFRZgEctjHzsAJ6vpK/jg6VL/GpMA6lpwvX62WzHGPeodD4giD/n8dSc4ND6RU+f4hf9zN6UnbtXVcu8CqC0+rMtKe+jycBhQc6UewQvGsYHVpR4YV"
+        "xXGZmzSI5AJpGm0SrL5aW8PPrmQZkzmlLyWFR19IboHEXIUb8ACSjaO7S54skhV3ao5aAlkGRjGg0rmrZsAFR4KEDDrEla2soGrBgV0Sblsjonih5PqFB0+SvLyAc4jE"
+        "Sm38+aCqkm3PmYn725RpOKJ/6pmGup509GQX8Kc6LQ4hbm9OP0ClOpUULsGaG8pY3eGmJMWydcm7maPQef9JFiTzsC1XYdRjwj0k51pI9uDmhIVGk02kZni3/N8Bsn+D"
+        "0dENTMjNdUxrlW59sB4jESMLmr4pMaM9vlpZ2WH94wgf2djIpU2P1SOerZyVuWYokA2W3qzJxbHJxLpi0/6CQ0KIIO/drQhKMgh/2mJ7IlH2rbTFo1T009BbyQeQr15b"
+        "UqRHty0h3iSxGzNM5+46YCE+TVaRyK3dcay3WMkcCm1+73WUjYG+MOsCRqLpm2gW5UJyl5wks7mzS1Tgn7544UzEWcShl1mXJuphcWEbrnc+J0prXxBYBm+iJTMD5Oio"
+        "kcmvWW+lrqMwnuU8sfwnVeKw3lXpqsztMrsTtnJOXsfOmggtZAQOiNHfOZMUzkU38Gybsj7wGkxdTKJMP70z7INgC7aZlV6qJMGaFWQRX+slG/QORqLfXOAHaKpF9oSJ"
+        "czA4v4u+vMel13Wa+I3hIcp1ysqQkmMLoNrfG6/ecPhdhcK4X1GixE6xIyg9xWvcbUhf0KxQGTx12EIov8RDHGDr+Ohw2O86V0gmfGlCKo8bkQuj+oEYLoAbEFIh79Af"
+        "k63l1wm0Bv52F39NxGUg7pq8/KaFEjabODzwkSQfWS0oFqBk/aaXP9bYnu3EGsk7M1fA+5PpYhlkr/X7NT31O1loIcV1hdN107usTZI5wmqHFWZelLPr2yySjZx0gUQK"
+        "VYogkTJ3k5o7qoB2OHj3GwK3ep+kv1Y4Nqo7r5qVuNO4KVh/UlNjO7sMKw/rdE9HpJsWWi7CZgkTfaMkPGhnN3CTsPCpOt2xdtLBCyKKCMz9GE2vOdGLAGr1HiuY1qnM"
+        "jzPlDbwf3x/uhcHW8H59IeLHGdSt3pF4b8D+Y4xpDXzaUkiN7Inm0hTb1jpl1wram3z/fpGtNlhMWhBzTOeE219yHg/RUzUVHMoTeneF5vK6GWfFuELCXQbU/oLd80VJ"
+        "7zDaQTWArgFyErVhEiKs6hVwmXbFeErLtppsk7hsp9GCbFiTnmopTOcAEy4YeckY9A15/QhTQUkwSpxtocIl13M1qXKPWy3guDxHLQHWFyfao21CyGY7Bya/0fGsvsJK"
+        "ZVTmY4FF8R4eFT0qfsSoaOpqW+LgZkGsx0aPjR8bNlIK+jLX717j/3btxMiAom24T8DS9UZENC5qHQpZ3yZkegSZF7hRsQEMW1o6cPgME6/ooqwf6bUY0eZPI0islW+M"
+        "envV+xdrq8geDT0aejT0aOjR8H2j4SO1tECDvDTJ5zzkvSL0e77itdeAsA28WsCQ6pEmtoRlMguuN4Hhekv39RS6Wq218j4/tq2Stj5v6jHxPWAi0v8DD4oeFH9eoKgN"
+        "xNR3Ggtx6xn5muoInMAlbr//EtE7uK7Kcb0/t/Xjq9Wd6zFroMRZVbfw8pzvsamc0rOXFvZS1SZNnNqkBoVBbdMOy8dUR5s3T1i1pguq4aHagoc1aeAp18R8XifpFZc4"
+        "nZezeVhoy5clZJQIj4d7e8P9g8He+Ohgf78qeV3npPpW0JwNREhX2OYbygrbGzo06PcLLFXv5Cj7DJd6oEFMXO3aFIjmdmsadh66otSzI8+OfMbAk6NPmxzBLzb50TMN"
+        "ClfrjpOzqmRDgpMVWZJWLTxJDM11+d3bv8Z2B7/Wd8xt3P/E6JOG6a0b3in5ZClO82WZpqq1UiC9qcOk2sVhIjylxoG+MjuE0Q4MY963CWQAA2Y+oEMDaBPey8D8cMmj"
+        "bNk0p4kZHY1lD904WulKybyMiw2cCLfp9TdRHDOzN9IbZ/oNtTldo3D0xr3OQZkFGdhxUOxEF57PeD7jsz2e0Phsj2AT6eFPmu4Zjp3d8/r9Tzjlc+eXZH1W535Znd8L"
+        "1Js9g/AWaIiDG5ztp/gdvPCy2uVLvyDHhOX26RwzL7V2o3695eFNaR97B5q/tuQPvQxIbwXoN73bmVG9kfsaaW0DJvMCQaBsw4+RCjX2F0hhNm5hyDO3MKQ6kmKvN/S0"
+        "yKd5PCvyhSG+MOSDF4bUd/6TNwUM7Mh295jV8IYaEVMsqZGqFRhJcNZ9Q0lzJl2bMbK9fa1u0k0iSO2kUyuycdt6n0LwWOlTCB4sP+0Uwpm7BNLZ531Wtm+x9vHBVz3G"
+        "m7fiuJff2vcrHh9zSaqL4TRVSlTVKVElHeS3NWR7raFcr8Jj7v0aJVlnDptZCW1jHmCfADoho/X40M2N10pX6fuQThehVrx/suwg3LEvnXB/tz0t8bTE0xJPSzwt8bTk"
+        "x6ElhFSwFANcx1uCUZ6u3K0AAxuoydkfDlmhnQqH7veGpdB23LTNuN61W2a8YixtCxfNlYuDdd5CUHTbTEprW4e1UD2J8UUgVcmMNiDnJEpebTY9TeNYn5EmTTx78ezF"
+        "L0B48vIu/PPrD3794V1ZgC8M+mgwvcxdvNFIeq/4Xs/zRM5v4SnagJItLR2M/E31rRqMaR9lbJXLBwkRjH08mxZ5NPSxvIdDH8t/HHgoY5BgTLtkc8ID2yi5H7u3tBO0"
+        "/dID1Ccym8roDL0iwMe52yNDqKCu2nueX5qUtwfuWFGXlQyPLw4n6wJpgWMu/sLODzG/qrgBieuN3OV+utAoVeAVAdNWXcBhpNknXyc36B05R1EOPh1gXjs7yEh2oiV7"
+        "PPTY7bHbY7ePZX/mKeLeEQ4DgG/GKUnP6CCNx18qPlBDTgPDHvhHdFrAUKeSa1AhYPstWkDJ0KLXf7WOpHJQ2wYEtae42TfuzOkMvAEU66zeLbiwq+p72Av/QM13JQT8"
+        "SAD0tmc3H/YHew5kysfWw+t8EOuB0AOhB0IPhO8FCMXXylmBgL1hX6+Rnj6Us8mCZSigxAfdjvSb6qj5Guzv9cYbwRH3IXDsbwDHxd6N8KgvuwBJOwTfAI6HODf38GMD"
+        "x1ufp4xNePsH46PqnwN3f961Sx43PW563PS46XHzw+Em+93qjN0adN4DEFETFhboi80KboLGtYb1fVvkoj2PlJPKsm/LJ/2ylZz1ok133PDQMieUpDRu+iPKt1qBW4Py"
+        "4OjB0YOjB8efBBxr96ONdieAS9qEZba+DazGInT2235XPX3++NVDHKCdK3Yceoe0Pgpu0SEK4uj48uTaWeFsQigBKIzk1e3WPm8CWWztwU7pnSBrGraCbPV+k0UYZVp/"
+        "4hCrz1b7ZFY1PyKU9dW4HmQ9yP7CX8pN1kCIgZV8gPNaLmsHPbVRmFvhm/619h7rkEmijIPVBBM4qeS0ATbbGzvQ+Vwa0I6maXxJ7xRf2x1Qaz/wpbo+W+sDUo+Vv9Ad"
+        "0mt7o3ceZV1ZhmvsLPrTvYg7cHzZJ7snelfLaRkuz7MgCV056a+ANXFIxAC+t6gEY2d8oq/XpPNhX4we+y3qP+Et6pvE6v47uj7O0tWKeBcv8rv+Bhp7GcrRNe4BPWXi"
+        "sMm2jegPmi9F3+Z0ngb7d94Q+P4GMuo4vndR0bqP3EhEuYigmoodmQqZd09HPR31dNTTUU9HPR31dNTTUU9H3/uJSZ/zV6ihodF91nA4vN3OthAluS4XUA9qFL8zIva5"
+        "/Tfs12MIY5kYTvgOZlk1dHhlbess3ZL2abZGxqZJQ/Hc0nNLzy09t/Tc0nNLzy09t/TcssYtpb7o/ulNneDjDGeNAFFvSCS07KzzflLClbMr4VFIV27eAvIuR5EHy/No"
+        "XqZlbshjM+253qAl+4mNQYoIm2nhFHHRio0UtaWlw1G/kavVOAsc7mWPLqfTPe3R5cIJA39q+S+Yqcp8/gyr1PQ+Q56Pej76I5Sp+ULv9kLv38pCnn0gis+4iypMMM21"
+        "TatA7VP1gKRk7vSAasOz9BxTsQln98a9d1R1G7TTLusdmGgcm7MWSL2lN5uNTzJHWDqu0UOfh76fUyrGY5/HPl+i/bM/NvmRoiMX43BH+xT9zpOusDl9/kbpOhiGRsIc"
+        "GEMZF3QWwXWuuAAcSJnTpsj3ikN5irea2NcWXK6W8E/fldHGmNI2cKATX6oyx+xi+FA/uW7ePf40Nnms7clRd/i9/r7r8w8+2V0e/dtQHmo91Hqo/Zm+DUUohN7ZJGoN"
+        "jXZWC+qrdvxrb0JVmVe2rXVgzKfT5cQKUyxsA0S2NXXAki4re8Kg7MkhjfQxzj7O9MUAHhTvC4pkXh4SPSR6SJTAs8AJAjD66I94PJmIvOJQYY5soyg7KWKss4i2b79e"
+        "A0iaLtEvOl33Ag53I0pir4wsxKF0pGQ3QaTbromPZj3WNlDVQrnHR4+PHh/fLz4aN+ER0iPkLwohT2DFylF5tcSAlN43A4VD2JVqpopUzoWtkFTMZw0lccAdZXorXJs4"
+        "sLUBLm+FlW1AeeZ2iISlOtR2WxBea1SMufUg6kHUg+hPCaKj4egmEK3cRRN8D+R3VQMPwx6GP90qIo79sJKYK9F89esKvARTaHFUrAnXaJCOxWxaG90/6O0f9bHl8t7o"
+        "4GCMf1qQOCRonJD3RAbY+KxNiNza2EVmbsDdY39sq4ux+7Jxum4VvMdij8X+7S+/DPrJQKl9kSh4HZYrxyoeAWLw3U65wrocv2BUWYa86+Hl7CmTp0y3rSz7nERPLzdh"
+        "7gRvcqoYg7AW9G1wLrSDeyoHOVWERbfnEjNdf/Y+qsvorq21ZXnJ6ZSM6882USu3jcuo9PdKwyRXmwXydhLJjU3A8yjPo36anEZNbWHkU2Opnkt5jPUY+3FjbBN7ZmnI"
+        "CKvwBnzAnr8S2kzZiIrHWqsi3oCudJxFC56arRExr1nJIPhiWMfHCU1Ty7JCkRbAYb1E0Y6zbhMHZl/S19UQGFqlEYrQsXoSzOj4x4BXGzzaerT1Kwi3AVq7icGnhUxw"
+        "G44XmeAVgX3qbu3LDXSh1qaVO3jY++mz8fvqKYxaidCQbsfqlhrgm6WaR2ZrYN6lR0CN4rFxXwmFVP/xbwrqrPDn/V/pLa7SSd2bbIKztYbuQU3D5zvkV6rcu+zye5Uq"
+        "8xtlfuMR7Rf5gu/weQtuDd+dbR/7ZLsPEH2A+ItHymAS0cG/CA3hyjUyWmzBNDnLvinkgHDu/qBYrjBlYbCc0B0xlGwDJq61cyDxSWMVGqXhujXFd9R750ceE32U9xNE"
+        "eVZ/0wtXhT1gesD0gPlxZ1R/a8DGEQy/uquusAfhTnTR1YKrMpGsLTclUM0c3AynbYlW+0tJp1bp1tGk1QetQbL8RXLTe5pP+oN2UG5r6cDy43CZAu/CFcLstz/8K/5L"
+        "7zRXk2A9tQdlD8o+9eoR2SOyR+T3FMK+sC8J8bplECNKlS503v7TnwGkitz1tmwXTFANf/32h3+Bp+YL7h7B945tW+BxeGsgHbYC6ZCBlOpiPZZ6LPXF1x5MPZh6ML03"
+        "mN7uGKuX0XyBV40dlNE7PjKU9iyWYhzwV3hxt7HJ/m3LcG8DoKNbA+ioFUBHDKBtry0B+5apnHvlEfSXgqD+JQ2PBx4P7pbufCa7QnBg5fpP3mriPKw2/yXx/THM0nsW"
+        "ipL6QqGKdApR71IW09TLwMjpo3j/FwN2+2XinLJdef7fyJfXytDPHbuQqb0AbWCst8avVYrSTbJoPieL2PqKi1/1yTKRfcHkmI88bK+VrWNlj30FqQrOnuL2vFFy5/R5"
+        "F38M8Z/h820uSaI9+3V/4LU69NWjbFtxqSzeFMFZ5Rlf1Bte6YdeO5thdHmryJC/TcIrNb3Gy2n4WRfSwRVsx1wmCUlQGwmOZ1rCg0O5Mown2Wl+bcytt+W8ui++VlRK"
+        "BHE2ZLzRLwtQWnxGsMKDyjEbMctGnb54oYxYAcb/Vz1Kgviadu2ihiGFF1qfsXaLOcJNvyvFW3wZZXTMZMTZ9SREJ/IAY8R+Jt8ZMdPM1KqUc30bOawS05c7s8vmJxO7"
+        "ggVmdCue4SJ4zS8cJdd3nCQ6aQhxGCN7j48gu2mKbj909gpz3l5T/4T2OAuyjKaU3orCjwIo+Rxpjkzvgoav1pWAbz2kgZKpml2uaT7qPX9FfXesrLVYe/MbTVFe994O"
+        "d6yJp2Zlj1TNcBgFSG6hJUl54zG1F1QcG3sBUhJM5ZgO+5s59oML9YZx7+qXKRzgKWdLg45U/qGQfc0pyr2jVdxe5I/U6xB6mUaymsTnWVF3dHdJdY17V+fX9aHivBK9"
+        "6Q80mQoCSc+NZ6feY24jMk9Wcap/TGoaguc8RJssCs6jmCcHL/ufy3xOg5Ig6UIxCqKDeVRwASWNaFlOFztXQU6GDw4UBtmUAKuAXvF1Ol2WUahFxTYsUNVpfMIIWlV0"
+        "KA3LRDqovLOuyTBM3kqIflJTtZdatlURZYVm9fKRoHoUbcDL2x5o96+MXFu8+zl+/7pYZGk5X6CQ5iqpF6QgjCjPz8Ns195c9912V4xT+6pqRKoT9uY9PtmNd2UI4tcB"
+        "vXusMC0r7R1EIb6Cb8hz6vSTk+0PpqXijINzHBpcFmF8XffLM0dirMA0GMICpgyEBvDMZi4IFohM1nRV5kc6ptGvJl4X9iI6VoDfH63PpOPs9HwucRjch3LVVyEHgTiI"
+        "j8Rj5ETi6Qphixh8AwHFsJIgTyFu2XV7y1ekwtf0284XbeQV8yjRIby7E9b4GOluQsRnqZ9I3Vwzuj2w/OnrecZ8vvX05xclQYs+xhHkco5B7yqQ4mRnGmXTEhpQ3aJm"
+        "ZF9UJJzU8GqR0qER+mhU+xOHT3Wd7a7xAz5xKbgMopgHxxhA2Gv6Usm+jV6BRzGfgoYZiAMhx8GfcXVAqygUnc+q9xF1djfRu6WtINWEXgXurpsotZ+VdcRoqFaXG+GX"
+        "NGHKTJg893R4V0pV4yZMpaonOSoI75Y0BlwzGj16QpWQXHXL8O2wzUR0dadXNLmiBaidT/MVpX+VDn/MFN1kdvVe5+ImkG5YkqZ/C7G9wrYK1JVvITr8/W7bvO20fFlm"
+        "FD513cd3tUt3xdO1jgbQH19XbwZUCoeXBAozKgr2eakJGjDYA7lyXi7DUHLMZzyTyEj6ScJJKQKsOCuGvUuaKmkcy1FFUOtWO55UR9S2Gi2/SW9PtxXL0YHPjuOEnBDY"
+        "NdwTe7C7uYNro4YvinXPwl0IgpxjYdxbbp/VYpfBEpAQBfW+1e4HN6lv2FXm7F5WCAl+T90B0Gv6oCpk4LXvzR1yCnbwrFUYCCWhPBpZ6/R6Gkvk94gcTSVj2w0MuIhi"
+        "9iNZiARPwqrq+C0dTUVE/HFbdrF3tehvrJmlmP1IwhUhVhwoWXJFkdJzHr8J89GQnCFmuSTLQXNH1e0ooOAmVDFTYr8hx5zTIT1QHj5FljwVIEPm2eqG8Wx1F4IpWQmm"
+        "R5W8dxB5UECSMZ+CYaz4WICSEwZ1wQEjyyxPs06+bdhloMdGD6ylNt7tAk5IlShxSuF85+T0DQ/md6fbda+Ym7OIcrVAVjumzLaUN4c6EmpRlVq2lhWGqAYGORMM1skt"
+        "1pQYEVeck0+pFMXG3RSvXfP2FnAe8BMyWbXbt2piC1fenyTBBa2Az2e1N17BMXFrvuTOdqUO5ogGtsJyqWd8PQzbmUUXF5AbBZHWIlJXK6yxy+MU/kWoljkmfwILT1p6"
+        "89XjL3LFy4ak4HlE4G6CA6gizwBHDOGlpkRMZkyXm2AaNbGOwrKH0Ca80aIW6u0//kUN+S/MKqAMHQBUgZKz2klqPeQ5WZG2EueUdDs9l4GMXZQenvVbQYxpeJe1j+pa"
+        "+td/31OPo3xa5rnEvkY1TyjD+l2Jh1OiT2bs7Q//3JyzRXBpYJVi0XPKPBPnntJEh5xmAVfKYubeWizGgxI/vrDz3WJRt+3rlSEXjTwLpR2niFanDGwcMFd7s6SxJgg2"
+        "9RNcAPO1iEj4IiLI8osTRd6Wsm2YghpUcxakHqfjfhdRXJl1RGSVHSh+bNznmkRJnXgzmSGKPkZqRSUf0+XbP/9lqHL8dyA6RVmWhLbBnLaZ4MFEJ4d5P16i8oVris/P"
+        "SXQ6M1XoxR/S6h0D12owhhOw+XPXBJ/Ine1F8rF6N94u3TLWd9SZYdilSZDwyWwVUXGs0aZC8Vh4qo62uGhGaUTwlq9H24omHa6dEp2xZbYCDDREErElvnK0eHRZvYII"
+        "nWD+47I7YVLCdaaNeE1gIbDJiJnJ45l4D2Kbwg1n4R1R9QQhPXoQaI+ugyMCVDwmYCztPHniYsMTIFhEOtsVopoymyGPw3OSM1Bc6S16dP5DwpOaOJbsJS+qLB1RQpnu"
+        "qBf2KF3sKoSeVOhRwlF0QctJhd5isWLMPKnU820Q9UU0XVBjmtCMjN89T8/mNjFUvThxC+y882xZPRMNrpITOu1Xxe8PdWLdpAG0L5c54ZoV/Z2reM4NrQ4KT2/XPmYh"
+        "HBTiTyxSuH4nu7ta0um9JoAHqV4z/MMJLyvSiqldQmhbctCtWhYaeNok8VxHXlIDbfnVHDCVMotPHHjg94gVdvU06puax1Fa64qwlSRRLYq0UXH2ALTqLXfcrd2POykp"
+        "5xkFMVekvW5a6yHvAKr7CwtJKFgkVHT2FJHavJapuKNFv7BsTJPR9E00i3T6eilk2CzsXOa9BhsWS/pDypk+fYMqr2AHqtOnAmUh5USXTNssFTWWKfPPaseLbSIZ2rjr"
+        "ekdDTU6qa1JRspxX+YOhuoS50ZWT8vmOJubEm9+QH3Rt5J3G+7dNjAykAeSGjQtHpv/3ewN61e/vZPQADVo7JI7BY+GwAdPAjPpap41joB1PoaULsoGMk8wH1S4LloAm"
+        "oWuWdlRtOI+16pxN3LG0R+DvoIG0LbwO6pz4XFNucbDJvMFwzXIN/AP1yyyTy269eFMD5DdkLmgqIbpm55iU/FShQxTzNKiCyQWw9OuL1u6yRKgzJKYD1tPrBIMdS/Vg"
+        "J1rTnegyxe02MlGW3lrYNHvKtfSKSQMXfvBv/4DFW/JZAeeuUNABXp1PA74drzZ/oEzVT56JuQUPHvX21ZNEnUVFqT6vwv8TN0J1h3TJCs+JfwktQSWgH3NG59Ov9z5r"
+        "UFjtKAJU9/JBB8Q43QQc+X+TRdtIjutpNEfohvMKseGgi5w5HnudoPtT4zdaOmZOjKdlV7WvFoKMCHEDLsVoWuugP7mI3gAWaT1+bTOm31LMpLgBUg5LKmZw9mMimBEm"
+        "ZckfpSbX1mwcWGRTJTOKEkoYQztMEhL3bTc6WlBzgVWWArlPqsPkh/UuJk+/7XTvoYvhGiVm5udVF8QeyWx0yr66Q1fiXR6mPE8PfBZy4MB2uvxg6eDIenV0ISLaOl1E"
+        "4aUsFBkarmUDCTM5pfoRFpNxfLxwbBgVPYwkRGYLlFlRcUi1LsrM2ZQrSMbz7Q//3ZHP2x/+x93WX14KVLvro5wq1d0iH1ZZjAY1MU8yDiszqPTezmItB+30E6pSeX+n"
+        "QIBsqG3VcjDAWwhvJkR85gimXJWH5qVZwb2xl03+s6bZ1MKs9DnOfpdXjXJ2AMSmMr4fMQ17N2YyNqNKIbCj+Y+tP0CJCcJaZJhH+F/bowK9RJWbDD57WVm2ze0TIlNR"
+        "UDekDxKdNQIOE2GTVlarg1LoQPdx0qA2F8AVSbIoGFrn6K7aacBg/KhnNwlKwxsno00Vhm41ZMP1FXRAek73y0JCAhg+xReU8akSpfq5a26vBcC1NtCe/FdcEsQMpHFv"
+        "VfWnqytXwrprJAVdUprur/+Ld901p35gvsBRea6Ert2l/9ZLkJ5UavlhVroQXBSUSqrQXSehG5lbcdd3GYaUsBE1sqGppIeZVq/f3KqK/J4TBKwmr9xKNlMAYQqZzwZc"
+        "zswpAb3UjLFDLbvqrKf+oadoL6q4px4pqESaEc40i4+MfVZxhk2zccdqOQcTsbn9R1wg50WND/pdbHu1h7TYuH+oOsP+4IiLB2ZpRPECIoH+6HA33xuMD/d3cHFnMNzv"
+        "79D6d5lRpe2iKFb58e7u1dVVL5FzLGC6u7SbMi24tP4ymFLJAPnBVKd25ZuHXMaoSFmtD6zCNsYaqjkvoxgF1ydRwUJnlihlFxF7/uWSihFg4Wcop4MK5uoAozsiEZ4N"
+        "tzHyVCqNODo/pVjpZUa1QxTSCCRI/pdwAQShYJl2SWPrYjtZpFFX/WcrryeyvmfoTEvdQLOAJkrWJGtjt2o5Qq9ysMgwbEBtmfTUYAC5jff2SWTDfrvI9vYPdnBxZ3A0"
+        "GPV3/ngXma3/lOQ0IflMtDMxdwnLDNdWy2kvzebmJrvfPDuhfw/29waD0REZewSmKYeWnajP/4va6/VdVfjSSj4jAs8i+ILvrHAb1anutS3iGDXE8TlqNXGPgKyoq54i"
+        "GEz+SOLpqq8DBMZddYI/f4+S/a561lP/SX1JpXR4g2rRVb+GsfXUY1rKSVemloIq3KiqG0r2BFI4gY4hHk1RVLZaXFuH9zzhgo3f1POY+PmJDq6Jwzdk/Ehb75m13he6"
+        "cgriRaOzMqf/4RVFxIKQ7hjGc7DHgt5vCro/3J3m+bRnm60JGY1ZMBub30+wg+EhxLF/4MrwGSUvb5ah+RnskCYYaEQe/0lVeqw6zPxydTaA1Z4N+tsOHQpmIvu9huy/"
+        "Lq3TLAsSE90U+UdYEJQb9wlM6tAmarlk9t3GZ5e6sZRGyQfjapaAuGgH1cG8MAa1O091OoXtFD05m0Y9CPayx4IbNwV3NNpN8mw3uQouRgfDm6W21laf12caz+Hzy3O2"
+        "4eR1uSjflLshEPQkC69c8Tya/SGYchyUZq+l2t5sRB8IFROokjkeN+b4OfnpM6ZhpOiQGcgZEjIcf3+NMDlADJysDSSOlwtzsac7GqW7br++oNVohFHQEyr4//7/A+cR"
+        "Aog="
     )
     DATA = json.loads(zlib.decompress(base64.b64decode(_BLOB)).decode())
     CASE_KEYS = sorted(k for k in DATA if k.startswith(('cases/', 'synthetic/')))
@@ -765,15 +762,21 @@ def engine(DATA):
             valid = [c for c in contribs if c.included and cat in nt_cats(c)]
             scen = [c for c in contribs if c.role == "scenario" and cat in nt_cats(c)]
             declared = rec.declared_coverage.get(cat)
+            gas_states = gas_source_states(rec, valid) if cat == "gas" and valid else {}
             if cat in ambiguous and not valid:
                 coverage[cat] = "ambiguous_overlap"
                 unq.append(UnquantifiedSource(category=cat, reason="Overlapping measurements without a selected coverage model."))
-            elif valid and cat == "gas" and not nt_gas_species_complete(rec, valid):
-                coverage[cat] = "partial_species"
-                measured = sorted({g.impurity.species for g in rec.gas_sources if g.impurity and g.id in {c.source_id for c in valid}})
+            elif "unbounded" in gas_states.values():
+                # One bounded feed says nothing about another: every feed delivered to the cell must be bounded.
+                coverage[cat] = "partial_feeds"
+                missing = [g.label for g in rec.gas_sources if gas_states.get(g.id) == "unbounded"]
                 unq.append(UnquantifiedSource(category=cat, reason=(
-                    f"Only {', '.join(measured)} bounded in the delivered gas; other reactive-nitrogen species "
-                    "(e.g. NOx, N2O, NH3) are not bounded.")))
+                    f"No valid delivered-gas impurity bound for {', '.join(missing)}; the bounded feed(s) do not cover it.")))
+                if "partial_species" in gas_states.values():
+                    unq.append(UnquantifiedSource(category=cat, reason=nt_partial_species_reason(rec, gas_states)))
+            elif "partial_species" in gas_states.values():
+                coverage[cat] = "partial_species"
+                unq.append(UnquantifiedSource(category=cat, reason=nt_partial_species_reason(rec, gas_states)))
             elif valid:
                 coverage[cat] = "quantified"
             elif declared == "specified_synthetic":
@@ -800,12 +803,21 @@ def engine(DATA):
                 unq.append(UnquantifiedSource(category=cat, reason=reason))
         return coverage, unq
 
-    def nt_gas_species_complete(rec: ExperimentRecord, valid: list[Contribution]) -> bool:
-        ids = {c.source_id for c in valid}
+    def gas_source_states(rec: ExperimentRecord, valid: list[Contribution]) -> dict[str, str]:
+        """Per-feed gas coverage: 'bounded', 'partial_species' or 'unbounded'. Empty when a whole-system
+        blank that covers gas is counted, because it bounds every feed and species together."""
         if any(c.source_id not in {g.id for g in rec.gas_sources} for c in valid):
-            return True  # a whole-system blank that covers gas bounds every species together
-        return any(g.impurity is not None and g.impurity.covers_all_reactive_nitrogen
-                   for g in rec.gas_sources if g.id in ids)
+            return {}
+        ids = {c.source_id for c in valid}
+        return {g.id: ("unbounded" if g.id not in ids else
+                       "bounded" if g.impurity is not None and g.impurity.covers_all_reactive_nitrogen else
+                       "partial_species")
+                for g in rec.gas_sources}
+
+    def nt_partial_species_reason(rec: ExperimentRecord, states: dict[str, str]) -> str:
+        measured = sorted({g.impurity.species for g in rec.gas_sources if g.impurity and states.get(g.id) == "partial_species"})
+        return (f"Only {', '.join(measured)} bounded in the delivered gas; other reactive-nitrogen species "
+                "(e.g. NOx, N2O, NH3) are not bounded.")
 
     def coverage_complete(coverage: dict[str, str]) -> bool:
         return all(v in ("quantified", "not_applicable", "specified_synthetic") for v in coverage.values())
@@ -832,7 +844,7 @@ def engine(DATA):
         synthetic = rec.record_type == "synthetic"
         where = {g.impurity.measured_where for g in rec.gas_sources if g.impurity is not None}
 
-        if coverage.get("gas") in ("unknown", "partial_species", "scenario_only", "ambiguous_overlap"):
+        if coverage.get("gas") not in ("quantified", "not_applicable", "specified_synthetic"):
             out.append(("R1_gas_unquantified", f"Gas coverage: {coverage['gas']}."))
         if "supplier_specification" in where:
             out.append(("R2_supplier_spec_only", "A gas impurity value is a supplier specification."))
@@ -893,15 +905,29 @@ def engine(DATA):
     #      category unknown / ambiguous / scenario-only     -> insufficient_information
     #   5. Otherwise                                        -> exceeds_quantified_budget
 
-    ENGINE_VERSION = "0.3.0"
+    ENGINE_VERSION = "0.3.1"
 
     def nt_bounds(contribs, roles):
         sel = [c for c in contribs if c.role in roles]
         return {"lower": sum(c.lower_nmol for c in sel), "upper": sum(c.upper_nmol for c in sel)}
 
+    def nt_non_finite(obj, path: str = "") -> list[str]:
+        """Paths of NaN / infinite numbers anywhere in a dumped record."""
+        if isinstance(obj, float):
+            return [] if math.isfinite(obj) else [path or "value"]
+        if isinstance(obj, dict):
+            return [p for k, v in obj.items() if k != "expected" for p in nt_non_finite(v, f"{path}.{k}" if path else k)]
+        if isinstance(obj, list):
+            return [p for i, v in enumerate(obj) for p in nt_non_finite(v, f"{path}[{i}]")]
+        return []
+
     def run_audit(rec: ExperimentRecord) -> AuditResult:
         issues: list[Issue] = []
         assumptions: list[str] = list(rec.assumptions)
+        # NaN compares False with everything, so it would silently fall through to "exceeds"; reject it first.
+        for p in nt_non_finite(rec.model_dump()):
+            issues.append(Issue(code="non_finite_value", severity="error", field=p,
+                                message=f"{p} is not a finite number (NaN or infinity); enter a real value or leave it empty."))
 
         obs = observed_bounds(rec, issues)
         contribs, gas_unmeasured = [], []
@@ -1114,8 +1140,8 @@ def engine(DATA):
             L += ["", "## 8. What would close the gap", "",
                   f"- Headroom for unbounded sources: **{req['headroom_nmol']:+.4g} nmol N** "
                   f"(observed lower bound − valid budget upper bound).",
-                  f"- Contamination floor of this setup: **{req['floor_nmol']:.4g} nmol N** — the smallest observation "
-                  "today's controls could call 'above budget'."]
+                  f"- Contamination floor of this setup: **{req['floor_nmol']:.4g} nmol N** — an observation "
+                  "must be strictly above this before today's controls could call it 'above budget'."]
             for u in req["unknown"]:
                 for s in u["specs"]:
                     L.append(f"- **{u['category']}:** {s['text']}")
@@ -1248,6 +1274,8 @@ def engine(DATA):
 
     ALONE_SPLIT = ("'Alone' assumes every other unbounded category contributes nothing; 'equal split' shares the "
                    "headroom equally. Neither is a measurement.")
+    BOUNDARY = ("Thresholds are exclusive: the audit reports 'exceeds' only when the budget is strictly below the "
+                "observation, so a bound exactly equal to a threshold leaves the verdict unchanged. Aim below it.")
     NOT_PROOF = ("Meeting these thresholds can move the verdict to 'exceeds the quantified budget'. That alone does not "
                  "demonstrate nitrogen reduction: isotope-labelled and other controls are still required.")
 
@@ -1298,7 +1326,7 @@ def engine(DATA):
             "floor_nmol": U, "floor_in_record_units": (U / unit_n) if unit_n else None,
             "record_unit": f"{op.unit} {op.species or ''}".strip(),
             "floor_rate_mol_s_cm2": (U * 1e-9 / (t_s * area)) if (t_s and area) else None,
-            "unknown": [], "shrink": [], "notes": [], "caveats": [NOT_PROOF],
+            "unknown": [], "shrink": [], "notes": [], "caveats": [BOUNDARY, NOT_PROOF],
         }
         unknown_cats = [k for k, v in res.coverage.items() if v not in N_OK]
 
@@ -1310,16 +1338,19 @@ def engine(DATA):
                 item = {"category": cat, "state": res.coverage[cat], "max_nmol_alone": headroom,
                         "max_nmol_equal_split": share, "specs": []}
                 if cat == "gas":
+                    states = gas_source_states(rec, [c for c in res.contributions if c.included and "gas" in c.category])
                     for g in rec.gas_sources:
+                        if states.get(g.id) == "bounded":
+                            continue  # this feed is already fully bounded; the requirement is on the others
                         n = gas_amount_mol(g, rec)
-                        partial = res.coverage[cat] == "partial_species" and g.impurity is not None
+                        partial = states.get(g.id) == "partial_species"
                         what = (f"Reactive-N species not yet bounded (beyond the measured {g.impurity.species}), as N,"
                                 if partial else "Total reactive-N impurity (NOx + NH3 + N2O, as N)")
                         if n:
                             item["specs"].append({
                                 "source": g.label, "source_id": g.id, "additional": partial, "kind": "gas",
-                                "text": (f"{what} in the gas delivered to the cell ≤ {headroom / n:.3g} ppb (alone) or "
-                                         f"≤ {share / n:.3g} ppb (equal split), for {n:.4g} mol of delivered gas."),
+                                "text": (f"{what} in the gas delivered to the cell < {headroom / n:.3g} ppb (alone) or "
+                                         f"< {share / n:.3g} ppb (equal split), for {n:.4g} mol of delivered gas."),
                                 "ppb_alone": headroom / n, "ppb_split": share / n, "n_gas_mol": n,
                                 "big": headroom / n, "big_unit": "ppb N in delivered gas (alone)",
                                 "assumptions": [
@@ -1333,13 +1364,13 @@ def engine(DATA):
                                 "source": g.label, "source_id": g.id, "kind": "gas", "big": headroom,
                                 "big_unit": "nmol N, x_N · n_gas (alone)",
                                 "text": (f"Gas amount not determinable: state flow, reference conditions and exposure. "
-                                         f"Requirement: x_N · n_gas ≤ {headroom:.3g} nmol."),
+                                         f"Requirement: x_N · n_gas < {headroom:.3g} nmol."),
                                 "assumptions": ["η = 1 (conservative)."]})
                 elif cat == "electrolyte":
                     v = op.volume_mL
                     spec = {"source": "electrolyte", "kind": "electrolyte", "big": headroom,
                             "big_unit": "nmol N (alone)",
-                            "text": f"Matched electrolyte / whole-system blank ≤ {headroom:.3g} nmol N (alone)",
+                            "text": f"Matched electrolyte / whole-system blank < {headroom:.3g} nmol N (alone)",
                             "assumptions": ["Blank run with the same electrolyte batch, cell, volume and interval as "
                                             "the experiment (matched conditions)."]}
                     if v:
@@ -1350,7 +1381,7 @@ def engine(DATA):
                 else:
                     item["specs"].append({
                         "source": "components", "kind": "components", "big": headroom, "big_unit": "nmol N (alone)",
-                        "text": (f"Matched release from cell components, electrode, membrane and ionomer ≤ "
+                        "text": (f"Matched release from cell components, electrode, membrane and ionomer < "
                                  f"{headroom:.3g} nmol N (alone) / {share:.3g} nmol N (equal split)."),
                         "assumptions": ["Measured under the experiment's own conditions and interval (same electrode, "
                                         "potential history and electrolyte)."]})
@@ -1377,17 +1408,17 @@ def engine(DATA):
                     if g is not None and g.impurity is not None:
                         row["required_value"] = g.impurity.upper * k
                         row["big"], row["big_unit"] = row["required_value"], f"{g.impurity.unit} measured, delivered"
-                        row["text"] = (f"Measured delivered-gas impurity ≤ {g.impurity.upper * k:.3g} {g.impurity.unit} "
+                        row["text"] = (f"Measured delivered-gas impurity < {g.impurity.upper * k:.3g} {g.impurity.unit} "
                                        f"(now {g.impurity.upper:g} {g.impurity.unit}).")
                     elif ctl is not None and ctl.measurement.upper is not None:
                         row["required_value"] = ctl.measurement.upper * k
                         row["big"], row["big_unit"] = row["required_value"], ctl.measurement.unit
-                        row["text"] = (f"Matched control ≤ {ctl.measurement.upper * k:.3g} {ctl.measurement.unit} "
+                        row["text"] = (f"Matched control < {ctl.measurement.upper * k:.3g} {ctl.measurement.unit} "
                                        f"(now {ctl.measurement.upper:g} {ctl.measurement.unit}"
                                        f"{', i.e. a lower detection limit' if ctl.measurement.nondetect else ''}).")
                     else:
                         row["big"], row["big_unit"] = new_upper, "nmol N"
-                        row["text"] = f"Upper bound ≤ {new_upper:.3g} nmol N."
+                        row["text"] = f"Upper bound < {new_upper:.3g} nmol N."
                 out["shrink"].append(row)
             if unknown_cats:
                 out["notes"].append("Even after that, the verdict can only reach 'exceeds the quantified budget' once the "
@@ -1475,15 +1506,15 @@ def engine(DATA):
         """Return a copy of record ``d`` with one hypothetical measurement added.
 
         gas:         total reactive N (as N) in the gas delivered to the cell, ``value`` in ppb, for ``source_id``
-                     (default: the first gas source). Replaces that source's impurity bound.
+                     (default: the first source without a full reactive-N bound). Replaces that source's bound.
         electrolyte: matched electrolyte blank, ``value`` in µg/L NH4+, same volume and interval as the sample.
         electrolyte_nmol: matched electrolyte blank as an amount, ``value`` in nmol N (no volume needed).
         components:  matched component release, ``value`` in nmol N, same interval as the sample.
         """
         if kind not in KINDS:
             raise ValueError(f"kind must be one of {KINDS}")
-        if value < 0:
-            raise ValueError("value must be non-negative")
+        if not math.isfinite(value) or value < 0:
+            raise ValueError("value must be a finite, non-negative number")
         e = copy.deepcopy(d)
         ev = {"provenance": "hypothetical", "confirmed": False, "note": nt_NOTE}
         op = e.get("observed_product") or {}
@@ -1491,7 +1522,8 @@ def engine(DATA):
             sources = e.get("gas_sources") or []
             if not sources:
                 raise ValueError("the record has no gas source to bound")
-            g = next((s for s in sources if s["id"] == source_id), None) if source_id else sources[0]
+            unbounded = [s for s in sources if not (s.get("impurity") or {}).get("covers_all_reactive_nitrogen")]
+            g = next((s for s in sources if s["id"] == source_id), None) if source_id else (unbounded or sources)[0]
             if g is None:
                 raise ValueError(f"no gas source with id '{source_id}'")
             g["impurity"] = {"species": "total reactive N (as N)", "nitrogen_atoms": 1, "unit": "ppb", "lower": 0,
@@ -1548,8 +1580,10 @@ def engine(DATA):
         out = []
         for u in req["unknown"]:
             s = u["specs"][0]
-            if u["category"] == "gas" and "ppb_split" in s:
-                out.append(("gas", r3(s["ppb_split"] * 0.5), s.get("source_id")))
+            if u["category"] == "gas":
+                # one hypothetical bound per unbounded feed, sharing the gas share of the headroom between them
+                feeds = [x for x in u["specs"] if "ppb_split" in x]
+                out += [("gas", r3(x["ppb_split"] / len(feeds) * 0.5), x["source_id"]) for x in feeds]
             elif u["category"] == "electrolyte" and "µg/L" in s.get("big_unit", ""):
                 out.append(("electrolyte", r3(s["big"] / max(len(req["unknown"]), 1) * 0.5), None))
             elif u["category"] == "electrolyte":
@@ -1802,9 +1836,11 @@ def evidence_agent():
         sentences = re.split(r"(?<=[.;])\s+", re.sub(r"\s+", " ", text))
         for i, sent in enumerate(sentences):
             topics = [t for t, rx in TOPICS.items() if re.search(rx, sent, re.I)]
-            if not topics or (len(topics) < 2 and topics != ["isotope"]):
-                continue
             vals = {k: [" ".join(m.groups()) for m in re.finditer(rx, sent)] for k, rx in VALUE_PATTERNS.items()}
+            # Two topics, a standalone impurity/isotope statement, or one topic with a measured value.
+            if not (len(topics) >= 2 or set(topics) & {"isotope", "impurity"}
+                    or (topics and any(k != "duration" and v for k, v in vals.items()))):
+                continue
             out.append({"sentence": i + 1, "topics": ", ".join(topics), "text": sent[:600],
                         "regex_values": "; ".join(f"{k}: {', '.join(v)}" for k, v in vals.items() if v)})
         return out
@@ -1899,7 +1935,7 @@ def ui_assets():
         say: "These inputs <em>cannot yet be put on one basis</em>." },
     };
     const COV = { quantified: ["Bounded", "#1d6b4f"], not_applicable: ["Not applicable", "#8a8474"],
-      specified_synthetic: ["Specified (synthetic)", "#20507a"], partial_species: ["Partly bounded", "#a86e12"],
+      specified_synthetic: ["Specified (synthetic)", "#20507a"], partial_species: ["Partly bounded", "#a86e12"], partial_feeds: ["A feed unbounded", "#c8401f"],
       scenario_only: ["What-if only", "#a86e12"], ambiguous_overlap: ["Ambiguous overlap", "#4f46a5"], unknown: ["Unknown", "#c8401f"] };
     const ROLE = { valid_bound: ["counted", "#17150f"], scenario: ["what-if", "#a86e12"], excluded_overlap: ["overlap", "#8a8474"],
       excluded_unmatched: ["not matched", "#8a8474"], excluded_invalid: ["not a measurement", "#8a8474"] };
@@ -2101,7 +2137,7 @@ def ui_assets():
           <div><span class="caps">Valid budget, upper bound</span><b>${num(r.valid_upper_nmol)}</b><span>counted, matched contamination at most</span></div>
           <div><span class="caps">Headroom</span><b style="color:${h > 0 ? "#1d6b4f" : "#c8401f"}">${h > 0 ? "+" : ""}${num(h)}</b><span>room left for every source not yet measured</span></div></div>
           <div class="nt-note"><b>Contamination floor: ${num(r.floor_nmol)} nmol N${r.floor_in_record_units != null ? ` (${num(r.floor_in_record_units)} ${esc(r.record_unit)})` : ""}.</b>
-            The smallest observation today's controls could ever call "above budget".${r.floor_nmol === 0 ? " It is zero because nothing matched and valid is counted yet: any signal beats an empty budget, which is exactly why that comparison proves nothing." : ""}
+            An observation must be strictly above this before today's controls could call it "above budget".${r.floor_nmol === 0 ? " It is zero because nothing matched and valid is counted yet: any signal beats an empty budget, which is exactly why that comparison proves nothing." : ""}
             ${r.floor_rate_mol_s_cm2 ? ` As a rate: ${num(r.floor_rate_mol_s_cm2)} mol s⁻¹ cm⁻².` : ""}</div></section>`;
       const specs = [];
       for (const u of r.unknown) for (const s of u.specs)
@@ -2109,7 +2145,7 @@ def ui_assets():
       for (const s of r.shrink) specs.push({ cat: "tighten", title: `Tighten: ${s.source}`, text: s.text, big: s.feasible ? s.big : null, unit: s.feasible ? s.big_unit : "not possible alone", as: s.assumptions || [] });
       const sec = el(`<section class="nt-sec"><header><h3>${specs.length ? "Specifications" : "Nothing left to specify"}</h3><span class="caps">${unknown ? `${unknown} unbounded categor${unknown > 1 ? "ies" : "y"} · alone / equal split` : ""}</span></header></section>`);
       specs.forEach((s, i) => sec.appendChild(el(`<div class="nt-spec"><div class="k">${String(i + 1).padStart(2, "0")}</div><div><span class="caps">${esc(s.cat)}${s.state ? " · " + esc(s.state.replace(/_/g, " ")) : ""}</span><h4>${esc(s.title)}</h4><p>${esc(s.text)}</p>${s.as.length ? `<ul class="nt-as">${s.as.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}</div>
-        <div class="big">${s.big != null ? `<b>≤ ${num(s.big)}</b>` : `<b style="color:#c8401f">—</b>`}<span>${esc(s.unit || "")}</span></div></div>`)));
+        <div class="big">${s.big != null ? `<b>&lt; ${num(s.big)}</b>` : `<b style="color:#c8401f">—</b>`}<span>${esc(s.unit || "")}</span></div></div>`)));
       m.appendChild(sec);
       if (r.notes.length || r.caveats.length) m.appendChild(el(`<section class="nt-sec">${r.notes.map((n) => `<div class="nt-note">${esc(n)}</div>`).join("")}${r.caveats.map((n) => `<div class="nt-note caveat">${esc(n)}</div>`).join("")}</section>`));
       m.appendChild(whatifPanel(model, a));

@@ -65,17 +65,25 @@ def pdf_text(data: bytes) -> list[dict]:
     return pages
 
 
+def keep_passage(topics: list[str], vals: dict[str, list]) -> bool:
+    """Two topics, or one relevant topic on its own: a standalone impurity or isotope statement, or any
+    single-topic sentence that states a measured value (e.g. a blank result). Bare durations are dropped."""
+    if len(topics) >= 2 or set(topics) & {"isotope", "impurity"}:
+        return True
+    return bool(topics) and any(k != "duration" for k in vals)
+
+
 def passages(pages: list[dict], window: int = 1) -> list[dict]:
     out = []
     for p in pages:
         sentences = re.split(r"(?<=[.;])\s+", re.sub(r"\s+", " ", p["text"]))
         for i, s in enumerate(sentences):
             topics = [t for t, rx in TOPICS.items() if re.search(rx, s, re.I)]
-            if not topics or len(topics) < 2 and topics != ["isotope"]:
-                continue
-            text = " ".join(sentences[max(0, i - window + 1): i + window]).strip()
             vals = {k: [" ".join(m.groups()) for m in re.finditer(rx, s)] for k, rx in VALUE_PATTERNS.items()}
             vals = {k: v for k, v in vals.items() if v}
+            if not keep_passage(topics, vals):
+                continue
+            text = " ".join(sentences[max(0, i - window + 1): i + window]).strip()
             out.append({"page": p["page"], "topics": topics, "text": text[:800], "regex_values": vals})
     return out
 

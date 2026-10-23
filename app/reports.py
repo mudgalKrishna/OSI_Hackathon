@@ -130,8 +130,8 @@ def to_casefile(rec: ExperimentRecord, res: AuditResult, req: dict | None) -> st
         L += ["", "## 8. What would close the gap", "",
               f"- Headroom for unbounded sources: **{req['headroom_nmol']:+.4g} nmol N** "
               f"(observed lower bound − valid budget upper bound).",
-              f"- Contamination floor of this setup: **{req['floor_nmol']:.4g} nmol N** — the smallest observation "
-              "today's controls could call 'above budget'."]
+              f"- Contamination floor of this setup: **{req['floor_nmol']:.4g} nmol N** — an observation "
+              "must be strictly above this before today's controls could call it 'above budget'."]
         for u in req["unknown"]:
             for s in u["specs"]:
                 L.append(f"- **{u['category']}:** {s['text']}")

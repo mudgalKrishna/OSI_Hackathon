@@ -7,7 +7,7 @@ NitroTrace is a scientific instrument in software for electrochemical N₂ → N
 - shows which contamination sources are bounded and which remain unbounded;
 - works backwards to the measurements, and the sensitivity they would need, that could close the gap. Each threshold states its assumptions.
 
-It ships as a **command-line tool** (`nitrotrace`) and a **web app** (a marimo notebook with a custom interface). Both run the same engine.
+It ships as a **command-line tool** (`nitrotrace`), which opens an **interactive terminal UI** when run on its own, and a **web app** (a marimo notebook with a custom interface). All three run the same engine.
 
 > NitroTrace does not determine whether nitrogen reduction occurred, and it does not judge the original studies. An "exceeds the quantified budget" verdict means only that the measured ammonia is larger than the contamination that was bounded. Isotope-labelled and other controls are still required.
 
@@ -19,7 +19,7 @@ It ships as a **command-line tool** (`nitrotrace`) and a **web app** (a marimo n
 - **Deterministic core.** Interval arithmetic plus explicit, source-quoted rules. Every number has a calculation trail and is reproducible. No AI model is involved in any verdict.
 - **The workflow.** Experimental inputs → defensible contamination budget → qualified verdict → quantitative evidence requirements → hypothetical-measurement check.
 - **Real data.** A complete, source-linked case file for each published record, including Bragulla et al. 2026's open-circuit measurement. In that case, ammonia appears with no electrochemistry at all. The naive sum and the checklist both call it "exceeds"; NitroTrace calls it "insufficient", and shows that the missing gas flow is what blocks a conclusion.
-- **Validation.** 32/32 synthetic verdicts correct, against 15/32 for a naive sum and 7/32 for a protocol checklist. 0 false "exceeds", against 8 and 5. 93/93 machine-checked properties pass. Choi 2020 Table 1 is reproduced within 0.05 %. **Review status: internal only.** An independent-review pack exists for every record, but no external domain researcher has signed off yet.
+- **Validation.** 33/33 synthetic verdicts correct, against 15/33 for a naive sum and 8/33 for a protocol checklist. 0 false "exceeds", against 9 and 5. 96/96 property checks pass on the bundled records (a scoped test result, not a general correctness guarantee). Choi 2020 Table 1 is reproduced within 0.05 %. **Review status: internal only.** An independent-review pack exists for every record, but no external domain researcher has signed off yet.
 
 ---
 
@@ -30,19 +30,44 @@ cd nitrotrace
 python -m venv .venv && .venv\Scripts\activate        # macOS/Linux: source .venv/bin/activate
 pip install -e .                                        # CLI only needs pydantic
 pip install -e ".[web]"                                 # + marimo web app
-pip install -e ".[dev]" && pytest -q                    # 92 passed, 3 skipped; with ".[dev,api]": 97 passed, 2 skipped (PDF tests need PyMuPDF)
+pip install -e ".[dev]" && pytest -q                    # 104 passed, 3 skipped; with ".[dev,api,pdf]": 111 passed
 ```
 
 Without installing, `python -m app <command>` works the same as `nitrotrace <command>`.
 
-### 1.1 CLI
+### 1.1 Interactive terminal UI
+
+Run `nitrotrace` with no arguments (or `nitrotrace ui`) in a terminal:
+
+```text
+╭─ NitroTrace ─────────────────────────────────────────────────────────────────────────────╮
+│   █▄ █ █ ▀█▀ █▀█ █▀█ ▀█▀ █▀█ ▄▀█ █▀▀ █▀▀                                                 │
+│   █ ▀█ █  █  █▀▄ █▄█  █  █▀▄ █▀█ █▄▄ ██▄   v0.3.1                                        │
+│   What contamination remains unbounded, and what would close the gap?                    │
+│   /cases            pick a record            /settle           what closes the gap       │
+│   /audit ocv        audit by part of an id   /whatif --gas 382 try a measurement         │
+╰──────────────────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────────────────────────────────────────────────────────────────╮
+│ ❯ /settle                                                                                │
+╰──────────────────────────────────────────────────────────────────────────────────────────╯
+  ● syn_second_feed_unmeasured  insufficient information   / for commands · ? help
+```
+
+- `/` opens a command palette and `/cases` opens a record picker. In both, type to filter, use ↑↓ to move and Enter to choose.
+- The open case is remembered, so `/settle`, `/whatif --gas 382` and `/casefile -o case.md` need no id.
+- Every slash command runs exactly the same code as `nitrotrace <command>`, and plain CLI syntax works too.
+- Errors (unknown case, invalid number) are reported and the session continues. Ctrl+C twice or `/exit` quits.
+- It uses only the Python standard library and works in Windows Terminal, macOS and Linux terminals. Piped or non-terminal input falls back to a plain prompt.
+
+### 1.2 CLI
 
 | Command | What it does |
 |---|---|
-| `nitrotrace list` | Bundled records: 4 published, 32 synthetic |
+| `nitrotrace` | Interactive terminal UI (see 1.1) |
+| `nitrotrace list` | Bundled records: 4 published, 33 synthetic |
 | `nitrotrace audit CASE [--scale K] [--format text\|json\|md]` | Verdict, log-scale interval plot, coverage, still-unbounded sources, reasoning, next controls. `--scale` multiplies the observed amount (what-if). |
 | `nitrotrace settle CASE` | The gap (measured / budget / headroom), contamination floor, and the measurements that would close the gap, each with its assumptions and caveats |
-| `nitrotrace whatif CASE [--gas PPB] [--blank UG_PER_L \| --blank-nmol NMOL] [--components NMOL]` | Adds hypothetical measurements, labelled as such, and shows before → after |
+| `nitrotrace whatif CASE [--gas [SOURCE=]PPB ...] [--blank UG_PER_L \| --blank-nmol NMOL] [--components NMOL]` | Adds hypothetical measurements, labelled as such, and shows before → after. `--gas` can be repeated, one per feed. |
 | `nitrotrace casefile CASE [-o FILE]` | Complete source-linked case file (Markdown) |
 | `nitrotrace review-pack CASE [-o FILE]` | Checklist for an independent domain reviewer |
 | `nitrotrace plan --rate R --flow SCCM --ppb PPB [--hours H --blank B --volume V --margin M --fixed-volume L]` | Design before you run: signal vs. conservative contamination, break-even time, smallest defensible rate |
@@ -64,7 +89,7 @@ Before → after
   still unbounded — gas: … gas flow / delivered volume during the measurement not stated.
 ```
 
-### 1.2 Web app (marimo)
+### 1.3 Web app (marimo)
 
 ```bash
 marimo run marimo/nitrotrace_app.py       # app view
@@ -121,7 +146,7 @@ The optional HTTP API from v0.1 (`uvicorn app.main:app`, extras `api` and `pdf`)
   - **If the headroom is positive,** every unbounded category gets a threshold: ppb of total reactive N in the delivered gas, µg/L or nmol for a matched blank, nmol for matched component release. Each is given "alone" and as an "equal split", with its assumptions (η = 1, gas amount from the stated flow and interval, matched conditions).
   - **If the headroom is negative,** it says which counted bound must drop, and to what value.
   - **Every output carries a caveat:** meeting the thresholds can move the verdict to "exceeds", which by itself does not demonstrate nitrogen reduction.
-- **Contamination floor.** The smallest observation today's controls could call "above budget". When it is 0, the app says why that comparison proves nothing.
+- **Contamination floor.** An observation must be strictly above it before today's controls could call it "above budget". When it is 0, the app says why that comparison proves nothing.
 - **Hypothetical measurements (`whatif`).** Adds measurements with provenance `hypothetical`. The audit flags its result as hypothetical, and reports never present it as evidence.
 - **Design before you run (`plan`).** Assumes a constant true rate, flow, delivered impurity level and η, and a fixed matched blank.
   - **Continuous purge:** the signal-to-contamination ratio tends to `r·A·R·T / (P·Q·x·η)`, so *under these assumptions* running longer doesn't change it; only lower flow, cleaner gas or a closed gas volume does.
@@ -153,31 +178,45 @@ The optional HTTP API from v0.1 (`uvicorn app.main:app`, extras `api` and `pdf`)
 
 ### 4.2 Synthetic benchmark (software and reasoning tests)
 
-Published papers carry no ground truth for whether N₂ reduction occurred, so they can't score verdicts. The 32 synthetic records (`scripts/make_synthetic.py`) each target one trap. Their expected values come from separate hand-written arithmetic.
+Published papers carry no ground truth for whether N₂ reduction occurred, so they can't score verdicts. The 33 synthetic records (`scripts/make_synthetic.py`) each target one trap. Their expected values come from separate hand-written arithmetic.
 
 | | NitroTrace | Naive sum (unknown = 0) | Protocol checklist |
 |---|---|---|---|
-| Correct verdicts | **32/32** | 15/32 | 7/32 |
-| False "exceeds" | **0** | 8 | 5 |
+| Correct verdicts | **33/33** | 15/33 | 8/33 |
+| False "exceeds" | **0** | 9 | 5 |
 
-- Max relative error against 16 non-zero hand-computed references: 1.9 × 10⁻¹⁶.
+- Max relative error against 17 non-zero hand-computed references: 1.9 × 10⁻¹⁶.
 - These are software tests; they don't validate attribution in real laboratories.
 
-### 4.3 Machine-checked properties (`nitrotrace bench`, 93/93)
+### 4.3 Machine-checked properties (`nitrotrace bench`, 96/96)
+
+These are checks run on the bundled records. They are not a proof of correctness for arbitrary inputs; v0.3.1 fixed two bugs that the earlier 93/93 run did not catch (section 4.4).
 
 | Property | Result | Scope |
 |---|---|---|
-| Unit invariance: any unit gives the same verdict and budget | 25/25 | skips input errors |
-| Unknown is never zero: removing counted evidence never creates "exceeds" | 35/35 | skips overlap-set-aside measurements |
-| Monotone budget: adding a matched bound of k raises the budget by exactly k | 21/21 | skips whole-system-blank records |
+| Unit invariance: any unit gives the same verdict and budget | 26/26 | skips input errors |
+| Unknown is never zero: removing counted evidence never creates "exceeds" | 36/36 | skips overlap-set-aside measurements |
+| Monotone budget: adding a matched bound of k raises the budget by exactly k | 22/22 | skips whole-system-blank records |
 | Inversion round trip: "tighten" thresholds flip at ±10⁻⁶ | 8/8 | |
 | Inversion round trip: gas ppb threshold flips the verdict at ±10⁻⁶ | 4/4 | |
 
-`tests/` adds 97 pytest cases. They cover:
+`tests/` adds 111 pytest cases. They cover:
 - unit handling and the published reproductions;
 - the hypothetical-flag behaviour;
 - the threshold flip through `whatif`;
-- case-file contents, the planner's closed form and every CLI command.
+- case-file contents, the planner's closed form and every CLI command;
+- the interactive UI and the v0.3.1 review regressions (`tests/test_review_fixes.py`).
+
+### 4.4 Fixed in v0.3.1 (found by external review)
+
+An external reviewer installed v0.3.0, ran it, and reproduced four problems. Each now has a regression test in `tests/test_review_fixes.py`.
+
+| Problem in v0.3.0 | Fix |
+|---|---|
+| **An unmeasured second gas feed was ignored.** Gas counted as "quantified" if *any* bounded feed covered all species, so one bounded feed plus an unmeasured one gave "exceeds". | Coverage is now assessed per feed. Every feed delivered to the cell must be bounded; otherwise gas is `partial_feeds` and the unmeasured feed is listed as unbounded. A matched whole-system blank that covers gas remains an explicit alternative. `settle` targets only the unbounded feed. New benchmark record `syn_second_feed_unmeasured`. |
+| **NaN observations returned "exceeds".** NaN compares false with everything. | Any NaN or infinite number anywhere in a record is an input error (`non_finite_value` → `input_inconsistency`). The CLI rejects `nan` and `inf` arguments, and hypothetical measurements reject them too. |
+| **Thresholds said ≤, but the audit's exceedance rule is strict.** A bound exactly at the threshold makes the budget equal the observation, which is "not excluded". | Requirements are now stated as strict (`<`), with an explicit caveat: a bound equal to the threshold leaves the verdict unchanged. |
+| **PDF extraction dropped single-topic evidence.** A sentence needed two topic matches, so a standalone NOx impurity statement or a blank result was lost (the PDF test failed). | A sentence is kept if it has two topics, is an impurity or isotope statement, or states a measured value. Bare durations are still dropped. The PDF tests pass. |
 
 ## 5. The AI component (optional)
 
@@ -206,8 +245,8 @@ app/                    engine (single source of truth) + CLI
   extraction.py  main.py  static/                          optional PDF/LLM extraction, optional HTTP API
 marimo/nitrotrace_app.py  web app (self-contained notebook, custom UI)
 scripts/                make_synthetic.py, evaluate.py, build_marimo_engine.py
-data/                   cases/ (published), synthetic/ (32), protocols/ (rules.json, sources.json)
-tests/                  pytest suite (97 passed, 2 skipped)
+data/                   cases/ (published), synthetic/ (33), protocols/ (rules.json, sources.json)
+tests/                  pytest suite (111 passed with all extras)
 docs/                   DATA_SOURCES.md, DEMO_SCRIPT.md
 ```
 

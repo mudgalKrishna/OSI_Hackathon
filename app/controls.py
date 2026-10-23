@@ -36,7 +36,7 @@ def triggered_rules(rec: ExperimentRecord, coverage: dict[str, str], contribs: l
     synthetic = rec.record_type == "synthetic"
     where = {g.impurity.measured_where for g in rec.gas_sources if g.impurity is not None}
 
-    if coverage.get("gas") in ("unknown", "partial_species", "scenario_only", "ambiguous_overlap"):
+    if coverage.get("gas") not in ("quantified", "not_applicable", "specified_synthetic"):
         out.append(("R1_gas_unquantified", f"Gas coverage: {coverage['gas']}."))
     if "supplier_specification" in where:
         out.append(("R2_supplier_spec_only", "A gas impurity value is a supplier specification."))

@@ -3,13 +3,15 @@
     nitrotrace list
     nitrotrace audit CASE [--scale K] [--format text|json|md]
     nitrotrace settle CASE
-    nitrotrace whatif CASE [--gas PPB [--source ID]] [--blank UG_PER_L | --blank-nmol NMOL] [--components NMOL]
+    nitrotrace whatif CASE [--gas [SOURCE=]PPB ...] [--blank UG_PER_L | --blank-nmol NMOL] [--components NMOL]
     nitrotrace casefile CASE [-o FILE]
     nitrotrace review-pack CASE [-o FILE]
     nitrotrace plan --rate R --flow SCCM --ppb PPB [...]
     nitrotrace stress --rate R --unit UNIT --flow SCCM [...]
     nitrotrace bench [--json]
     nitrotrace extract FILE [--llm]
+
+    nitrotrace                 (no arguments, in a terminal) interactive UI; also `nitrotrace ui`
 
 CASE is a path to a record JSON file, a case id (e.g. bragulla2026_pristine_gde_ocv) or a unique part of one (e.g. ocv).
 """
@@ -106,6 +108,24 @@ def ruler(rows: list[tuple[str, float, float, str]], width: int = 46) -> None:
 
 
 # ------------------------------------------------------------------ records ---
+def finite(text: str) -> float:
+    """argparse type: a real number. NaN and infinity are rejected, as the engine would."""
+    try:
+        x = float(text)
+    except ValueError:
+        raise argparse.ArgumentTypeError(f"'{text}' is not a number")
+    if not math.isfinite(x):
+        raise argparse.ArgumentTypeError(f"'{text}' is not a finite number")
+    return x
+
+
+def _number(text: str, flag: str) -> float:
+    try:
+        return finite(text)
+    except argparse.ArgumentTypeError as e:
+        sys.exit(f"{flag}: {e}")
+
+
 def resolve(case: str) -> tuple[str, dict]:
     p = Path(case)
     if p.suffix == ".json" and p.exists():
@@ -208,19 +228,19 @@ def cmd_settle(a) -> None:
     print(f"  valid budget upper     {num(req['valid_upper_nmol'])}")
     print(f"  headroom               {c(('+' if h > 0 else '') + num(h), '32' if h > 0 else '31')}"
           + dim("   room left for every source not yet measured"))
-    print(f"  contamination floor    {num(req['floor_nmol'])}" + dim("   smallest observation today's controls could call 'above budget'"))
+    print(f"  contamination floor    {num(req['floor_nmol'])}" + dim("   an observation must be strictly above this to be called 'above budget'"))
     rule("What would close the gap")
     i = 0
     for u in req["unknown"]:
         for s in u["specs"]:
             i += 1
-            print(f"  {i:02d}  {bold(u['category'])} " + c(f"≤ {num(s['big'])} {s['big_unit']}", "36"))
+            print(f"  {i:02d}  {bold(u['category'])} " + c(f"< {num(s['big'])} {s['big_unit']}", "36"))
             print(wrap(s["text"], "      "))
             for x in s.get("assumptions", []):
                 print(dim(wrap("assumes: " + x, "      ")))
     for s in req["shrink"]:
         i += 1
-        head = c(f"≤ {num(s['big'])} {s['big_unit']}", "36") if s["feasible"] else c("not possible alone", "31")
+        head = c(f"< {num(s['big'])} {s['big_unit']}", "36") if s["feasible"] else c("not possible alone", "31")
         print(f"  {i:02d}  {bold('tighten ' + s['source'])} {head}")
         print(wrap(s["text"], "      "))
     for n in req["notes"]:
@@ -230,15 +250,19 @@ def cmd_settle(a) -> None:
     flag = {"gas": "--gas", "electrolyte": "--blank", "electrolyte_nmol": "--blank-nmol", "components": "--components"}
     sug = suggest(rec, req)
     if sug:
-        flags = " ".join(f"{flag[k]} {v:g}" for k, v, _ in sug)
+        many = len(rec.gas_sources) > 1
+        flags = " ".join(f"{flag[k]} {src + '=' if k == 'gas' and many and src else ''}{v:g}" for k, v, src in sug)
         print(dim(f"\n  Try: `nitrotrace whatif {rec.case_id} {flags}`  (each at half its equal-split threshold)"))
 
 
 def cmd_whatif(a) -> None:
     _, d = resolve(a.case)
-    changes = [(k, v, a.source if k == "gas" else None) for k, v in
-               (("gas", a.gas), ("electrolyte", a.blank), ("electrolyte_nmol", a.blank_nmol),
-                ("components", a.components)) if v is not None]
+    changes = []
+    for g in a.gas or []:
+        src, _, val = g.rpartition("=")
+        changes.append(("gas", _number(val, "--gas"), src or a.source))
+    changes += [(k, v, None) for k, v in (("electrolyte", a.blank), ("electrolyte_nmol", a.blank_nmol),
+                                          ("components", a.components)) if v is not None]
     if not changes:
         sys.exit("Give at least one of --gas PPB, --blank UG_PER_L, --blank-nmol NMOL, --components NMOL.")
     try:
@@ -248,8 +272,8 @@ def cmd_whatif(a) -> None:
     unit = {"gas": "ppb total reactive N in delivered gas", "electrolyte": "µg/L NH4+ matched blank",
             "electrolyte_nmol": "nmol N matched blank", "components": "nmol N matched component release"}
     print(bold(d["title"]))
-    for kind, value, _ in changes:
-        print(c(f"  HYPOTHETICAL: {kind} measured ≤ {value:g} {unit[kind]}", "35"))
+    for kind, value, src in changes:
+        print(c(f"  HYPOTHETICAL: {kind}{f' ({src})' if src else ''} measured ≤ {value:g} {unit[kind]}", "35"))
     rule("Before → after")
     b, f = r["before"], r["after"]
     print(f"  verdict        {c(b['status_label'], STATUS_COLOR[b['status']])}  →  {c(f['status_label'], STATUS_COLOR[f['status']])}")
@@ -376,37 +400,38 @@ def build_parser() -> argparse.ArgumentParser:
     sub = ap.add_subparsers(dest="cmd", required=True)
     sub.add_parser("list", help="list bundled published and synthetic records").set_defaults(fn=cmd_list)
     p = sub.add_parser("audit", help="audit a record")
-    p.add_argument("case"); p.add_argument("--scale", type=float, default=1.0, help="what-if: multiply the observed amount")
+    p.add_argument("case"); p.add_argument("--scale", type=finite, default=1.0, help="what-if: multiply the observed amount")
     p.add_argument("--format", choices=["text", "json", "md"], default="text"); p.set_defaults(fn=cmd_audit)
     p = sub.add_parser("settle", help="what would close the gap (evidence-requirement inversion)")
     p.add_argument("case"); p.set_defaults(fn=cmd_settle)
     p = sub.add_parser("whatif", help="add hypothetical measurements (any combination) and compare before/after")
     p.add_argument("case")
-    p.add_argument("--gas", type=float, metavar="PPB", help="total reactive N in the delivered gas, ppb")
-    p.add_argument("--blank", type=float, metavar="UG_PER_L", help="matched electrolyte blank, µg/L NH4+")
-    p.add_argument("--blank-nmol", type=float, metavar="NMOL", help="matched electrolyte blank as an amount, nmol N")
-    p.add_argument("--components", type=float, metavar="NMOL", help="matched component release, nmol N")
-    p.add_argument("--source", help="gas source id (default: first)"); p.set_defaults(fn=cmd_whatif)
+    p.add_argument("--gas", action="append", metavar="[SOURCE=]PPB",
+                   help="total reactive N in a delivered gas feed, ppb; repeat for several feeds")
+    p.add_argument("--blank", type=finite, metavar="UG_PER_L", help="matched electrolyte blank, µg/L NH4+")
+    p.add_argument("--blank-nmol", type=finite, metavar="NMOL", help="matched electrolyte blank as an amount, nmol N")
+    p.add_argument("--components", type=finite, metavar="NMOL", help="matched component release, nmol N")
+    p.add_argument("--source", help="gas source id for a bare --gas value (default: first unbounded feed)"); p.set_defaults(fn=cmd_whatif)
     for name, fn, hlp in (("casefile", cmd_casefile, "complete source-linked case file (Markdown)"),
                           ("review-pack", cmd_review, "checklist for an independent domain reviewer (Markdown)")):
         p = sub.add_parser(name, help=hlp)
         p.add_argument("case"); p.add_argument("-o", "--output"); p.set_defaults(fn=fn)
     p = sub.add_parser("plan", help="design before you run: signal vs. contamination budget")
-    for arg, typ, dflt, hlp in (("--rate", float, 1e-11, "expected true rate, mol s-1 cm-2"),
-                                ("--area", float, 1.0, "electrode area, cm2"), ("--flow", float, 20.0, "gas flow, sccm"),
-                                ("--ppb", float, 100.0, "reactive N in delivered gas, ppb"),
-                                ("--eta", float, 1.0, "capture fraction (1 = conservative)"),
-                                ("--hours", float, 4.0, "run time, h"), ("--blank", float, 2.0, "matched blank, µg/L NH4+"),
-                                ("--volume", float, 30.0, "electrolyte volume, mL"),
-                                ("--margin", float, 3.0, "required signal / budget"),
-                                ("--fixed-volume", float, None, "closed loop: fixed gas volume in L (instead of purge)")):
+    for arg, typ, dflt, hlp in (("--rate", finite, 1e-11, "expected true rate, mol s-1 cm-2"),
+                                ("--area", finite, 1.0, "electrode area, cm2"), ("--flow", finite, 20.0, "gas flow, sccm"),
+                                ("--ppb", finite, 100.0, "reactive N in delivered gas, ppb"),
+                                ("--eta", finite, 1.0, "capture fraction (1 = conservative)"),
+                                ("--hours", finite, 4.0, "run time, h"), ("--blank", finite, 2.0, "matched blank, µg/L NH4+"),
+                                ("--volume", finite, 30.0, "electrolyte volume, mL"),
+                                ("--margin", finite, 3.0, "required signal / budget"),
+                                ("--fixed-volume", finite, None, "closed loop: fixed gas volume in L (instead of purge)")):
         p.add_argument(arg, type=typ, default=dflt, help=hlp)
     p.add_argument("--ref", choices=list(REF_CONDITIONS), default="0 °C, 1 atm"); p.set_defaults(fn=cmd_plan)
     p = sub.add_parser("stress", help="feed-gas impurity level that alone supplies a reported rate")
-    p.add_argument("--rate", type=float, required=True)
+    p.add_argument("--rate", type=finite, required=True)
     p.add_argument("--unit", default="mol/s/cm2", help="one of: " + ", ".join(list(RATE_UNIT_ALIASES) + list(RATE_UNITS)))
-    p.add_argument("--area", type=float, default=1.0); p.add_argument("--loading", type=float, default=0.0, help="mg cm-2")
-    p.add_argument("--flow", type=float, required=True); p.add_argument("--lod", type=float, help="your gas-analysis bound, ppb")
+    p.add_argument("--area", type=finite, default=1.0); p.add_argument("--loading", type=finite, default=0.0, help="mg cm-2")
+    p.add_argument("--flow", type=finite, required=True); p.add_argument("--lod", type=finite, help="your gas-analysis bound, ppb")
     p.add_argument("--ref", choices=list(REF_CONDITIONS), default="0 °C, 1 atm"); p.set_defaults(fn=cmd_stress)
     p = sub.add_parser("bench", help="benchmark + machine-checked properties (exit 1 on any failure)")
     p.add_argument("--json", action="store_true"); p.set_defaults(fn=cmd_bench)
@@ -418,7 +443,14 @@ def build_parser() -> argparse.ArgumentParser:
 def main(argv: list[str] | None = None) -> None:
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
-    a = build_parser().parse_args(argv)
+    args = sys.argv[1:] if argv is None else argv
+    if args in ([], ["ui"], ["shell"]):
+        if args or (sys.stdin.isatty() and sys.stdout.isatty()):
+            from .tui import run  # interactive UI: `nitrotrace` on its own in a terminal
+            return run()
+        build_parser().print_help()
+        return
+    a = build_parser().parse_args(args)
     try:
         a.fn(a)
     except BrokenPipeError:  # output piped into e.g. `head`, which closed early

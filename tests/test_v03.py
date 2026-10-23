@@ -15,7 +15,7 @@ from app.whatif import add_hypothetical, compare, suggest
 
 def test_benchmark_and_properties_all_pass():
     _, s = run_benchmark()
-    assert s["nitrotrace_correct"] == s["n_synthetic"] == 32
+    assert s["nitrotrace_correct"] == s["n_synthetic"] == 33
     assert s["false_exceeds_nitrotrace"] == 0
     assert s["naive_correct"] < s["nitrotrace_correct"] and s["checklist_correct"] < s["nitrotrace_correct"]
     for name, (passed, n, failed) in s["properties"].items():

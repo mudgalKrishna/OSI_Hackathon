@@ -89,7 +89,7 @@ input[type=checkbox] { width: auto; }
 .chips { display: flex; gap: .4rem; flex-wrap: wrap; margin-top: .6rem; }
 .chip { font-size: .78rem; border-radius: 999px; padding: .1rem .55rem; border: 1px solid var(--border); background: var(--surface); }
 .chip.quantified, .chip.specified_synthetic, .chip.not_applicable { border-color: var(--ok); color: var(--ok); }
-.chip.unknown, .chip.ambiguous_overlap, .chip.partial_species, .chip.scenario_only { border-color: var(--warn); color: var(--warn); }
+.chip.unknown, .chip.ambiguous_overlap, .chip.partial_species, .chip.partial_feeds, .chip.scenario_only { border-color: var(--warn); color: var(--warn); }
 
 .chart-wrap { overflow-x: auto; }
 .chart text { fill: var(--text); font-size: 12px; }

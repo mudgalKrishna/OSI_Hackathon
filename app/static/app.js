@@ -16,7 +16,7 @@ const UNITS = {
 };
 const COVERAGE_TEXT = {
   quantified: "quantified", unknown: "unknown", not_applicable: "declared n/a", specified_synthetic: "synthetic-specified",
-  ambiguous_overlap: "ambiguous overlap", partial_species: "partial species", scenario_only: "what-if only",
+  ambiguous_overlap: "ambiguous overlap", partial_species: "partial species", partial_feeds: "a feed unbounded", scenario_only: "what-if only",
 };
 
 function toast(msg) { const t = $("#toast"); t.textContent = msg; t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 2200); }

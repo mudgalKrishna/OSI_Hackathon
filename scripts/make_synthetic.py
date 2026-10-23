@@ -220,6 +220,11 @@ add(imp(base("syn_partial_species", "Only NH3 measured in the feed gas"), upper=
         covers_all_reactive_nitrogen=False),
     "insufficient_information", "A single-species bound leaves NOx unknown, so the result stays inconclusive.",
     budget_upper_nmol=DEMO_001PPM, coverage={"gas": "partial_species"})
+r = imp(base("syn_second_feed_unmeasured", "Second gas feed without an impurity measurement"), upper=0.01)
+r["gas_sources"].append({**copy.deepcopy(r["gas_sources"][0]), "id": "makeup", "label": "Ar make-up line",
+                         "impurity": None})
+add(r, "insufficient_information", "Bounding one feed says nothing about another; the unmeasured feed stays unknown.",
+    budget_upper_nmol=DEMO_001PPM, coverage={"gas": "partial_feeds"})
 r = imp(base("syn_partial_but_covered", "Partial coverage that already explains the observation"), species="NH3",
         covers_all_reactive_nitrogen=False)
 r["declared_coverage"] = {"electrolyte": "specified_synthetic"}

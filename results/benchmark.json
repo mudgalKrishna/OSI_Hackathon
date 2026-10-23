@@ -1,12 +1,12 @@
 {
-  "engine_version": "0.1.0",
-  "generated_unix": 1792690003,
+  "engine_version": "0.3.0",
+  "generated_unix": 1792745117,
   "disclaimer": "Synthetic records test arithmetic and reasoning only. Published records have no ground-truth label for whether N2 reduction occurred; they are reported separately and not scored.",
   "synthetic": {
-    "n_records": 32,
-    "status_correct": 32,
+    "n_records": 33,
+    "status_correct": 33,
     "failures": [],
-    "numeric_checks": 19,
+    "numeric_checks": 20,
     "max_rel_error": 1.8947806286936006e-16,
     "unit_or_basis_problems_detected": "10/10",
     "unit_error_codes_seen": [
@@ -18,9 +18,9 @@
       "missing_species",
       "missing_volume"
     ],
-    "inconclusive_correct": "8/8",
+    "inconclusive_correct": "9/9",
     "duplicate_source_cases_correct": "4/4",
-    "naive_baseline_correct": "15/32",
+    "naive_baseline_correct": "15/33",
     "naive_baseline_failures": [
       "syn_actual_no_TP",
       "syn_ambiguous_species",
@@ -36,11 +36,12 @@
       "syn_partial_species",
       "syn_sccm_declared_actual",
       "syn_sccm_no_reference",
+      "syn_second_feed_unmeasured",
       "syn_supplier_spec",
       "syn_upstream_purifier",
       "synthetic_gas_budget_03"
     ],
-    "median_runtime_ms": 0.07050000000000001
+    "median_runtime_ms": 0.121
   },
   "published": {
     "n_records": 4,
@@ -125,7 +126,7 @@
         "R1_gas_unquantified",
         "R10_fixed_gas_volume"
       ],
-      "runtime_ms": 0.073,
+      "runtime_ms": 0.101,
       "checklist": {
         "gas_impurity_entered": true,
         "blank_or_background": false,
@@ -159,7 +160,7 @@
       "recommendations": [
         "R10_fixed_gas_volume"
       ],
-      "runtime_ms": 0.057,
+      "runtime_ms": 0.13,
       "checklist": {
         "gas_impurity_entered": true,
         "blank_or_background": false,
@@ -193,7 +194,7 @@
       "recommendations": [
         "R10_fixed_gas_volume"
       ],
-      "runtime_ms": 0.059,
+      "runtime_ms": 0.111,
       "checklist": {
         "gas_impurity_entered": true,
         "blank_or_background": false,
@@ -227,7 +228,7 @@
         "R9_condition_mismatch",
         "R10_fixed_gas_volume"
       ],
-      "runtime_ms": 0.314,
+      "runtime_ms": 0.221,
       "checklist": {
         "gas_impurity_entered": true,
         "blank_or_background": true,
@@ -262,7 +263,7 @@
       "recommendations": [
         "R10_fixed_gas_volume"
       ],
-      "runtime_ms": 0.137,
+      "runtime_ms": 0.179,
       "checklist": {
         "gas_impurity_entered": true,
         "blank_or_background": true,
@@ -299,7 +300,7 @@
         "R9_condition_mismatch",
         "R10_fixed_gas_volume"
       ],
-      "runtime_ms": 0.129,
+      "runtime_ms": 0.158,
       "checklist": {
         "gas_impurity_entered": true,
         "blank_or_background": true,
@@ -336,7 +337,7 @@
       "recommendations": [
         "R10_fixed_gas_volume"
       ],
-      "runtime_ms": 0.07,
+      "runtime_ms": 0.109,
       "checklist": {
         "gas_impurity_entered": true,
         "blank_or_background": false,
@@ -373,7 +374,7 @@
         "R9_condition_mismatch",
         "R10_fixed_gas_volume"
       ],
-      "runtime_ms": 0.122,
+      "runtime_ms": 0.156,
       "checklist": {
         "gas_impurity_entered": true,
         "blank_or_background": true,
@@ -405,7 +406,7 @@
       "recommendations": [
         "R10_fixed_gas_volume"
       ],
-      "runtime_ms": 0.093,
+      "runtime_ms": 0.159,
       "checklist": {
         "gas_impurity_entered": true,
         "blank_or_background": true,
@@ -444,7 +445,7 @@
         "R9_condition_mismatch",
         "R10_fixed_gas_volume"
       ],
-      "runtime_ms": 0.066,
+      "runtime_ms": 0.101,
       "checklist": {
         "gas_impurity_entered": true,
         "blank_or_background": false,
@@ -477,7 +478,7 @@
         "R8_labeled_impurities",
         "R10_fixed_gas_volume"
       ],
-      "runtime_ms": 0.071,
+      "runtime_ms": 0.118,
       "checklist": {
         "gas_impurity_entered": true,
         "blank_or_background": false,
@@ -512,7 +513,7 @@
       "recommendations": [
         "R10_fixed_gas_volume"
       ],
-      "runtime_ms": 0.084,
+      "runtime_ms": 0.113,
       "checklist": {
         "gas_impurity_entered": true,
         "blank_or_background": false,
@@ -544,7 +545,7 @@
       "recommendations": [
         "R10_fixed_gas_volume"
       ],
-      "runtime_ms": 0.065,
+      "runtime_ms": 0.113,
       "checklist": {
         "gas_impurity_entered": true,
         "blank_or_background": false,
@@ -576,7 +577,7 @@
       "recommendations": [
         "R10_fixed_gas_volume"
       ],
-      "runtime_ms": 0.065,
+      "runtime_ms": 0.115,
       "checklist": {
         "gas_impurity_entered": true,
         "blank_or_background": false,
@@ -608,7 +609,7 @@
       "recommendations": [
         "R10_fixed_gas_volume"
       ],
-      "runtime_ms": 0.063,
+      "runtime_ms": 0.114,
       "checklist": {
         "gas_impurity_entered": true,
         "blank_or_background": false,
@@ -645,7 +646,7 @@
       "recommendations": [
         "R10_fixed_gas_volume"
       ],
-      "runtime_ms": 0.052,
+      "runtime_ms": 0.117,
       "checklist": {
         "gas_impurity_entered": true,
         "blank_or_background": false,
@@ -678,7 +679,7 @@
         "R4_background_unresolved",
         "R10_fixed_gas_volume"
       ],
-      "runtime_ms": 0.155,
+      "runtime_ms": 0.194,
       "checklist": {
         "gas_impurity_entered": true,
         "blank_or_background": true,
@@ -713,7 +714,7 @@
       "recommendations": [
         "R10_fixed_gas_volume"
       ],
-      "runtime_ms": 0.117,
+      "runtime_ms": 0.257,
       "checklist": {
         "gas_impurity_entered": true,
         "blank_or_background": true,
@@ -750,7 +751,7 @@
         "R5_component_unresolved",
         "R10_fixed_gas_volume"
       ],
-      "runtime_ms": 0.147,
+      "runtime_ms": 0.249,
       "checklist": {
         "gas_impurity_entered": true,
         "blank_or_background": true,
@@ -787,7 +788,7 @@
         "R5_component_unresolved",
         "R10_fixed_gas_volume"
       ],
-      "runtime_ms": 0.085,
+      "runtime_ms": 0.162,
       "checklist": {
         "gas_impurity_entered": true,
         "blank_or_background": false,
@@ -823,7 +824,7 @@
         "R1_gas_unquantified",
         "R10_fixed_gas_volume"
       ],
-      "runtime_ms": 0.072,
+      "runtime_ms": 0.122,
       "checklist": {
         "gas_impurity_entered": true,
         "blank_or_background": false,
@@ -860,7 +861,7 @@
       "recommendations": [
         "R10_fixed_gas_volume"
       ],
-      "runtime_ms": 0.063,
+      "runtime_ms": 0.111,
       "checklist": {
         "gas_impurity_entered": true,
         "blank_or_background": false,
@@ -895,7 +896,7 @@
         "R1_gas_unquantified",
         "R10_fixed_gas_volume"
       ],
-      "runtime_ms": 0.061,
+      "runtime_ms": 0.096,
       "checklist": {
         "gas_impurity_entered": true,
         "blank_or_background": false,
@@ -930,7 +931,7 @@
         "R1_gas_unquantified",
         "R10_fixed_gas_volume"
       ],
-      "runtime_ms": 0.044,
+      "runtime_ms": 0.102,
       "checklist": {
         "gas_impurity_entered": true,
         "blank_or_background": false,
@@ -962,7 +963,7 @@
       "recommendations": [
         "R10_fixed_gas_volume"
       ],
-      "runtime_ms": 0.065,
+      "runtime_ms": 0.119,
       "checklist": {
         "gas_impurity_entered": true,
         "blank_or_background": false,
@@ -978,6 +979,42 @@
       "abs_error_nmol": 0.0,
       "rel_error": 0.0,
       "purpose": "sccm uses 273.15 K reference, not the 323.15 K gas temperature."
+    },
+    {
+      "case_id": "syn_second_feed_unmeasured",
+      "record_type": "synthetic",
+      "status": "insufficient_information",
+      "expected_status": "insufficient_information",
+      "coverage": {
+        "gas": "partial_feeds",
+        "electrolyte": "specified_synthetic",
+        "components": "specified_synthetic"
+      },
+      "observed_lower_nmol": 190.0,
+      "observed_upper_nmol": 210.0,
+      "budget_upper_nmol": 2.4524426714597665,
+      "budget_with_scenarios_upper_nmol": 2.4524426714597665,
+      "error_codes": [],
+      "recommendations": [
+        "R1_gas_unquantified",
+        "R10_fixed_gas_volume"
+      ],
+      "runtime_ms": 0.249,
+      "checklist": {
+        "gas_impurity_entered": true,
+        "blank_or_background": false,
+        "component_release": false,
+        "isotope_quantitative": false,
+        "nox_alongside": false,
+        "n_present": 1
+      },
+      "status_correct": true,
+      "naive_status": "exceeds_quantified_budget",
+      "naive_correct": false,
+      "reference_budget_nmol": 2.452442671459766,
+      "abs_error_nmol": 4.440892098500626e-16,
+      "rel_error": 1.81080363271337e-16,
+      "purpose": "Bounding one feed says nothing about another; the unmeasured feed stays unknown."
     },
     {
       "case_id": "syn_supplier_spec",
@@ -999,7 +1036,7 @@
         "R2_supplier_spec_only",
         "R10_fixed_gas_volume"
       ],
-      "runtime_ms": 0.082,
+      "runtime_ms": 0.153,
       "checklist": {
         "gas_impurity_entered": true,
         "blank_or_background": false,
@@ -1034,7 +1071,7 @@
       "recommendations": [
         "R10_fixed_gas_volume"
       ],
-      "runtime_ms": 0.069,
+      "runtime_ms": 0.127,
       "checklist": {
         "gas_impurity_entered": true,
         "blank_or_background": false,
@@ -1069,7 +1106,7 @@
       "recommendations": [
         "R10_fixed_gas_volume"
       ],
-      "runtime_ms": 0.064,
+      "runtime_ms": 0.139,
       "checklist": {
         "gas_impurity_entered": true,
         "blank_or_background": false,
@@ -1106,7 +1143,7 @@
         "R3_upstream_of_purifier",
         "R10_fixed_gas_volume"
       ],
-      "runtime_ms": 0.072,
+      "runtime_ms": 0.151,
       "checklist": {
         "gas_impurity_entered": true,
         "blank_or_background": false,
@@ -1141,7 +1178,7 @@
       "recommendations": [
         "R10_fixed_gas_volume"
       ],
-      "runtime_ms": 0.07,
+      "runtime_ms": 0.115,
       "checklist": {
         "gas_impurity_entered": true,
         "blank_or_background": false,
@@ -1176,7 +1213,7 @@
       "recommendations": [
         "R10_fixed_gas_volume"
       ],
-      "runtime_ms": 0.073,
+      "runtime_ms": 0.121,
       "checklist": {
         "gas_impurity_entered": true,
         "blank_or_background": false,
@@ -1212,7 +1249,7 @@
         "R1_gas_unquantified",
         "R10_fixed_gas_volume"
       ],
-      "runtime_ms": 0.049,
+      "runtime_ms": 0.107,
       "checklist": {
         "gas_impurity_entered": false,
         "blank_or_background": false,
@@ -1254,7 +1291,7 @@
         "R11_nox_alongside",
         "R12_replicates"
       ],
-      "runtime_ms": 0.131,
+      "runtime_ms": 0.19,
       "checklist": {
         "gas_impurity_entered": true,
         "blank_or_background": true,
@@ -1288,7 +1325,7 @@
         "R11_nox_alongside",
         "R12_replicates"
       ],
-      "runtime_ms": 0.194,
+      "runtime_ms": 0.132,
       "checklist": {
         "gas_impurity_entered": true,
         "blank_or_background": false,
@@ -1323,7 +1360,7 @@
         "R11_nox_alongside",
         "R12_replicates"
       ],
-      "runtime_ms": 0.159,
+      "runtime_ms": 0.179,
       "checklist": {
         "gas_impurity_entered": true,
         "blank_or_background": true,
@@ -1357,7 +1394,7 @@
         "R10_fixed_gas_volume",
         "R11_nox_alongside"
       ],
-      "runtime_ms": 0.076,
+      "runtime_ms": 0.106,
       "checklist": {
         "gas_impurity_entered": true,
         "blank_or_background": false,

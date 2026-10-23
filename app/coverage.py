@@ -71,15 +71,21 @@ def resolve(rec: ExperimentRecord, contribs: list[Contribution], gas_unmeasured:
         valid = [c for c in contribs if c.included and cat in _cats(c)]
         scen = [c for c in contribs if c.role == "scenario" and cat in _cats(c)]
         declared = rec.declared_coverage.get(cat)
+        gas_states = gas_source_states(rec, valid) if cat == "gas" and valid else {}
         if cat in ambiguous and not valid:
             coverage[cat] = "ambiguous_overlap"
             unq.append(UnquantifiedSource(category=cat, reason="Overlapping measurements without a selected coverage model."))
-        elif valid and cat == "gas" and not _gas_species_complete(rec, valid):
-            coverage[cat] = "partial_species"
-            measured = sorted({g.impurity.species for g in rec.gas_sources if g.impurity and g.id in {c.source_id for c in valid}})
+        elif "unbounded" in gas_states.values():
+            # One bounded feed says nothing about another: every feed delivered to the cell must be bounded.
+            coverage[cat] = "partial_feeds"
+            missing = [g.label for g in rec.gas_sources if gas_states.get(g.id) == "unbounded"]
             unq.append(UnquantifiedSource(category=cat, reason=(
-                f"Only {', '.join(measured)} bounded in the delivered gas; other reactive-nitrogen species "
-                "(e.g. NOx, N2O, NH3) are not bounded.")))
+                f"No valid delivered-gas impurity bound for {', '.join(missing)}; the bounded feed(s) do not cover it.")))
+            if "partial_species" in gas_states.values():
+                unq.append(UnquantifiedSource(category=cat, reason=_partial_species_reason(rec, gas_states)))
+        elif "partial_species" in gas_states.values():
+            coverage[cat] = "partial_species"
+            unq.append(UnquantifiedSource(category=cat, reason=_partial_species_reason(rec, gas_states)))
         elif valid:
             coverage[cat] = "quantified"
         elif declared == "specified_synthetic":
@@ -107,12 +113,22 @@ def resolve(rec: ExperimentRecord, contribs: list[Contribution], gas_unmeasured:
     return coverage, unq
 
 
-def _gas_species_complete(rec: ExperimentRecord, valid: list[Contribution]) -> bool:
-    ids = {c.source_id for c in valid}
+def gas_source_states(rec: ExperimentRecord, valid: list[Contribution]) -> dict[str, str]:
+    """Per-feed gas coverage: 'bounded', 'partial_species' or 'unbounded'. Empty when a whole-system
+    blank that covers gas is counted, because it bounds every feed and species together."""
     if any(c.source_id not in {g.id for g in rec.gas_sources} for c in valid):
-        return True  # a whole-system blank that covers gas bounds every species together
-    return any(g.impurity is not None and g.impurity.covers_all_reactive_nitrogen
-               for g in rec.gas_sources if g.id in ids)
+        return {}
+    ids = {c.source_id for c in valid}
+    return {g.id: ("unbounded" if g.id not in ids else
+                   "bounded" if g.impurity is not None and g.impurity.covers_all_reactive_nitrogen else
+                   "partial_species")
+            for g in rec.gas_sources}
+
+
+def _partial_species_reason(rec: ExperimentRecord, states: dict[str, str]) -> str:
+    measured = sorted({g.impurity.species for g in rec.gas_sources if g.impurity and states.get(g.id) == "partial_species"})
+    return (f"Only {', '.join(measured)} bounded in the delivered gas; other reactive-nitrogen species "
+            "(e.g. NOx, N2O, NH3) are not bounded.")
 
 
 def complete(coverage: dict[str, str]) -> bool:

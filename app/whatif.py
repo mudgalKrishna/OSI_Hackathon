@@ -6,6 +6,7 @@ and reports never present it as evidence.
 from __future__ import annotations
 
 import copy
+import math
 
 from .audit import run_audit
 from .schemas import ExperimentRecord
@@ -19,15 +20,15 @@ def add_hypothetical(d: dict, kind: str, value: float, source_id: str | None = N
     """Return a copy of record ``d`` with one hypothetical measurement added.
 
     gas:         total reactive N (as N) in the gas delivered to the cell, ``value`` in ppb, for ``source_id``
-                 (default: the first gas source). Replaces that source's impurity bound.
+                 (default: the first source without a full reactive-N bound). Replaces that source's bound.
     electrolyte: matched electrolyte blank, ``value`` in µg/L NH4+, same volume and interval as the sample.
     electrolyte_nmol: matched electrolyte blank as an amount, ``value`` in nmol N (no volume needed).
     components:  matched component release, ``value`` in nmol N, same interval as the sample.
     """
     if kind not in KINDS:
         raise ValueError(f"kind must be one of {KINDS}")
-    if value < 0:
-        raise ValueError("value must be non-negative")
+    if not math.isfinite(value) or value < 0:
+        raise ValueError("value must be a finite, non-negative number")
     e = copy.deepcopy(d)
     ev = {"provenance": "hypothetical", "confirmed": False, "note": _NOTE}
     op = e.get("observed_product") or {}
@@ -35,7 +36,8 @@ def add_hypothetical(d: dict, kind: str, value: float, source_id: str | None = N
         sources = e.get("gas_sources") or []
         if not sources:
             raise ValueError("the record has no gas source to bound")
-        g = next((s for s in sources if s["id"] == source_id), None) if source_id else sources[0]
+        unbounded = [s for s in sources if not (s.get("impurity") or {}).get("covers_all_reactive_nitrogen")]
+        g = next((s for s in sources if s["id"] == source_id), None) if source_id else (unbounded or sources)[0]
         if g is None:
             raise ValueError(f"no gas source with id '{source_id}'")
         g["impurity"] = {"species": "total reactive N (as N)", "nitrogen_atoms": 1, "unit": "ppb", "lower": 0,
@@ -94,8 +96,10 @@ def suggest(rec: ExperimentRecord, req: dict | None) -> list[tuple[str, float, s
     out = []
     for u in req["unknown"]:
         s = u["specs"][0]
-        if u["category"] == "gas" and "ppb_split" in s:
-            out.append(("gas", r3(s["ppb_split"] * 0.5), s.get("source_id")))
+        if u["category"] == "gas":
+            # one hypothetical bound per unbounded feed, sharing the gas share of the headroom between them
+            feeds = [x for x in u["specs"] if "ppb_split" in x]
+            out += [("gas", r3(x["ppb_split"] / len(feeds) * 0.5), x["source_id"]) for x in feeds]
         elif u["category"] == "electrolyte" and "µg/L" in s.get("big_unit", ""):
             out.append(("electrolyte", r3(s["big"] / max(len(req["unknown"]), 1) * 0.5), None))
         elif u["category"] == "electrolyte":

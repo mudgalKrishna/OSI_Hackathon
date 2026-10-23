@@ -8,6 +8,7 @@ demonstrate nitrogen reduction.
 from __future__ import annotations
 
 from .budget import observation_duration
+from .coverage import gas_source_states
 from .schemas import AuditResult, ExperimentRecord
 from .units import MOLAR_MASS_G_PER_MOL, UnitError, gas_moles, gas_moles_from_volume, to_nmol_n
 
@@ -15,6 +16,8 @@ N_OK = ("quantified", "not_applicable", "specified_synthetic")
 
 ALONE_SPLIT = ("'Alone' assumes every other unbounded category contributes nothing; 'equal split' shares the "
                "headroom equally. Neither is a measurement.")
+BOUNDARY = ("Thresholds are exclusive: the audit reports 'exceeds' only when the budget is strictly below the "
+            "observation, so a bound exactly equal to a threshold leaves the verdict unchanged. Aim below it.")
 NOT_PROOF = ("Meeting these thresholds can move the verdict to 'exceeds the quantified budget'. That alone does not "
              "demonstrate nitrogen reduction: isotope-labelled and other controls are still required.")
 
@@ -70,7 +73,7 @@ def evidence_requirements(rec: ExperimentRecord, res: AuditResult) -> dict | Non
         "floor_nmol": U, "floor_in_record_units": (U / unit_n) if unit_n else None,
         "record_unit": f"{op.unit} {op.species or ''}".strip(),
         "floor_rate_mol_s_cm2": (U * 1e-9 / (t_s * area)) if (t_s and area) else None,
-        "unknown": [], "shrink": [], "notes": [], "caveats": [NOT_PROOF],
+        "unknown": [], "shrink": [], "notes": [], "caveats": [BOUNDARY, NOT_PROOF],
     }
     unknown_cats = [k for k, v in res.coverage.items() if v not in N_OK]
 
@@ -82,16 +85,19 @@ def evidence_requirements(rec: ExperimentRecord, res: AuditResult) -> dict | Non
             item = {"category": cat, "state": res.coverage[cat], "max_nmol_alone": headroom,
                     "max_nmol_equal_split": share, "specs": []}
             if cat == "gas":
+                states = gas_source_states(rec, [c for c in res.contributions if c.included and "gas" in c.category])
                 for g in rec.gas_sources:
+                    if states.get(g.id) == "bounded":
+                        continue  # this feed is already fully bounded; the requirement is on the others
                     n = gas_amount_mol(g, rec)
-                    partial = res.coverage[cat] == "partial_species" and g.impurity is not None
+                    partial = states.get(g.id) == "partial_species"
                     what = (f"Reactive-N species not yet bounded (beyond the measured {g.impurity.species}), as N,"
                             if partial else "Total reactive-N impurity (NOx + NH3 + N2O, as N)")
                     if n:
                         item["specs"].append({
                             "source": g.label, "source_id": g.id, "additional": partial, "kind": "gas",
-                            "text": (f"{what} in the gas delivered to the cell ≤ {headroom / n:.3g} ppb (alone) or "
-                                     f"≤ {share / n:.3g} ppb (equal split), for {n:.4g} mol of delivered gas."),
+                            "text": (f"{what} in the gas delivered to the cell < {headroom / n:.3g} ppb (alone) or "
+                                     f"< {share / n:.3g} ppb (equal split), for {n:.4g} mol of delivered gas."),
                             "ppb_alone": headroom / n, "ppb_split": share / n, "n_gas_mol": n,
                             "big": headroom / n, "big_unit": "ppb N in delivered gas (alone)",
                             "assumptions": [
@@ -105,13 +111,13 @@ def evidence_requirements(rec: ExperimentRecord, res: AuditResult) -> dict | Non
                             "source": g.label, "source_id": g.id, "kind": "gas", "big": headroom,
                             "big_unit": "nmol N, x_N · n_gas (alone)",
                             "text": (f"Gas amount not determinable: state flow, reference conditions and exposure. "
-                                     f"Requirement: x_N · n_gas ≤ {headroom:.3g} nmol."),
+                                     f"Requirement: x_N · n_gas < {headroom:.3g} nmol."),
                             "assumptions": ["η = 1 (conservative)."]})
             elif cat == "electrolyte":
                 v = op.volume_mL
                 spec = {"source": "electrolyte", "kind": "electrolyte", "big": headroom,
                         "big_unit": "nmol N (alone)",
-                        "text": f"Matched electrolyte / whole-system blank ≤ {headroom:.3g} nmol N (alone)",
+                        "text": f"Matched electrolyte / whole-system blank < {headroom:.3g} nmol N (alone)",
                         "assumptions": ["Blank run with the same electrolyte batch, cell, volume and interval as "
                                         "the experiment (matched conditions)."]}
                 if v:
@@ -122,7 +128,7 @@ def evidence_requirements(rec: ExperimentRecord, res: AuditResult) -> dict | Non
             else:
                 item["specs"].append({
                     "source": "components", "kind": "components", "big": headroom, "big_unit": "nmol N (alone)",
-                    "text": (f"Matched release from cell components, electrode, membrane and ionomer ≤ "
+                    "text": (f"Matched release from cell components, electrode, membrane and ionomer < "
                              f"{headroom:.3g} nmol N (alone) / {share:.3g} nmol N (equal split)."),
                     "assumptions": ["Measured under the experiment's own conditions and interval (same electrode, "
                                     "potential history and electrolyte)."]})
@@ -149,17 +155,17 @@ def evidence_requirements(rec: ExperimentRecord, res: AuditResult) -> dict | Non
                 if g is not None and g.impurity is not None:
                     row["required_value"] = g.impurity.upper * k
                     row["big"], row["big_unit"] = row["required_value"], f"{g.impurity.unit} measured, delivered"
-                    row["text"] = (f"Measured delivered-gas impurity ≤ {g.impurity.upper * k:.3g} {g.impurity.unit} "
+                    row["text"] = (f"Measured delivered-gas impurity < {g.impurity.upper * k:.3g} {g.impurity.unit} "
                                    f"(now {g.impurity.upper:g} {g.impurity.unit}).")
                 elif ctl is not None and ctl.measurement.upper is not None:
                     row["required_value"] = ctl.measurement.upper * k
                     row["big"], row["big_unit"] = row["required_value"], ctl.measurement.unit
-                    row["text"] = (f"Matched control ≤ {ctl.measurement.upper * k:.3g} {ctl.measurement.unit} "
+                    row["text"] = (f"Matched control < {ctl.measurement.upper * k:.3g} {ctl.measurement.unit} "
                                    f"(now {ctl.measurement.upper:g} {ctl.measurement.unit}"
                                    f"{', i.e. a lower detection limit' if ctl.measurement.nondetect else ''}).")
                 else:
                     row["big"], row["big_unit"] = new_upper, "nmol N"
-                    row["text"] = f"Upper bound ≤ {new_upper:.3g} nmol N."
+                    row["text"] = f"Upper bound < {new_upper:.3g} nmol N."
             out["shrink"].append(row)
         if unknown_cats:
             out["notes"].append("Even after that, the verdict can only reach 'exceeds the quantified budget' once the "

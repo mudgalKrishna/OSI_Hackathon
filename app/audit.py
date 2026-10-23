@@ -11,10 +11,12 @@ Status logic (Section 7 of the build plan):
 """
 from __future__ import annotations
 
+import math
+
 from . import budget, controls, coverage
 from .schemas import STATUS_LABELS, AuditResult, ExperimentRecord, Issue
 
-ENGINE_VERSION = "0.3.0"
+ENGINE_VERSION = "0.3.1"
 
 
 def _bounds(contribs, roles):
@@ -22,9 +24,24 @@ def _bounds(contribs, roles):
     return {"lower": sum(c.lower_nmol for c in sel), "upper": sum(c.upper_nmol for c in sel)}
 
 
+def _non_finite(obj, path: str = "") -> list[str]:
+    """Paths of NaN / infinite numbers anywhere in a dumped record."""
+    if isinstance(obj, float):
+        return [] if math.isfinite(obj) else [path or "value"]
+    if isinstance(obj, dict):
+        return [p for k, v in obj.items() if k != "expected" for p in _non_finite(v, f"{path}.{k}" if path else k)]
+    if isinstance(obj, list):
+        return [p for i, v in enumerate(obj) for p in _non_finite(v, f"{path}[{i}]")]
+    return []
+
+
 def run_audit(rec: ExperimentRecord) -> AuditResult:
     issues: list[Issue] = []
     assumptions: list[str] = list(rec.assumptions)
+    # NaN compares False with everything, so it would silently fall through to "exceeds"; reject it first.
+    for p in _non_finite(rec.model_dump()):
+        issues.append(Issue(code="non_finite_value", severity="error", field=p,
+                            message=f"{p} is not a finite number (NaN or infinity); enter a real value or leave it empty."))
 
     obs = budget.observed_bounds(rec, issues)
     contribs, gas_unmeasured = [], []
