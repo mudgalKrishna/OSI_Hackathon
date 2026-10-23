@@ -1,0 +1,1379 @@
+{
+  "engine_version": "0.1.0",
+  "generated_unix": 1792690003,
+  "disclaimer": "Synthetic records test arithmetic and reasoning only. Published records have no ground-truth label for whether N2 reduction occurred; they are reported separately and not scored.",
+  "synthetic": {
+    "n_records": 32,
+    "status_correct": 32,
+    "failures": [],
+    "numeric_checks": 19,
+    "max_rel_error": 1.8947806286936006e-16,
+    "unit_or_basis_problems_detected": "10/10",
+    "unit_error_codes_seen": [
+      "ambiguous_unit",
+      "basis_unit_conflict",
+      "flow_basis_conflict",
+      "missing_gas_conditions",
+      "missing_reference_conditions",
+      "missing_species",
+      "missing_volume"
+    ],
+    "inconclusive_correct": "8/8",
+    "duplicate_source_cases_correct": "4/4",
+    "naive_baseline_correct": "15/32",
+    "naive_baseline_failures": [
+      "syn_actual_no_TP",
+      "syn_ambiguous_species",
+      "syn_blank_different_day",
+      "syn_blank_includes_gas",
+      "syn_blank_scenario",
+      "syn_conc_no_volume",
+      "syn_control_interval_mismatch",
+      "syn_gas_interval_mismatch",
+      "syn_nondetect_no_limit",
+      "syn_overlap_sum_components",
+      "syn_overlap_unresolved",
+      "syn_partial_species",
+      "syn_sccm_declared_actual",
+      "syn_sccm_no_reference",
+      "syn_supplier_spec",
+      "syn_upstream_purifier",
+      "synthetic_gas_budget_03"
+    ],
+    "median_runtime_ms": 0.07050000000000001
+  },
+  "published": {
+    "n_records": 4,
+    "records": [
+      {
+        "case_id": "bragulla2026_n2_gas_washing",
+        "status": "contamination_not_excluded",
+        "coverage": {
+          "gas": "partial_species",
+          "electrolyte": "scenario_only",
+          "components": "unknown"
+        },
+        "observed_upper_nmol": 41.024503825257796,
+        "budget_upper_nmol": 42.247412420346905,
+        "budget_with_scenarios_upper_nmol": 60.54212358566457
+      },
+      {
+        "case_id": "bragulla2026_n2_purified_nondetect",
+        "status": "contamination_not_excluded",
+        "coverage": {
+          "gas": "partial_species",
+          "electrolyte": "unknown",
+          "components": "unknown"
+        },
+        "observed_upper_nmol": 4.9894666814502715,
+        "budget_upper_nmol": 4.7295356919101605,
+        "budget_with_scenarios_upper_nmol": 4.7295356919101605
+      },
+      {
+        "case_id": "bragulla2026_pristine_gde_ocv",
+        "status": "insufficient_information",
+        "coverage": {
+          "gas": "unknown",
+          "electrolyte": "scenario_only",
+          "components": "scenario_only"
+        },
+        "observed_upper_nmol": 153.010311564475,
+        "budget_upper_nmol": 0.0,
+        "budget_with_scenarios_upper_nmol": 104.22441512362789
+      },
+      {
+        "case_id": "choi2020_table1_flowing_gas",
+        "status": "insufficient_information",
+        "coverage": {
+          "gas": "unknown",
+          "electrolyte": "unknown",
+          "components": "unknown"
+        },
+        "observed_upper_nmol": null,
+        "budget_upper_nmol": 0.0,
+        "budget_with_scenarios_upper_nmol": 0.0,
+        "published_reference": {
+          "source": "S2 Table 1 row 1",
+          "reference_nmol": 9820,
+          "engine_nmol": 9814.708489875562,
+          "rel_error": 0.0005388503181708749,
+          "rate_nmol_per_s": 0.6815769784635807,
+          "reference_rate": 0.68
+        }
+      }
+    ]
+  },
+  "rows": [
+    {
+      "case_id": "syn_actual_no_TP",
+      "record_type": "synthetic",
+      "status": "input_inconsistency",
+      "expected_status": "input_inconsistency",
+      "coverage": {
+        "gas": "unknown",
+        "electrolyte": "specified_synthetic",
+        "components": "specified_synthetic"
+      },
+      "observed_lower_nmol": 190.0,
+      "observed_upper_nmol": 210.0,
+      "budget_upper_nmol": 0.0,
+      "budget_with_scenarios_upper_nmol": 0.0,
+      "error_codes": [
+        "missing_gas_conditions"
+      ],
+      "recommendations": [
+        "R1_gas_unquantified",
+        "R10_fixed_gas_volume"
+      ],
+      "runtime_ms": 0.073,
+      "checklist": {
+        "gas_impurity_entered": true,
+        "blank_or_background": false,
+        "component_release": false,
+        "isotope_quantitative": false,
+        "nox_alongside": false,
+        "n_present": 1
+      },
+      "status_correct": true,
+      "naive_status": "contamination_not_excluded",
+      "naive_correct": false,
+      "purpose": "Ideal-gas conversion of an actual volume needs T and P."
+    },
+    {
+      "case_id": "syn_ambiguous_species",
+      "record_type": "synthetic",
+      "status": "input_inconsistency",
+      "expected_status": "input_inconsistency",
+      "coverage": {
+        "gas": "quantified",
+        "electrolyte": "specified_synthetic",
+        "components": "specified_synthetic"
+      },
+      "observed_lower_nmol": null,
+      "observed_upper_nmol": null,
+      "budget_upper_nmol": 245.2442671459766,
+      "budget_with_scenarios_upper_nmol": 245.2442671459766,
+      "error_codes": [
+        "missing_species"
+      ],
+      "recommendations": [
+        "R10_fixed_gas_volume"
+      ],
+      "runtime_ms": 0.057,
+      "checklist": {
+        "gas_impurity_entered": true,
+        "blank_or_background": false,
+        "component_release": false,
+        "isotope_quantitative": false,
+        "nox_alongside": false,
+        "n_present": 1
+      },
+      "status_correct": true,
+      "naive_status": "contamination_not_excluded",
+      "naive_correct": false,
+      "purpose": "NH3 vs NH4+ vs N must be declared explicitly."
+    },
+    {
+      "case_id": "syn_basis_unit_conflict",
+      "record_type": "synthetic",
+      "status": "input_inconsistency",
+      "expected_status": "input_inconsistency",
+      "coverage": {
+        "gas": "quantified",
+        "electrolyte": "specified_synthetic",
+        "components": "specified_synthetic"
+      },
+      "observed_lower_nmol": null,
+      "observed_upper_nmol": null,
+      "budget_upper_nmol": 245.2442671459766,
+      "budget_with_scenarios_upper_nmol": 245.2442671459766,
+      "error_codes": [
+        "basis_unit_conflict"
+      ],
+      "recommendations": [
+        "R10_fixed_gas_volume"
+      ],
+      "runtime_ms": 0.059,
+      "checklist": {
+        "gas_impurity_entered": true,
+        "blank_or_background": false,
+        "component_release": false,
+        "isotope_quantitative": false,
+        "nox_alongside": false,
+        "n_present": 1
+      },
+      "status_correct": true,
+      "naive_status": "input_inconsistency",
+      "naive_correct": true,
+      "purpose": "A mass unit cannot be read as an amount."
+    },
+    {
+      "case_id": "syn_blank_different_day",
+      "record_type": "synthetic",
+      "status": "insufficient_information",
+      "expected_status": "insufficient_information",
+      "coverage": {
+        "gas": "quantified",
+        "electrolyte": "unknown",
+        "components": "specified_synthetic"
+      },
+      "observed_lower_nmol": 190.0,
+      "observed_upper_nmol": 210.0,
+      "budget_upper_nmol": 2.4524426714597665,
+      "budget_with_scenarios_upper_nmol": 2.4524426714597665,
+      "error_codes": [],
+      "recommendations": [
+        "R4_background_unresolved",
+        "R9_condition_mismatch",
+        "R10_fixed_gas_volume"
+      ],
+      "runtime_ms": 0.314,
+      "checklist": {
+        "gas_impurity_entered": true,
+        "blank_or_background": true,
+        "component_release": false,
+        "isotope_quantitative": false,
+        "nox_alongside": false,
+        "n_present": 2
+      },
+      "status_correct": true,
+      "naive_status": "exceeds_quantified_budget",
+      "naive_correct": false,
+      "reference_budget_nmol": 2.452442671459766,
+      "abs_error_nmol": 4.440892098500626e-16,
+      "rel_error": 1.81080363271337e-16,
+      "purpose": "A non-matched blank is not interchangeable; electrolyte stays unknown."
+    },
+    {
+      "case_id": "syn_blank_includes_gas",
+      "record_type": "synthetic",
+      "status": "exceeds_quantified_budget",
+      "expected_status": "exceeds_quantified_budget",
+      "coverage": {
+        "gas": "quantified",
+        "electrolyte": "quantified",
+        "components": "quantified"
+      },
+      "observed_lower_nmol": 190.0,
+      "observed_upper_nmol": 210.0,
+      "budget_upper_nmol": 150.00000000000003,
+      "budget_with_scenarios_upper_nmol": 150.00000000000003,
+      "error_codes": [],
+      "recommendations": [
+        "R10_fixed_gas_volume"
+      ],
+      "runtime_ms": 0.137,
+      "checklist": {
+        "gas_impurity_entered": true,
+        "blank_or_background": true,
+        "component_release": false,
+        "isotope_quantitative": false,
+        "nox_alongside": false,
+        "n_present": 2
+      },
+      "status_correct": true,
+      "naive_status": "contamination_not_excluded",
+      "naive_correct": false,
+      "reference_budget_nmol": 150.0,
+      "abs_error_nmol": 2.842170943040401e-14,
+      "rel_error": 1.8947806286936006e-16,
+      "purpose": "Gas bound (245) is inside the blank (150); summing would give 395 and flip the result."
+    },
+    {
+      "case_id": "syn_blank_scenario",
+      "record_type": "synthetic",
+      "status": "insufficient_information",
+      "expected_status": "insufficient_information",
+      "coverage": {
+        "gas": "quantified",
+        "electrolyte": "scenario_only",
+        "components": "specified_synthetic"
+      },
+      "observed_lower_nmol": 190.0,
+      "observed_upper_nmol": 210.0,
+      "budget_upper_nmol": 2.4524426714597665,
+      "budget_with_scenarios_upper_nmol": 302.45244267145983,
+      "error_codes": [],
+      "recommendations": [
+        "R4_background_unresolved",
+        "R9_condition_mismatch",
+        "R10_fixed_gas_volume"
+      ],
+      "runtime_ms": 0.129,
+      "checklist": {
+        "gas_impurity_entered": true,
+        "blank_or_background": true,
+        "component_release": false,
+        "isotope_quantitative": false,
+        "nox_alongside": false,
+        "n_present": 2
+      },
+      "status_correct": true,
+      "naive_status": "contamination_not_excluded",
+      "naive_correct": false,
+      "reference_budget_nmol": 2.452442671459766,
+      "abs_error_nmol": 4.440892098500626e-16,
+      "rel_error": 1.81080363271337e-16,
+      "purpose": "What-if values appear separately and never in the valid budget."
+    },
+    {
+      "case_id": "syn_conc_no_volume",
+      "record_type": "synthetic",
+      "status": "input_inconsistency",
+      "expected_status": "input_inconsistency",
+      "coverage": {
+        "gas": "quantified",
+        "electrolyte": "specified_synthetic",
+        "components": "specified_synthetic"
+      },
+      "observed_lower_nmol": null,
+      "observed_upper_nmol": null,
+      "budget_upper_nmol": 245.2442671459766,
+      "budget_with_scenarios_upper_nmol": 245.2442671459766,
+      "error_codes": [
+        "missing_volume"
+      ],
+      "recommendations": [
+        "R10_fixed_gas_volume"
+      ],
+      "runtime_ms": 0.07,
+      "checklist": {
+        "gas_impurity_entered": true,
+        "blank_or_background": false,
+        "component_release": false,
+        "isotope_quantitative": false,
+        "nox_alongside": false,
+        "n_present": 1
+      },
+      "status_correct": true,
+      "naive_status": "exceeds_quantified_budget",
+      "naive_correct": false,
+      "purpose": "A concentration needs a volume to become an amount."
+    },
+    {
+      "case_id": "syn_control_interval_mismatch",
+      "record_type": "synthetic",
+      "status": "input_inconsistency",
+      "expected_status": "input_inconsistency",
+      "coverage": {
+        "gas": "quantified",
+        "electrolyte": "unknown",
+        "components": "unknown"
+      },
+      "observed_lower_nmol": 190.0,
+      "observed_upper_nmol": 210.0,
+      "budget_upper_nmol": 2.4524426714597665,
+      "budget_with_scenarios_upper_nmol": 2.4524426714597665,
+      "error_codes": [
+        "interval_mismatch"
+      ],
+      "recommendations": [
+        "R4_background_unresolved",
+        "R5_component_unresolved",
+        "R9_condition_mismatch",
+        "R10_fixed_gas_volume"
+      ],
+      "runtime_ms": 0.122,
+      "checklist": {
+        "gas_impurity_entered": true,
+        "blank_or_background": true,
+        "component_release": false,
+        "isotope_quantitative": false,
+        "nox_alongside": false,
+        "n_present": 2
+      },
+      "status_correct": true,
+      "naive_status": "exceeds_quantified_budget",
+      "naive_correct": false,
+      "purpose": "A matched blank over 60 min cannot be compared with 120 min without a model."
+    },
+    {
+      "case_id": "syn_control_linear_scaling",
+      "record_type": "synthetic",
+      "status": "exceeds_quantified_budget",
+      "expected_status": "exceeds_quantified_budget",
+      "coverage": {
+        "gas": "quantified",
+        "electrolyte": "quantified",
+        "components": "quantified"
+      },
+      "observed_lower_nmol": 190.0,
+      "observed_upper_nmol": 210.0,
+      "budget_upper_nmol": 22.452442671459767,
+      "budget_with_scenarios_upper_nmol": 22.452442671459767,
+      "error_codes": [],
+      "recommendations": [
+        "R10_fixed_gas_volume"
+      ],
+      "runtime_ms": 0.093,
+      "checklist": {
+        "gas_impurity_entered": true,
+        "blank_or_background": true,
+        "component_release": false,
+        "isotope_quantitative": false,
+        "nox_alongside": false,
+        "n_present": 2
+      },
+      "status_correct": true,
+      "naive_status": "exceeds_quantified_budget",
+      "naive_correct": true,
+      "reference_budget_nmol": 22.452442671459767,
+      "abs_error_nmol": 0.0,
+      "rel_error": 0.0,
+      "purpose": "10 nmol over 60 min → 20 nmol over 120 min under a stated linear model."
+    },
+    {
+      "case_id": "syn_gas_interval_mismatch",
+      "record_type": "synthetic",
+      "status": "input_inconsistency",
+      "expected_status": "input_inconsistency",
+      "coverage": {
+        "gas": "unknown",
+        "electrolyte": "specified_synthetic",
+        "components": "specified_synthetic"
+      },
+      "observed_lower_nmol": 190.0,
+      "observed_upper_nmol": 210.0,
+      "budget_upper_nmol": 0.0,
+      "budget_with_scenarios_upper_nmol": 0.0,
+      "error_codes": [
+        "interval_mismatch"
+      ],
+      "recommendations": [
+        "R1_gas_unquantified",
+        "R9_condition_mismatch",
+        "R10_fixed_gas_volume"
+      ],
+      "runtime_ms": 0.066,
+      "checklist": {
+        "gas_impurity_entered": true,
+        "blank_or_background": false,
+        "component_release": false,
+        "isotope_quantitative": false,
+        "nox_alongside": false,
+        "n_present": 1
+      },
+      "status_correct": true,
+      "naive_status": "exceeds_quantified_budget",
+      "naive_correct": false,
+      "purpose": "Exposure 60 min vs collection 120 min."
+    },
+    {
+      "case_id": "syn_isotope_qualitative",
+      "record_type": "synthetic",
+      "status": "exceeds_quantified_budget",
+      "expected_status": "exceeds_quantified_budget",
+      "coverage": {
+        "gas": "quantified",
+        "electrolyte": "specified_synthetic",
+        "components": "specified_synthetic"
+      },
+      "observed_lower_nmol": 190.0,
+      "observed_upper_nmol": 210.0,
+      "budget_upper_nmol": 2.4524426714597665,
+      "budget_with_scenarios_upper_nmol": 2.4524426714597665,
+      "error_codes": [],
+      "recommendations": [
+        "R8_labeled_impurities",
+        "R10_fixed_gas_volume"
+      ],
+      "runtime_ms": 0.071,
+      "checklist": {
+        "gas_impurity_entered": true,
+        "blank_or_background": false,
+        "component_release": false,
+        "isotope_quantitative": false,
+        "nox_alongside": false,
+        "n_present": 1
+      },
+      "status_correct": true,
+      "naive_status": "exceeds_quantified_budget",
+      "naive_correct": true,
+      "reference_budget_nmol": 2.452442671459766,
+      "abs_error_nmol": 4.440892098500626e-16,
+      "rel_error": 1.81080363271337e-16,
+      "purpose": "Isotope evidence is kept separate and does not change the budget."
+    },
+    {
+      "case_id": "syn_molar_dilution",
+      "record_type": "synthetic",
+      "status": "exceeds_quantified_budget",
+      "expected_status": "exceeds_quantified_budget",
+      "coverage": {
+        "gas": "quantified",
+        "electrolyte": "specified_synthetic",
+        "components": "specified_synthetic"
+      },
+      "observed_lower_nmol": 189.99999999999997,
+      "observed_upper_nmol": 210.0,
+      "budget_upper_nmol": 2.4524426714597665,
+      "budget_with_scenarios_upper_nmol": 2.4524426714597665,
+      "error_codes": [],
+      "recommendations": [
+        "R10_fixed_gas_volume"
+      ],
+      "runtime_ms": 0.084,
+      "checklist": {
+        "gas_impurity_entered": true,
+        "blank_or_background": false,
+        "component_release": false,
+        "isotope_quantitative": false,
+        "nox_alongside": false,
+        "n_present": 1
+      },
+      "status_correct": true,
+      "naive_status": "exceeds_quantified_budget",
+      "naive_correct": true,
+      "purpose": "1.9–2.1 µM × DF 2 × 50 mL = 190–210 nmol."
+    },
+    {
+      "case_id": "syn_n_mass",
+      "record_type": "synthetic",
+      "status": "exceeds_quantified_budget",
+      "expected_status": "exceeds_quantified_budget",
+      "coverage": {
+        "gas": "quantified",
+        "electrolyte": "specified_synthetic",
+        "components": "specified_synthetic"
+      },
+      "observed_lower_nmol": 200.0,
+      "observed_upper_nmol": 200.0,
+      "budget_upper_nmol": 2.4524426714597665,
+      "budget_with_scenarios_upper_nmol": 2.4524426714597665,
+      "error_codes": [],
+      "recommendations": [
+        "R10_fixed_gas_volume"
+      ],
+      "runtime_ms": 0.065,
+      "checklist": {
+        "gas_impurity_entered": true,
+        "blank_or_background": false,
+        "component_release": false,
+        "isotope_quantitative": false,
+        "nox_alongside": false,
+        "n_present": 1
+      },
+      "status_correct": true,
+      "naive_status": "exceeds_quantified_budget",
+      "naive_correct": true,
+      "purpose": "2.8014 µg N = 200 nmol N; the same mass of NH3 would be 164.5 nmol."
+    },
+    {
+      "case_id": "syn_nh4_mass",
+      "record_type": "synthetic",
+      "status": "exceeds_quantified_budget",
+      "expected_status": "exceeds_quantified_budget",
+      "coverage": {
+        "gas": "quantified",
+        "electrolyte": "specified_synthetic",
+        "components": "specified_synthetic"
+      },
+      "observed_lower_nmol": 199.99999999999997,
+      "observed_upper_nmol": 199.99999999999997,
+      "budget_upper_nmol": 2.4524426714597665,
+      "budget_with_scenarios_upper_nmol": 2.4524426714597665,
+      "error_codes": [],
+      "recommendations": [
+        "R10_fixed_gas_volume"
+      ],
+      "runtime_ms": 0.065,
+      "checklist": {
+        "gas_impurity_entered": true,
+        "blank_or_background": false,
+        "component_release": false,
+        "isotope_quantitative": false,
+        "nox_alongside": false,
+        "n_present": 1
+      },
+      "status_correct": true,
+      "naive_status": "exceeds_quantified_budget",
+      "naive_correct": true,
+      "purpose": "3.6076 µg NH4+ = 200 nmol N."
+    },
+    {
+      "case_id": "syn_nondetect_interval",
+      "record_type": "synthetic",
+      "status": "contamination_not_excluded",
+      "expected_status": "contamination_not_excluded",
+      "coverage": {
+        "gas": "quantified",
+        "electrolyte": "specified_synthetic",
+        "components": "specified_synthetic"
+      },
+      "observed_lower_nmol": 0.0,
+      "observed_upper_nmol": 5.0,
+      "budget_upper_nmol": 2.4524426714597665,
+      "budget_with_scenarios_upper_nmol": 2.4524426714597665,
+      "error_codes": [],
+      "recommendations": [
+        "R10_fixed_gas_volume"
+      ],
+      "runtime_ms": 0.063,
+      "checklist": {
+        "gas_impurity_entered": true,
+        "blank_or_background": false,
+        "component_release": false,
+        "isotope_quantitative": false,
+        "nox_alongside": false,
+        "n_present": 1
+      },
+      "status_correct": true,
+      "naive_status": "contamination_not_excluded",
+      "naive_correct": true,
+      "reference_budget_nmol": 2.452442671459766,
+      "abs_error_nmol": 4.440892098500626e-16,
+      "rel_error": 1.81080363271337e-16,
+      "purpose": "A nondetect is [0, LOD]; its lower bound 0 lies within any budget."
+    },
+    {
+      "case_id": "syn_nondetect_no_limit",
+      "record_type": "synthetic",
+      "status": "input_inconsistency",
+      "expected_status": "input_inconsistency",
+      "coverage": {
+        "gas": "quantified",
+        "electrolyte": "specified_synthetic",
+        "components": "specified_synthetic"
+      },
+      "observed_lower_nmol": null,
+      "observed_upper_nmol": null,
+      "budget_upper_nmol": 245.2442671459766,
+      "budget_with_scenarios_upper_nmol": 245.2442671459766,
+      "error_codes": [
+        "nondetect_without_limit"
+      ],
+      "recommendations": [
+        "R10_fixed_gas_volume"
+      ],
+      "runtime_ms": 0.052,
+      "checklist": {
+        "gas_impurity_entered": true,
+        "blank_or_background": false,
+        "component_release": false,
+        "isotope_quantitative": false,
+        "nox_alongside": false,
+        "n_present": 1
+      },
+      "status_correct": true,
+      "naive_status": "contamination_not_excluded",
+      "naive_correct": false,
+      "purpose": "A nondetect without its limit cannot be bounded."
+    },
+    {
+      "case_id": "syn_overlap_sum_components",
+      "record_type": "synthetic",
+      "status": "insufficient_information",
+      "expected_status": "insufficient_information",
+      "coverage": {
+        "gas": "quantified",
+        "electrolyte": "unknown",
+        "components": "quantified"
+      },
+      "observed_lower_nmol": 190.0,
+      "observed_upper_nmol": 210.0,
+      "budget_upper_nmol": 17.452442671459767,
+      "budget_with_scenarios_upper_nmol": 17.452442671459767,
+      "error_codes": [],
+      "recommendations": [
+        "R4_background_unresolved",
+        "R10_fixed_gas_volume"
+      ],
+      "runtime_ms": 0.155,
+      "checklist": {
+        "gas_impurity_entered": true,
+        "blank_or_background": true,
+        "component_release": true,
+        "isotope_quantitative": false,
+        "nox_alongside": false,
+        "n_present": 3
+      },
+      "status_correct": true,
+      "naive_status": "exceeds_quantified_budget",
+      "naive_correct": false,
+      "reference_budget_nmol": 17.452442671459767,
+      "abs_error_nmol": 0.0,
+      "rel_error": 0.0,
+      "purpose": "Dropping the system blank leaves the electrolyte unbounded."
+    },
+    {
+      "case_id": "syn_overlap_system_blank",
+      "record_type": "synthetic",
+      "status": "exceeds_quantified_budget",
+      "expected_status": "exceeds_quantified_budget",
+      "coverage": {
+        "gas": "quantified",
+        "electrolyte": "quantified",
+        "components": "quantified"
+      },
+      "observed_lower_nmol": 190.0,
+      "observed_upper_nmol": 210.0,
+      "budget_upper_nmol": 22.452442671459767,
+      "budget_with_scenarios_upper_nmol": 22.452442671459767,
+      "error_codes": [],
+      "recommendations": [
+        "R10_fixed_gas_volume"
+      ],
+      "runtime_ms": 0.117,
+      "checklist": {
+        "gas_impurity_entered": true,
+        "blank_or_background": true,
+        "component_release": true,
+        "isotope_quantitative": false,
+        "nox_alongside": false,
+        "n_present": 3
+      },
+      "status_correct": true,
+      "naive_status": "exceeds_quantified_budget",
+      "naive_correct": true,
+      "reference_budget_nmol": 22.452442671459767,
+      "abs_error_nmol": 0.0,
+      "rel_error": 0.0,
+      "purpose": "Budget = gas + system blank (22.45), not gas + blank + membrane (37.45)."
+    },
+    {
+      "case_id": "syn_overlap_unresolved",
+      "record_type": "synthetic",
+      "status": "insufficient_information",
+      "expected_status": "insufficient_information",
+      "coverage": {
+        "gas": "quantified",
+        "electrolyte": "ambiguous_overlap",
+        "components": "ambiguous_overlap"
+      },
+      "observed_lower_nmol": 190.0,
+      "observed_upper_nmol": 210.0,
+      "budget_upper_nmol": 2.4524426714597665,
+      "budget_with_scenarios_upper_nmol": 2.4524426714597665,
+      "error_codes": [],
+      "recommendations": [
+        "R4_background_unresolved",
+        "R5_component_unresolved",
+        "R10_fixed_gas_volume"
+      ],
+      "runtime_ms": 0.147,
+      "checklist": {
+        "gas_impurity_entered": true,
+        "blank_or_background": true,
+        "component_release": true,
+        "isotope_quantitative": false,
+        "nox_alongside": false,
+        "n_present": 3
+      },
+      "status_correct": true,
+      "naive_status": "exceeds_quantified_budget",
+      "naive_correct": false,
+      "reference_budget_nmol": 2.452442671459766,
+      "abs_error_nmol": 4.440892098500626e-16,
+      "rel_error": 1.81080363271337e-16,
+      "purpose": "Overlapping measurements are not summed without a selected coverage model."
+    },
+    {
+      "case_id": "syn_partial_but_covered",
+      "record_type": "synthetic",
+      "status": "contamination_not_excluded",
+      "expected_status": "contamination_not_excluded",
+      "coverage": {
+        "gas": "partial_species",
+        "electrolyte": "specified_synthetic",
+        "components": "unknown"
+      },
+      "observed_lower_nmol": 190.0,
+      "observed_upper_nmol": 210.0,
+      "budget_upper_nmol": 245.2442671459766,
+      "budget_with_scenarios_upper_nmol": 245.2442671459766,
+      "error_codes": [],
+      "recommendations": [
+        "R1_gas_unquantified",
+        "R5_component_unresolved",
+        "R10_fixed_gas_volume"
+      ],
+      "runtime_ms": 0.085,
+      "checklist": {
+        "gas_impurity_entered": true,
+        "blank_or_background": false,
+        "component_release": false,
+        "isotope_quantitative": false,
+        "nox_alongside": false,
+        "n_present": 1
+      },
+      "status_correct": true,
+      "naive_status": "contamination_not_excluded",
+      "naive_correct": true,
+      "reference_budget_nmol": 245.2442671459766,
+      "abs_error_nmol": 0.0,
+      "rel_error": 0.0,
+      "purpose": "Unknown sources can only enlarge the budget, so 'not excluded' is robust."
+    },
+    {
+      "case_id": "syn_partial_species",
+      "record_type": "synthetic",
+      "status": "insufficient_information",
+      "expected_status": "insufficient_information",
+      "coverage": {
+        "gas": "partial_species",
+        "electrolyte": "specified_synthetic",
+        "components": "specified_synthetic"
+      },
+      "observed_lower_nmol": 190.0,
+      "observed_upper_nmol": 210.0,
+      "budget_upper_nmol": 2.4524426714597665,
+      "budget_with_scenarios_upper_nmol": 2.4524426714597665,
+      "error_codes": [],
+      "recommendations": [
+        "R1_gas_unquantified",
+        "R10_fixed_gas_volume"
+      ],
+      "runtime_ms": 0.072,
+      "checklist": {
+        "gas_impurity_entered": true,
+        "blank_or_background": false,
+        "component_release": false,
+        "isotope_quantitative": false,
+        "nox_alongside": false,
+        "n_present": 1
+      },
+      "status_correct": true,
+      "naive_status": "exceeds_quantified_budget",
+      "naive_correct": false,
+      "reference_budget_nmol": 2.452442671459766,
+      "abs_error_nmol": 4.440892098500626e-16,
+      "rel_error": 1.81080363271337e-16,
+      "purpose": "A single-species bound leaves NOx unknown, so the result stays inconclusive."
+    },
+    {
+      "case_id": "syn_ppm_liquid",
+      "record_type": "synthetic",
+      "status": "input_inconsistency",
+      "expected_status": "input_inconsistency",
+      "coverage": {
+        "gas": "quantified",
+        "electrolyte": "specified_synthetic",
+        "components": "specified_synthetic"
+      },
+      "observed_lower_nmol": null,
+      "observed_upper_nmol": null,
+      "budget_upper_nmol": 245.2442671459766,
+      "budget_with_scenarios_upper_nmol": 245.2442671459766,
+      "error_codes": [
+        "ambiguous_unit"
+      ],
+      "recommendations": [
+        "R10_fixed_gas_volume"
+      ],
+      "runtime_ms": 0.063,
+      "checklist": {
+        "gas_impurity_entered": true,
+        "blank_or_background": false,
+        "component_release": false,
+        "isotope_quantitative": false,
+        "nox_alongside": false,
+        "n_present": 1
+      },
+      "status_correct": true,
+      "naive_status": "input_inconsistency",
+      "naive_correct": true,
+      "purpose": "ppm is ambiguous for a liquid-phase product."
+    },
+    {
+      "case_id": "syn_sccm_declared_actual",
+      "record_type": "synthetic",
+      "status": "input_inconsistency",
+      "expected_status": "input_inconsistency",
+      "coverage": {
+        "gas": "unknown",
+        "electrolyte": "specified_synthetic",
+        "components": "specified_synthetic"
+      },
+      "observed_lower_nmol": 190.0,
+      "observed_upper_nmol": 210.0,
+      "budget_upper_nmol": 0.0,
+      "budget_with_scenarios_upper_nmol": 0.0,
+      "error_codes": [
+        "flow_basis_conflict"
+      ],
+      "recommendations": [
+        "R1_gas_unquantified",
+        "R10_fixed_gas_volume"
+      ],
+      "runtime_ms": 0.061,
+      "checklist": {
+        "gas_impurity_entered": true,
+        "blank_or_background": false,
+        "component_release": false,
+        "isotope_quantitative": false,
+        "nox_alongside": false,
+        "n_present": 1
+      },
+      "status_correct": true,
+      "naive_status": "contamination_not_excluded",
+      "naive_correct": false,
+      "purpose": "A standardized unit with an actual basis is contradictory."
+    },
+    {
+      "case_id": "syn_sccm_no_reference",
+      "record_type": "synthetic",
+      "status": "input_inconsistency",
+      "expected_status": "input_inconsistency",
+      "coverage": {
+        "gas": "unknown",
+        "electrolyte": "specified_synthetic",
+        "components": "specified_synthetic"
+      },
+      "observed_lower_nmol": 190.0,
+      "observed_upper_nmol": 210.0,
+      "budget_upper_nmol": 0.0,
+      "budget_with_scenarios_upper_nmol": 0.0,
+      "error_codes": [
+        "missing_reference_conditions"
+      ],
+      "recommendations": [
+        "R1_gas_unquantified",
+        "R10_fixed_gas_volume"
+      ],
+      "runtime_ms": 0.044,
+      "checklist": {
+        "gas_impurity_entered": true,
+        "blank_or_background": false,
+        "component_release": false,
+        "isotope_quantitative": false,
+        "nox_alongside": false,
+        "n_present": 1
+      },
+      "status_correct": true,
+      "naive_status": "contamination_not_excluded",
+      "naive_correct": false,
+      "purpose": "Cell temperature must not be applied to a standardized volume."
+    },
+    {
+      "case_id": "syn_sccm_reference",
+      "record_type": "synthetic",
+      "status": "contamination_not_excluded",
+      "expected_status": "contamination_not_excluded",
+      "coverage": {
+        "gas": "quantified",
+        "electrolyte": "specified_synthetic",
+        "components": "specified_synthetic"
+      },
+      "observed_lower_nmol": 190.0,
+      "observed_upper_nmol": 210.0,
+      "budget_upper_nmol": 267.69020043775555,
+      "budget_with_scenarios_upper_nmol": 267.69020043775555,
+      "error_codes": [],
+      "recommendations": [
+        "R10_fixed_gas_volume"
+      ],
+      "runtime_ms": 0.065,
+      "checklist": {
+        "gas_impurity_entered": true,
+        "blank_or_background": false,
+        "component_release": false,
+        "isotope_quantitative": false,
+        "nox_alongside": false,
+        "n_present": 1
+      },
+      "status_correct": true,
+      "naive_status": "contamination_not_excluded",
+      "naive_correct": true,
+      "reference_budget_nmol": 267.69020043775555,
+      "abs_error_nmol": 0.0,
+      "rel_error": 0.0,
+      "purpose": "sccm uses 273.15 K reference, not the 323.15 K gas temperature."
+    },
+    {
+      "case_id": "syn_supplier_spec",
+      "record_type": "synthetic",
+      "status": "insufficient_information",
+      "expected_status": "insufficient_information",
+      "coverage": {
+        "gas": "unknown",
+        "electrolyte": "specified_synthetic",
+        "components": "specified_synthetic"
+      },
+      "observed_lower_nmol": 190.0,
+      "observed_upper_nmol": 210.0,
+      "budget_upper_nmol": 0.0,
+      "budget_with_scenarios_upper_nmol": 0.0,
+      "error_codes": [],
+      "recommendations": [
+        "R1_gas_unquantified",
+        "R2_supplier_spec_only",
+        "R10_fixed_gas_volume"
+      ],
+      "runtime_ms": 0.082,
+      "checklist": {
+        "gas_impurity_entered": true,
+        "blank_or_background": false,
+        "component_release": false,
+        "isotope_quantitative": false,
+        "nox_alongside": false,
+        "n_present": 1
+      },
+      "status_correct": true,
+      "naive_status": "contamination_not_excluded",
+      "naive_correct": false,
+      "reference_budget_nmol": 0.0,
+      "abs_error_nmol": 0.0,
+      "rel_error": 0.0,
+      "purpose": "Supplier purity does not establish a measured delivered-gas concentration."
+    },
+    {
+      "case_id": "syn_total_volume",
+      "record_type": "synthetic",
+      "status": "contamination_not_excluded",
+      "expected_status": "contamination_not_excluded",
+      "coverage": {
+        "gas": "quantified",
+        "electrolyte": "specified_synthetic",
+        "components": "specified_synthetic"
+      },
+      "observed_lower_nmol": 190.0,
+      "observed_upper_nmol": 210.0,
+      "budget_upper_nmol": 245.2442671459766,
+      "budget_with_scenarios_upper_nmol": 245.2442671459766,
+      "error_codes": [],
+      "recommendations": [
+        "R10_fixed_gas_volume"
+      ],
+      "runtime_ms": 0.069,
+      "checklist": {
+        "gas_impurity_entered": true,
+        "blank_or_background": false,
+        "component_release": false,
+        "isotope_quantitative": false,
+        "nox_alongside": false,
+        "n_present": 1
+      },
+      "status_correct": true,
+      "naive_status": "contamination_not_excluded",
+      "naive_correct": true,
+      "reference_budget_nmol": 245.2442671459766,
+      "abs_error_nmol": 0.0,
+      "rel_error": 0.0,
+      "purpose": "6 L at 298.15 K and 1 atm gives the same budget as 50 mL/min × 120 min."
+    },
+    {
+      "case_id": "syn_two_nitrogen_atoms",
+      "record_type": "synthetic",
+      "status": "contamination_not_excluded",
+      "expected_status": "contamination_not_excluded",
+      "coverage": {
+        "gas": "quantified",
+        "electrolyte": "specified_synthetic",
+        "components": "specified_synthetic"
+      },
+      "observed_lower_nmol": 190.0,
+      "observed_upper_nmol": 210.0,
+      "budget_upper_nmol": 245.2442671459766,
+      "budget_with_scenarios_upper_nmol": 245.2442671459766,
+      "error_codes": [],
+      "recommendations": [
+        "R10_fixed_gas_volume"
+      ],
+      "runtime_ms": 0.064,
+      "checklist": {
+        "gas_impurity_entered": true,
+        "blank_or_background": false,
+        "component_release": false,
+        "isotope_quantitative": false,
+        "nox_alongside": false,
+        "n_present": 1
+      },
+      "status_correct": true,
+      "naive_status": "contamination_not_excluded",
+      "naive_correct": true,
+      "reference_budget_nmol": 245.2442671459766,
+      "abs_error_nmol": 0.0,
+      "rel_error": 0.0,
+      "purpose": "a_i = 2 doubles the nitrogen per impurity molecule."
+    },
+    {
+      "case_id": "syn_upstream_purifier",
+      "record_type": "synthetic",
+      "status": "insufficient_information",
+      "expected_status": "insufficient_information",
+      "coverage": {
+        "gas": "scenario_only",
+        "electrolyte": "specified_synthetic",
+        "components": "specified_synthetic"
+      },
+      "observed_lower_nmol": 190.0,
+      "observed_upper_nmol": 210.0,
+      "budget_upper_nmol": 0.0,
+      "budget_with_scenarios_upper_nmol": 245.2442671459766,
+      "error_codes": [],
+      "recommendations": [
+        "R1_gas_unquantified",
+        "R3_upstream_of_purifier",
+        "R10_fixed_gas_volume"
+      ],
+      "runtime_ms": 0.072,
+      "checklist": {
+        "gas_impurity_entered": true,
+        "blank_or_background": false,
+        "component_release": false,
+        "isotope_quantitative": false,
+        "nox_alongside": false,
+        "n_present": 1
+      },
+      "status_correct": true,
+      "naive_status": "contamination_not_excluded",
+      "naive_correct": false,
+      "reference_budget_nmol": 0.0,
+      "abs_error_nmol": 0.0,
+      "rel_error": 0.0,
+      "purpose": "Upstream measurement is a what-if, not a delivered bound."
+    },
+    {
+      "case_id": "synthetic_gas_budget_01",
+      "record_type": "synthetic",
+      "status": "contamination_not_excluded",
+      "expected_status": "contamination_not_excluded",
+      "coverage": {
+        "gas": "quantified",
+        "electrolyte": "specified_synthetic",
+        "components": "specified_synthetic"
+      },
+      "observed_lower_nmol": 190.0,
+      "observed_upper_nmol": 210.0,
+      "budget_upper_nmol": 245.2442671459766,
+      "budget_with_scenarios_upper_nmol": 245.2442671459766,
+      "error_codes": [],
+      "recommendations": [
+        "R10_fixed_gas_volume"
+      ],
+      "runtime_ms": 0.07,
+      "checklist": {
+        "gas_impurity_entered": true,
+        "blank_or_background": false,
+        "component_release": false,
+        "isotope_quantitative": false,
+        "nox_alongside": false,
+        "n_present": 1
+      },
+      "status_correct": true,
+      "naive_status": "contamination_not_excluded",
+      "naive_correct": true,
+      "reference_budget_nmol": 245.2442671459766,
+      "abs_error_nmol": 0.0,
+      "rel_error": 0.0,
+      "purpose": "Reference gas calculation (≈245 nmol) covers a 190–210 nmol observation."
+    },
+    {
+      "case_id": "synthetic_gas_budget_02",
+      "record_type": "synthetic",
+      "status": "exceeds_quantified_budget",
+      "expected_status": "exceeds_quantified_budget",
+      "coverage": {
+        "gas": "quantified",
+        "electrolyte": "specified_synthetic",
+        "components": "specified_synthetic"
+      },
+      "observed_lower_nmol": 190.0,
+      "observed_upper_nmol": 210.0,
+      "budget_upper_nmol": 2.4524426714597665,
+      "budget_with_scenarios_upper_nmol": 2.4524426714597665,
+      "error_codes": [],
+      "recommendations": [
+        "R10_fixed_gas_volume"
+      ],
+      "runtime_ms": 0.073,
+      "checklist": {
+        "gas_impurity_entered": true,
+        "blank_or_background": false,
+        "component_release": false,
+        "isotope_quantitative": false,
+        "nox_alongside": false,
+        "n_present": 1
+      },
+      "status_correct": true,
+      "naive_status": "exceeds_quantified_budget",
+      "naive_correct": true,
+      "reference_budget_nmol": 2.452442671459766,
+      "abs_error_nmol": 4.440892098500626e-16,
+      "rel_error": 1.81080363271337e-16,
+      "purpose": "Tightened impurity bound (≈2.45 nmol) is below the observation."
+    },
+    {
+      "case_id": "synthetic_gas_budget_03",
+      "record_type": "synthetic",
+      "status": "insufficient_information",
+      "expected_status": "insufficient_information",
+      "coverage": {
+        "gas": "unknown",
+        "electrolyte": "specified_synthetic",
+        "components": "specified_synthetic"
+      },
+      "observed_lower_nmol": 190.0,
+      "observed_upper_nmol": 210.0,
+      "budget_upper_nmol": 0.0,
+      "budget_with_scenarios_upper_nmol": 0.0,
+      "error_codes": [],
+      "recommendations": [
+        "R1_gas_unquantified",
+        "R10_fixed_gas_volume"
+      ],
+      "runtime_ms": 0.049,
+      "checklist": {
+        "gas_impurity_entered": false,
+        "blank_or_background": false,
+        "component_release": false,
+        "isotope_quantitative": false,
+        "nox_alongside": false,
+        "n_present": 0
+      },
+      "status_correct": true,
+      "naive_status": "exceeds_quantified_budget",
+      "naive_correct": false,
+      "reference_budget_nmol": 0.0,
+      "abs_error_nmol": 0.0,
+      "rel_error": 0.0,
+      "purpose": "Missing gas measurement must be unknown, not zero."
+    },
+    {
+      "case_id": "bragulla2026_n2_gas_washing",
+      "record_type": "published",
+      "status": "contamination_not_excluded",
+      "expected_status": null,
+      "coverage": {
+        "gas": "partial_species",
+        "electrolyte": "scenario_only",
+        "components": "unknown"
+      },
+      "observed_lower_nmol": 41.024503825257796,
+      "observed_upper_nmol": 41.024503825257796,
+      "budget_upper_nmol": 42.247412420346905,
+      "budget_with_scenarios_upper_nmol": 60.54212358566457,
+      "error_codes": [],
+      "recommendations": [
+        "R1_gas_unquantified",
+        "R4_background_unresolved",
+        "R5_component_unresolved",
+        "R7_isotope_incomplete",
+        "R9_condition_mismatch",
+        "R10_fixed_gas_volume",
+        "R11_nox_alongside",
+        "R12_replicates"
+      ],
+      "runtime_ms": 0.131,
+      "checklist": {
+        "gas_impurity_entered": true,
+        "blank_or_background": true,
+        "component_release": false,
+        "isotope_quantitative": false,
+        "nox_alongside": false,
+        "n_present": 2
+      }
+    },
+    {
+      "case_id": "bragulla2026_n2_purified_nondetect",
+      "record_type": "published",
+      "status": "contamination_not_excluded",
+      "expected_status": null,
+      "coverage": {
+        "gas": "partial_species",
+        "electrolyte": "unknown",
+        "components": "unknown"
+      },
+      "observed_lower_nmol": 0.0,
+      "observed_upper_nmol": 4.9894666814502715,
+      "budget_upper_nmol": 4.7295356919101605,
+      "budget_with_scenarios_upper_nmol": 4.7295356919101605,
+      "error_codes": [],
+      "recommendations": [
+        "R1_gas_unquantified",
+        "R4_background_unresolved",
+        "R5_component_unresolved",
+        "R7_isotope_incomplete",
+        "R10_fixed_gas_volume",
+        "R11_nox_alongside",
+        "R12_replicates"
+      ],
+      "runtime_ms": 0.194,
+      "checklist": {
+        "gas_impurity_entered": true,
+        "blank_or_background": false,
+        "component_release": false,
+        "isotope_quantitative": false,
+        "nox_alongside": false,
+        "n_present": 1
+      }
+    },
+    {
+      "case_id": "bragulla2026_pristine_gde_ocv",
+      "record_type": "published",
+      "status": "insufficient_information",
+      "expected_status": null,
+      "coverage": {
+        "gas": "unknown",
+        "electrolyte": "scenario_only",
+        "components": "scenario_only"
+      },
+      "observed_lower_nmol": 153.010311564475,
+      "observed_upper_nmol": 153.010311564475,
+      "budget_upper_nmol": 0.0,
+      "budget_with_scenarios_upper_nmol": 104.22441512362789,
+      "error_codes": [],
+      "recommendations": [
+        "R1_gas_unquantified",
+        "R4_background_unresolved",
+        "R5_component_unresolved",
+        "R6_nafion_gde",
+        "R7_isotope_incomplete",
+        "R9_condition_mismatch",
+        "R11_nox_alongside",
+        "R12_replicates"
+      ],
+      "runtime_ms": 0.159,
+      "checklist": {
+        "gas_impurity_entered": true,
+        "blank_or_background": true,
+        "component_release": true,
+        "isotope_quantitative": false,
+        "nox_alongside": false,
+        "n_present": 3
+      }
+    },
+    {
+      "case_id": "choi2020_table1_flowing_gas",
+      "record_type": "published_scenario",
+      "status": "insufficient_information",
+      "expected_status": null,
+      "coverage": {
+        "gas": "unknown",
+        "electrolyte": "unknown",
+        "components": "unknown"
+      },
+      "observed_lower_nmol": null,
+      "observed_upper_nmol": null,
+      "budget_upper_nmol": 0.0,
+      "budget_with_scenarios_upper_nmol": 0.0,
+      "error_codes": [],
+      "recommendations": [
+        "R1_gas_unquantified",
+        "R2_supplier_spec_only",
+        "R4_background_unresolved",
+        "R5_component_unresolved",
+        "R7_isotope_incomplete",
+        "R10_fixed_gas_volume",
+        "R11_nox_alongside"
+      ],
+      "runtime_ms": 0.076,
+      "checklist": {
+        "gas_impurity_entered": true,
+        "blank_or_background": false,
+        "component_release": false,
+        "isotope_quantitative": false,
+        "nox_alongside": false,
+        "n_present": 1
+      },
+      "published_reference": {
+        "source": "S2 Table 1 row 1",
+        "reference_nmol": 9820,
+        "engine_nmol": 9814.708489875562,
+        "rel_error": 0.0005388503181708749,
+        "rate_nmol_per_s": 0.6815769784635807,
+        "reference_rate": 0.68
+      }
+    }
+  ]
+}

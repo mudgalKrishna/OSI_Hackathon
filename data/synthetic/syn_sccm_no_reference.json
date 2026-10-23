@@ -1,0 +1,89 @@
+{
+  "case_id": "syn_sccm_no_reference",
+  "title": "sccm without reference conditions",
+  "record_type": "synthetic",
+  "description": "Synthetic benchmark record. Values are illustrative, not measurements from a published study.",
+  "observed_product": {
+    "species": "NH3",
+    "basis": "amount",
+    "unit": "nmol",
+    "lower": 190,
+    "upper": 210,
+    "bound_type": "stated_interval",
+    "interval": {
+      "start_min": 0,
+      "end_min": 120
+    },
+    "n_replicates": 3,
+    "evidence": {
+      "provenance": "synthetic",
+      "confirmed": true,
+      "note": "Illustrative synthetic value; not a measurement."
+    }
+  },
+  "gas_sources": [
+    {
+      "id": "feed",
+      "label": "N2 feed gas",
+      "impurity": {
+        "species": "generic N-impurity (1 N atom)",
+        "nitrogen_atoms": 1,
+        "unit": "ppm",
+        "lower": 0,
+        "upper": 1.0,
+        "bound_type": "hard_limit",
+        "measured_where": "delivered_to_cell",
+        "covers_all_reactive_nitrogen": true,
+        "evidence": {
+          "provenance": "synthetic",
+          "confirmed": true,
+          "note": "Illustrative synthetic value; not a measurement."
+        }
+      },
+      "flow": {
+        "value": 50,
+        "unit": "sccm",
+        "volume_basis": "standard",
+        "temperature_K": 298.15,
+        "pressure_Pa": 101325.0,
+        "evidence": {
+          "provenance": "synthetic",
+          "confirmed": true,
+          "note": "Illustrative synthetic value; not a measurement."
+        }
+      },
+      "exposure": {
+        "start_min": 0,
+        "end_min": 120
+      },
+      "eta_upper": 1.0,
+      "eta_basis": "conservative_upper_bound_1",
+      "evidence": {
+        "provenance": "synthetic",
+        "confirmed": true,
+        "note": "Illustrative synthetic value; not a measurement."
+      }
+    }
+  ],
+  "controls": [],
+  "declared_coverage": {
+    "electrolyte": "specified_synthetic",
+    "components": "specified_synthetic"
+  },
+  "isotope": {
+    "performed": false
+  },
+  "context": {
+    "flowing_gas": true
+  },
+  "assumptions": [
+    "Illustrative ideal-gas scenario",
+    "For this synthetic case only, all other modeled contamination sources are fully specified."
+  ],
+  "sources": [],
+  "expected": {
+    "status": "input_inconsistency",
+    "purpose": "Cell temperature must not be applied to a standardized volume.",
+    "issue_code": "missing_reference_conditions"
+  }
+}

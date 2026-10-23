@@ -1,0 +1,61 @@
+{
+  "case_id": "choi2020_table1_flowing_gas",
+  "title": "Choi et al. 2020 — Table 1 worst-case NOx supply, 100 mL/min for 4 h",
+  "record_type": "published_scenario",
+  "description": "Choi et al. tabulate the NOx that a flowing N2 supply could deliver in a 4 h experiment if all impurities in a 99.999% grade were NOx and were reduced to NH3 (Table 1, first row: 100 mL/min, 240 min, 298 K, 1 atm, 10 ppm → 9.82 × 10^3 nmol NOx, 0.68 nmol/s NH3). NitroTrace reproduces that arithmetic. Because 10 ppm is a supplier-grade illustration and not a measured delivered-gas concentration, the engine shows the value for reference but does not count it as a valid bound. No product measurement is attached (the table has none), so the status is 'Insufficient information' by design.",
+  "observed_product": null,
+  "gas_sources": [
+    {
+      "id": "n2_99999",
+      "label": "N2 99.999% grade (10 ppm treated as NOx)",
+      "impurity": {
+        "species": "NOx (illustrative: all impurities as NOx)",
+        "nitrogen_atoms": 1,
+        "unit": "ppm",
+        "lower": 0,
+        "upper": 10,
+        "bound_type": "assumed_range",
+        "measured_where": "supplier_specification",
+        "covers_all_reactive_nitrogen": true,
+        "evidence": {
+          "source_id": "S2",
+          "url": "https://europepmc.org/article/PMC/PMC7641139",
+          "location": "Table 1, row 1, footnote c",
+          "quote": "100 | 99.999% (10 ppm NOx)c | 240 | 9.82 × 10^8 | 9.82 × 10^3 | 0.68 — c: Assumes for illustration purposes that all of the impurities are NOx compounds.",
+          "provenance": "reported",
+          "confirmed": true
+        }
+      },
+      "flow": {
+        "value": 100,
+        "unit": "mL/min",
+        "volume_basis": "actual",
+        "temperature_K": 298,
+        "pressure_Pa": 101325,
+        "evidence": {
+          "source_id": "S2",
+          "location": "Table 1, footnote b",
+          "quote": "At 298 K and 1 atm.",
+          "provenance": "reported",
+          "confirmed": true
+        }
+      },
+      "exposure": {"start_min": 0, "end_min": 240},
+      "eta_upper": 1.0,
+      "eta_basis": "conservative_upper_bound_1",
+      "evidence": {
+        "source_id": "S2",
+        "location": "Reduction of the oxidised forms of nitrogen vs. NRR",
+        "quote": "Simple calculations (Table 1) suggest that the maximal possible ammonia formation yields and yield rates through the reduction of NOx (assuming all contaminants are NOx and are selectively reduced to NH3) at typical gas flow rates (20–100 mL min−1) can easily exceed those commonly reported for NRR experiments",
+        "provenance": "reported",
+        "confirmed": true
+      }
+    }
+  ],
+  "controls": [],
+  "isotope": {"performed": false},
+  "context": {"flowing_gas": true},
+  "assumptions": ["Published illustrative scenario: supplier grade impurity treated as NOx, η = 1 (selective reduction to NH3)."],
+  "sources": ["S2"],
+  "expected": {"reference_gas_nmol": 9820, "reference_rate_nmol_per_s": 0.68, "tolerance_rel": 0.005}
+}

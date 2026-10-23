@@ -1,0 +1,140 @@
+[
+  {
+    "rule_id": "R1_gas_unquantified",
+    "title": "Quantify reactive-nitrogen impurities in the delivered gas",
+    "trigger": "Gas coverage is unknown: no measured delivered-gas impurity bound.",
+    "text": "Measure NOx (NO, NO2, N2O) and NH3 in the N2 (and Ar) supply under the actual delivery conditions, for every new cylinder, before running electrochemical or non-electrochemical controls.",
+    "references": [
+      {"source_id": "S2", "location": "Updated and simplified NRR protocol › Analysis and elimination of NOx",
+       "quote": "First, it is necessary to quantify the concentrations of NOx compounds in the N2 gas supply prior to undertaking any electrochemical or non-electrochemical control experiments."},
+      {"source_id": "S2", "location": "Analysis and elimination of NOx",
+       "quote": "this gas analysis is carried out on a regular basis on every new cylinder of N2 to be used for the experiments."}
+    ]
+  },
+  {
+    "rule_id": "R2_supplier_spec_only",
+    "title": "Supplier purity is not a measured impurity concentration",
+    "trigger": "A gas impurity value comes from a supplier purity specification.",
+    "text": "Replace the supplier grade with a measured impurity concentration of the gas actually delivered to the cell.",
+    "references": [
+      {"source_id": "S2", "location": "Analysis and elimination of NOx",
+       "quote": "A key point is that gas purity as specified by the supplier cannot be taken as sufficient to validate any given cylinder of gas; variability can be the cause of false positives and much-wasted researcher time and resources."}
+    ]
+  },
+  {
+    "rule_id": "R3_upstream_of_purifier",
+    "title": "Demonstrate purifier performance at the experimental flow rate",
+    "trigger": "The gas impurity was measured upstream of a purifier or at an unknown location.",
+    "text": "Measure breakthrough downstream of the scrubber/purifier at the flow rate used in the experiment (e.g. a second alkaline trap analysed by Griess or IC).",
+    "references": [
+      {"source_id": "S2", "location": "Analysis and elimination of NOx",
+       "quote": "it is absolutely necessary to demonstrate that the implemented NOx scrubber provides sufficient purification under experimental conditions, including the flow rate to be used in the main experiments."},
+      {"source_id": "S2", "location": "Analysis and elimination of NOx",
+       "quote": "we recommend a second trap, containing a simple alkaline solution, be used in line with the main scrubber to allow reliable measurement of any remaining NOx"}
+    ]
+  },
+  {
+    "rule_id": "R4_background_unresolved",
+    "title": "Run a matched argon / open-circuit background",
+    "trigger": "Electrolyte or whole-system background is unknown, ambiguous or only available from non-matched conditions.",
+    "text": "Measure NH3 and NOx for the assembled system under Ar, with and without applied potential, at the flow rate and duration of the main experiment, and at open circuit under N2.",
+    "references": [
+      {"source_id": "S2", "location": "Undertaking an NRR experiment",
+       "quote": "Then the assembled experimental system is tested, with and without potential applied, under pure argon atmosphere flowing at the rate to be used in the main NRR experiments to determine [NH3]Ar and [NOx]Ar."},
+      {"source_id": "S2", "location": "Undertaking an NRR experiment",
+       "quote": "Further, experiments, at an open circuit, under exactly the same conditions but in the presence of 14N2 instead of Ar should be undertaken to identify the NH3/NOx amounts in the system"}
+    ]
+  },
+  {
+    "rule_id": "R5_component_unresolved",
+    "title": "Bound release from nitrogen-containing components",
+    "trigger": "Component release is unknown, or the electrode/catalyst contains nitrogen.",
+    "text": "Measure ammonia release from the electrode, catalyst, membrane and other N-containing parts; for N-containing catalysts run repeated reduction cycles in Ar on the same electrode until NH3 returns to background before introducing N2.",
+    "references": [
+      {"source_id": "S2", "location": "Potential origins of false NRR positives › Other sources of non-genuine NRR",
+       "quote": "electrodes, electrocatalysts, electrolytes, solvents and any other component of the experimental setup that is nitrogen-based or was prepared using N-containing precursor(s) can be a source of contamination."},
+      {"source_id": "S2", "location": "Case studies (CNx and VN)",
+       "quote": "These results highlight the need for repeated reduction measurements in Ar, in order to confirm NH3 levels at background, before carrying out N2 based measurements on the same electrode."}
+    ]
+  },
+  {
+    "rule_id": "R6_nafion_gde",
+    "title": "Treat Nafion-containing electrodes as an ammonium source",
+    "trigger": "A gas-diffusion electrode or component contains Nafion ionomer.",
+    "text": "Clean Nafion-containing GDEs where possible and resolve the time evolution of ammonium at open circuit in the assembled cell; a 0.5 h → 2.5 h sampling window can produce an apparent production rate from ionomer release alone.",
+    "references": [
+      {"source_id": "S3", "location": "§4 Discussion",
+       "quote": "Consequently, Nafion‐containing GDEs have to be deliberately cleaned similarly to Nafion membranes, if possible."},
+      {"source_id": "S3", "location": "§4 Discussion",
+       "quote": "when the concentrations are coincidentally measured following protocol after 0.5 h and 2.5 h in EC turnover‐experiments, this concentration profile results in a false‐positive production rate of about 2–3 pmol cm−2 s−1 in this instance."}
+    ]
+  },
+  {
+    "rule_id": "R7_isotope_incomplete",
+    "title": "Obtain quantitative, time-resolved 15N2 evidence",
+    "trigger": "Isotope evidence is missing, qualitative only, or from a single condition.",
+    "text": "Quantify 15NH3 (and residual 14NH3) over several durations and compare rate and selectivity with the 14N2 experiments under identical conditions, using a validated quantification procedure.",
+    "references": [
+      {"source_id": "S2", "location": "Criteria for reliable NRR data › (II)",
+       "quote": "Initially, the most common oversight was the use of only a qualitative mode of analysis of 15NH3 (i.e. no quantitative comparison is attempted with the main 14N2 data), which is entirely inconclusive in the NRR context."},
+      {"source_id": "S2", "location": "Criteria for reliable NRR data › (II)",
+       "quote": "a single 15N2 experiment is not sufficient; the demonstration of 15NH3 generation over several experiment durations, at a rate and selectivity that match those measured for the 14N2 experiments under identical conditions, is recommended"}
+    ]
+  },
+  {
+    "rule_id": "R8_labeled_impurities",
+    "title": "Quantify labeled impurities in the 15N2 supply",
+    "trigger": "An isotope experiment was performed but 15NOx / 15NH3 in the labeled gas were not quantified.",
+    "text": "Measure and remove 15NOx/15NH3 in the 15N2 gas and show no breakthrough; an isotope signal alone does not exclude labeled impurities.",
+    "references": [
+      {"source_id": "S2", "location": "Reduction of the oxidised forms of nitrogen vs. NRR",
+       "quote": "the majority of the available 15N2 gas supplies are even more contaminated with 15NOx that are formed as by-products during the synthesis of 15N2 via the CuO-catalysed oxidation of 15NH3"},
+      {"source_id": "S2", "location": "Reduction of the oxidised forms of nitrogen vs. NRR",
+       "quote": "15NOx concentrations can be as high as 0.1 mol% with respect to 15N2 and are highly variable, even when the gas comes from a reputable source"}
+    ]
+  },
+  {
+    "rule_id": "R9_condition_mismatch",
+    "title": "Align collection conditions before comparing",
+    "trigger": "A control or gas exposure uses a different interval, volume or set of conditions than the product measurement.",
+    "text": "Repeat the control with the same collection interval, electrolyte volume, cell, flow rate and sampling procedure as the product measurement, or state and justify an explicit scaling model.",
+    "references": [
+      {"source_id": "S2", "location": "Undertaking an NRR experiment",
+       "quote": "experiments, at an open circuit, under exactly the same conditions but in the presence of 14N2 instead of Ar should be undertaken"},
+      {"source_id": "S3", "location": "§3.6 In Situ Background Contamination",
+       "quote": "even though the net change in NH4+ concentration during a 2 h constant potential was used in EC turnover‐experiments to determine the production rate, the here shown dynamic of the NH4+ concentration in the first 6 h is relevant."}
+    ]
+  },
+  {
+    "rule_id": "R10_fixed_gas_volume",
+    "title": "Use a fixed, small gas volume as a qualification test",
+    "trigger": "The experiment uses continuously flowing gas.",
+    "text": "Repeat the key experiment with a fixed (or recirculated) gas volume; impurities supplied with a continuous flow scale with gas volume, whereas a fixed volume depletes them.",
+    "references": [
+      {"source_id": "S2", "location": "Undertaking an NRR experiment",
+       "quote": "This can be easily achieved by using a fixed, relatively small volume of N2 for the NRR tests, as opposed to the commonly undertaken “flowing gas” experiments."},
+      {"source_id": "S2", "location": "Table 1",
+       "quote": "Amount of N2 and potential NOx contaminants supplied in 4-h NRR experiments undertaken at different gas supply rates."}
+    ]
+  },
+  {
+    "rule_id": "R11_nox_alongside",
+    "title": "Report NOx alongside ammonia",
+    "trigger": "NOx in the electrolyte / traps was not reported alongside the ammonia result.",
+    "text": "Determine NO2−/NO3− in the electrolyte and traps at the same time as ammonia in every key experiment.",
+    "references": [
+      {"source_id": "S2", "location": "Criteria for reliable NRR data › (III)",
+       "quote": "a completely sufficient basis for genuine NRR results must include determination of NOx present in experimental samples at the same time as ammonia."}
+    ]
+  },
+  {
+    "rule_id": "R12_replicates",
+    "title": "Use at least three independently prepared samples",
+    "trigger": "The product measurement reports fewer than three independent replicates, or none.",
+    "text": "Report mean ± one standard deviation from at least three independently prepared samples for the key result.",
+    "references": [
+      {"source_id": "S2", "location": "Undertaking an NRR experiment",
+       "quote": "The latter should be based on measurements with at least three independently prepared samples, not just several repeats of measurements with the same sample only."}
+    ]
+  }
+]

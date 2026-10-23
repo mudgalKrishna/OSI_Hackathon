@@ -1,0 +1,98 @@
+{
+  "case_id": "bragulla2026_n2_gas_washing",
+  "title": "Bragulla et al. 2026 — N2 5.0 gas-washing ammonia check (reproduction)",
+  "record_type": "published",
+  "description": "The house N2 5.0 supply was bubbled at 10 mL/min for 21.53 h through 50 mL of 0.2 M H2SO4 and the trap analysed by IC (14.8 µg/L NH4+). The authors report the corresponding gas contamination as 80 ppb_mol NH3. This record checks that the reported 80 ppb bound and the trap amount are arithmetically consistent on a common nmol-N basis. It is circular by design (the 80 ppb value was derived from this measurement) and is therefore a reproduction check, not independent evidence. Gas temperature and pressure are not stated and are assumed.",
+  "observed_product": {
+    "species": "NH4+",
+    "basis": "concentration_mass",
+    "unit": "µg/L",
+    "lower": 14.8,
+    "upper": 14.8,
+    "bound_type": "point",
+    "volume_mL": 50,
+    "interval": {"start_min": 0, "end_min": 1291.8},
+    "n_replicates": 1,
+    "evidence": {
+      "source_id": "S3",
+      "location": "Table 1, row 'Nitrogen 5.0' and footnote f",
+      "quote": "Nitrogen 5.0, 10 mL min−1, 21.53 h, 12.92 L total, 0.2 M H2SO4, 50 mL, 80 ppbmol, 0.55 pmol s−1.",
+      "provenance": "reported",
+      "confirmed": true,
+      "note": "Table 1 NH4+ value 14.8 µg/L. 21.53 h = 1291.8 min. Not blank-corrected here."
+    }
+  },
+  "gas_sources": [
+    {
+      "id": "n2_50",
+      "label": "N2 5.0, unpurified",
+      "impurity": {
+        "species": "NH3",
+        "nitrogen_atoms": 1,
+        "unit": "ppb",
+        "lower": 0,
+        "upper": 80,
+        "bound_type": "stated_interval",
+        "measured_where": "delivered_to_cell",
+        "covers_all_reactive_nitrogen": false,
+        "evidence": {
+          "source_id": "S3",
+          "location": "Table 1 footnote f; §4 Discussion",
+          "quote": "The nitrogen supply was of 5.0 quality, which contained an ammonia contamination of only 80 ppbmol",
+          "provenance": "reported",
+          "confirmed": true,
+          "note": "Derived by the authors from this trap measurement (SI Table S9, not read). NOx not measured."
+        }
+      },
+      "total_volume_L": 12.92,
+      "total_volume_temperature_K": 298.15,
+      "total_volume_pressure_Pa": 101325,
+      "exposure": {"start_min": 0, "end_min": 1291.8},
+      "eta_upper": 1.0,
+      "eta_basis": "conservative_upper_bound_1",
+      "evidence": {
+        "source_id": "S3",
+        "location": "Table 1 footnote f",
+        "quote": "10 mL min−1, 21.53 h, 12.92 L total",
+        "provenance": "reported",
+        "confirmed": true,
+        "note": "Temperature and pressure of the 12.92 L are not stated; 298.15 K and 101325 Pa are ASSUMED."
+      }
+    }
+  ],
+  "controls": [
+    {
+      "id": "electrolyte_aging",
+      "label": "0.2 M H2SO4 electrolyte, 24 h aged blank",
+      "kind": "electrolyte_blank",
+      "covers": ["electrolyte"],
+      "measurement": {
+        "species": "NH4+",
+        "basis": "concentration_mass",
+        "unit": "µg/L",
+        "lower": 6.6,
+        "upper": 6.6,
+        "bound_type": "point",
+        "volume_mL": 50,
+        "interval": {"start_min": 0, "end_min": 1440},
+        "evidence": {
+          "source_id": "S3",
+          "location": "Table 1, row 'Electrolyte'",
+          "quote": "Electrolyte | 2.4 | 6.6 | 16.2 (Na+, NH4+, Ca2+ in µg L−1)",
+          "provenance": "reported",
+          "confirmed": true
+        }
+      },
+      "conditions_match": "different",
+      "conditions_note": "24 h static aging, not a 21.53 h gas-washing blank",
+      "include_as_scenario": true
+    }
+  ],
+  "isotope": {"performed": false},
+  "context": {"flowing_gas": true, "nox_measured_alongside": false, "electrolyte": "0.2 M H2SO4 (trap)"},
+  "assumptions": [
+    "Gas volume 12.92 L taken at an assumed 298.15 K and 101325 Pa (not stated in the source).",
+    "All NH3 in the gas is assumed to be captured by the acid trap (η ≤ 1)."
+  ],
+  "sources": ["S3"]
+}

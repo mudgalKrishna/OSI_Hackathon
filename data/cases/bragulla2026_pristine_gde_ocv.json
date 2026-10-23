@@ -1,0 +1,131 @@
+{
+  "case_id": "bragulla2026_pristine_gde_ocv",
+  "title": "Bragulla et al. 2026 — pristine ZrN-GDE at open-circuit voltage (in situ online IC)",
+  "record_type": "published",
+  "description": "In situ background measurement: a pristine ZrN gas-diffusion electrode (Nafion ionomer in the catalyst layer) mounted in the electrochemical cell with 0.2 M H2SO4 and no electrochemistry (OCV). Every nmol of ammonium measured here is, by construction, not electrochemical N2 reduction. The case shows why an observation that exceeds the separately quantified material contamination does NOT establish nitrogen reduction: the separately measured components (24 h aging tests, Table 1) do not account for the in-cell value, and the authors attribute the difference to ammonium released from the Nafion ionomer of the GDE.",
+  "observed_product": {
+    "species": "NH4+",
+    "basis": "mass",
+    "unit": "µg",
+    "lower": 2.76,
+    "upper": 2.76,
+    "bound_type": "point",
+    "n_replicates": 1,
+    "evidence": {
+      "source_id": "S3",
+      "url": "https://europepmc.org/article/PMC/PMC12864167",
+      "location": "§3.6 In Situ Background Contamination; Figure 8",
+      "quote": "the NH4+ and Ca2+ concentration quickly increase, reaching asymptotic time‐weighted average values of 85.2 (2.76 µg) and 77.6 µg L−1, respectively.",
+      "provenance": "reported",
+      "confirmed": true,
+      "note": "Time-weighted average; no uncertainty interval reported, so a point value is used. Total run time of Fig. 8 not stated in the main text. 2.76 µg / 85.2 µg/L implies ≈32 mL, consistent with the 32 mL in SI Figs S2/S3 (§3.6 says 'about 35 mL')."
+    }
+  },
+  "gas_sources": [
+    {
+      "id": "n2_house",
+      "label": "N2 5.0 house supply",
+      "impurity": {
+        "species": "NH3",
+        "nitrogen_atoms": 1,
+        "unit": "ppb",
+        "lower": 80,
+        "upper": 80,
+        "bound_type": "point",
+        "measured_where": "delivered_to_cell",
+        "covers_all_reactive_nitrogen": false,
+        "evidence": {
+          "source_id": "S3",
+          "location": "Table 1, footnote f; §4 Discussion",
+          "quote": "The nitrogen supply was of 5.0 quality, which contained an ammonia contamination of only 80 ppbmol (see Supoorting Information).",
+          "provenance": "reported",
+          "confirmed": true,
+          "note": "Measured for the unpurified house supply by gas washing. NOx was not measured. Whether gas flowed through the cell during the OCV measurement is not stated in the main text."
+        }
+      },
+      "flow": null,
+      "evidence": {
+        "source_id": "S3",
+        "location": "§3.6",
+        "quote": "The EC setup was identical to an actual electrochemical measurement except for a reference electrode or electrical connections, that is, at open‐circuit voltage (OCV).",
+        "provenance": "reported",
+        "confirmed": true,
+        "note": "Gas flow during this measurement: not stated → gas source left unbounded."
+      }
+    }
+  ],
+  "controls": [
+    {
+      "id": "gde_aging",
+      "label": "GDE (ZrN, Nafion ionomer) 24 h aging release, net of GDL",
+      "kind": "component_release",
+      "covers": ["components"],
+      "measurement": {
+        "species": "NH4+",
+        "basis": "mass",
+        "unit": "µg",
+        "lower": 1.55,
+        "upper": 1.55,
+        "bound_type": "point",
+        "volume_mL": 50,
+        "interval": {"start_min": 0, "end_min": 1440},
+        "evidence": {
+          "source_id": "S3",
+          "location": "§3.5; Table 1 (GDE, ZrN: 35.9 µg/L; GDL, pristine: 4.9 µg/L; 50 mL)",
+          "quote": "The total amount of NH4+ liberated from the GDE accounting for the GDL is 1.55 µg. This equals 1.03 µg cm−2 (1.51 cm2 sample) or 0.66 pmol cm−2 s−1 per 24 h.",
+          "provenance": "reported",
+          "confirmed": true,
+          "note": "Check: (35.9 − 4.9) µg/L × 0.050 L = 1.55 µg."
+        }
+      },
+      "conditions_match": "different",
+      "conditions_note": "24 h aging of a 1.51 cm2 sample in 50 mL in a separate vessel, not the assembled cell",
+      "include_as_scenario": true,
+      "contains_nafion": true
+    },
+    {
+      "id": "electrolyte_aging",
+      "label": "0.2 M H2SO4 electrolyte, 24 h aged blank",
+      "kind": "electrolyte_blank",
+      "covers": ["electrolyte"],
+      "measurement": {
+        "species": "NH4+",
+        "basis": "concentration_mass",
+        "unit": "µg/L",
+        "lower": 6.6,
+        "upper": 6.6,
+        "bound_type": "point",
+        "volume_mL": 50,
+        "interval": {"start_min": 0, "end_min": 1440},
+        "evidence": {
+          "source_id": "S3",
+          "location": "Table 1, row 'Electrolyte'",
+          "quote": "Electrolyte | 2.4 | 6.6 | 16.2 (Na+, NH4+, Ca2+ in µg L−1)",
+          "provenance": "reported",
+          "confirmed": true,
+          "note": "Amount computed for the 50 mL aging volume."
+        }
+      },
+      "conditions_match": "different",
+      "conditions_note": "aging test in a separate vessel; in-cell electrolyte volume ≈32–35 mL",
+      "include_as_scenario": true
+    }
+  ],
+  "declared_coverage": {},
+  "coverage_model": null,
+  "isotope": {"performed": false, "note": "Not applicable to an OCV background measurement."},
+  "context": {
+    "flowing_gas": null,
+    "nox_measured_alongside": false,
+    "electrode_contains_nitrogen": true,
+    "gde_contains_nafion": true,
+    "electrode_area_cm2": null,
+    "electrolyte": "0.2 M H2SO4 spiked with 100 µg/L Li+",
+    "note": "Authors' attribution (§4): 'The Nafion contained in the catalyst layer must be a secondary source of significant contamination.'"
+  },
+  "assumptions": [
+    "Observed amount is the reported time-weighted average (2.76 µg NH4+); no measurement interval is reported.",
+    "No electrochemical potential was applied, so the observed ammonium is a background by experimental design."
+  ],
+  "sources": ["S3"]
+}

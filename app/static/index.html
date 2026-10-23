@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NitroTrace</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 2 4 7v10l8 5 8-5V7z" fill="none" stroke="currentColor" stroke-width="1.8"/><text x="12" y="16" text-anchor="middle" font-size="9" font-weight="700" fill="currentColor">N</text></svg>
+    <span>NitroTrace</span>
+  </div>
+  <div class="case-label" id="caseLabel">No record loaded</div>
+  <button class="primary" id="runBtn" disabled>Run evidence audit</button>
+</header>
+
+<nav class="tabs" role="tablist">
+  <button role="tab" data-tab="start" class="active">Start</button>
+  <button role="tab" data-tab="experiment">Experiment &amp; evidence</button>
+  <button role="tab" data-tab="audit">Audit</button>
+  <button role="tab" data-tab="controls">Controls</button>
+  <button role="tab" data-tab="report">Report</button>
+</nav>
+
+<main>
+  <!-- START -->
+  <section id="tab-start" class="tab active">
+    <div class="intro">
+      <h1>Could the ammonia in this experiment be explained by the contamination that was actually measured?</h1>
+      <p>Detecting ammonia does not tell you where its nitrogen came from. NitroTrace converts an experiment's
+        product measurement and its contamination evidence — delivered-gas impurities, matched blanks and
+        component-release tests — to one basis (nmol N), builds a conservative contamination budget, and
+        shows which sources remain unknown. Missing measurements stay <em>unknown</em>, never zero; overlapping
+        blanks are not summed; and every input keeps its source, page and quote.</p>
+      <p class="muted">A software prototype for reviewing interpretation. It does not replace a laboratory
+        investigation, and its results are not judgements of the original studies.</p>
+    </div>
+
+    <h2>Three-step demonstration <span class="tag synthetic">synthetic</span></h2>
+    <div class="cards" id="demoCards"></div>
+
+    <h2>Published records <span class="tag published">curated</span></h2>
+    <div class="cards" id="publishedCards"></div>
+
+    <h2>Synthetic benchmark &amp; new record</h2>
+    <div class="row">
+      <select id="syntheticSelect" aria-label="Synthetic benchmark records"></select>
+      <button id="loadSynthetic">Load</button>
+      <button id="newRecord">New blank record</button>
+      <label class="file-btn">Import JSON<input type="file" id="importJson" accept=".json,application/json" hidden></label>
+    </div>
+  </section>
+
+  <!-- EXPERIMENT -->
+  <section id="tab-experiment" class="tab">
+    <div class="empty" data-empty>Load a record from the Start tab.</div>
+    <div id="editor"></div>
+  </section>
+
+  <!-- AUDIT -->
+  <section id="tab-audit" class="tab">
+    <div class="empty" data-empty>Run the audit to see the comparison.</div>
+    <div id="auditView"></div>
+  </section>
+
+  <!-- CONTROLS -->
+  <section id="tab-controls" class="tab">
+    <div class="empty" data-empty>Run the audit to see protocol-based suggestions.</div>
+    <div id="controlsView"></div>
+  </section>
+
+  <!-- REPORT -->
+  <section id="tab-report" class="tab">
+    <div id="reportView"><div class="empty">Run the audit to export a report.</div></div>
+    <h2>Benchmark results</h2>
+    <div id="benchmarkView" class="muted">Loading…</div>
+  </section>
+</main>
+
+<div id="toast" role="status" aria-live="polite"></div>
+<script src="/static/app.js"></script>
+</body>
+</html>

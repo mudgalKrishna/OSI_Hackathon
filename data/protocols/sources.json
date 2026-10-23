@@ -1,0 +1,35 @@
+{
+  "S1": {
+    "citation": "Andersen, S. Z. et al. A rigorous electrochemical ammonia synthesis protocol with quantitative isotope measurements. Nature 570, 504–508 (2019).",
+    "doi": "10.1038/s41586-019-1260-x",
+    "url": "https://www.nature.com/articles/s41586-019-1260-x",
+    "access": "Not open access; full text was not available to this build. Cited only through its summary in S2 (refs 7–9 of S2). No values in NitroTrace are taken from it directly."
+  },
+  "S2": {
+    "citation": "Choi, J. et al. Identification and elimination of false positives in electrochemical nitrogen reduction studies. Nat. Commun. 11, 5546 (2020).",
+    "doi": "10.1038/s41467-020-19130-z",
+    "url": "https://www.nature.com/articles/s41467-020-19130-z",
+    "open_full_text": "https://europepmc.org/article/PMC/PMC7641139",
+    "license": "CC BY 4.0",
+    "access": "Full text read from Europe PMC (PMC7641139)."
+  },
+  "S3": {
+    "citation": "Bragulla, S., Lorenz, J., Harms, C., Wark, M. & Friedrich, K. A. Development of Suppressed Ion Chromatography for the Online Quantification of Cations in Electrochemical Ammonia Synthesis Research. ChemSusChem 19, e202501974 (2026).",
+    "doi": "10.1002/cssc.202501974",
+    "url": "https://doi.org/10.1002/cssc.202501974",
+    "open_full_text": "https://europepmc.org/article/PMC/PMC12864167",
+    "access": "Main text read from Europe PMC (PMC12864167). Supporting Information (Tables S1–S10) was not read."
+  },
+  "S4": {
+    "citation": "Hu et al. Automating structure–activity analysis for electrochemical nitrogen reduction catalyst design through multi-agent collaborations. Natl. Sci. Rev. (2025).",
+    "doi": "10.1093/nsr/nwaf372",
+    "url": "https://doi.org/10.1093/nsr/nwaf372",
+    "code": "https://github.com/nkuhuxu/eNRRCrew",
+    "access": "Adjacent work; not used as a data source."
+  },
+  "S5": {
+    "citation": "Open Scientific Intelligence Hackathon",
+    "url": "https://llmhackathon.github.io/",
+    "access": "Event scope."
+  }
+}
