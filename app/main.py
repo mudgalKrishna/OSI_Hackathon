@@ -13,12 +13,12 @@ from fastapi.staticfiles import StaticFiles
 
 from . import extraction, reports
 from .audit import ENGINE_VERSION, run_audit
-from .controls import rules, sources
+from .controls import DATA_DIR, rules, sources
 from .schemas import AuditResult, ExperimentRecord
 
 ROOT = Path(__file__).resolve().parent.parent
 STATIC = Path(__file__).resolve().parent / "static"
-CASE_DIRS = {"published": ROOT / "data" / "cases", "synthetic": ROOT / "data" / "synthetic"}
+CASE_DIRS = {"published": DATA_DIR / "cases", "synthetic": DATA_DIR / "synthetic"}
 
 app = FastAPI(title="NitroTrace", version=ENGINE_VERSION,
               description="Evidence-backed contamination accounting for electrochemical ammonia experiments.")

@@ -9,14 +9,12 @@ import copy
 import json
 import math
 import time
-from pathlib import Path
 
 from .audit import run_audit
+from .controls import DATA_DIR
 from .inversion import evidence_requirements
 from .schemas import ExperimentRecord
 from .units import UnitError, gas_fraction, gas_moles, gas_moles_from_volume, to_nmol_n
-
-DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 
 
 def load_records(data: dict | None = None) -> dict[str, dict]:

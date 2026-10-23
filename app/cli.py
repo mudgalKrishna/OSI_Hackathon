@@ -419,7 +419,10 @@ def main(argv: list[str] | None = None) -> None:
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
     a = build_parser().parse_args(argv)
-    a.fn(a)
+    try:
+        a.fn(a)
+    except BrokenPipeError:  # output piped into e.g. `head`, which closed early
+        sys.stdout = open(os.devnull, "w")
 
 
 if __name__ == "__main__":

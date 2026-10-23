@@ -817,6 +817,8 @@ def engine(DATA):
     # here, and quotes the source passage that motivates it. These are suggestions,
     # not an optimized experimental design.
 
+    DATA_DIR = None  # notebook: records come from the embedded DATA
+
     def rules() -> dict[str, dict]:
         return {r["rule_id"]: r for r in DATA["protocols/rules.json"]}
 
@@ -1561,8 +1563,6 @@ def engine(DATA):
     # 
     # Synthetic records test software and reasoning only; published records carry no ground-truth label
     # for whether N2 reduction occurred and are reported, not scored.
-
-    DATA_DIR = None  # notebook: records come from the embedded DATA
 
     def load_records(data: dict | None = None) -> dict[str, dict]:
         """{"cases/x.json" | "synthetic/y.json": record dict}. ``data`` may hold an embedded copy."""

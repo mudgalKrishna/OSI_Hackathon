@@ -1,6 +1,10 @@
-from fastapi.testclient import TestClient
+import pytest
 
-from app.main import app
+pytest.importorskip("fastapi", reason="optional HTTP API: pip install -e '.[api]'")
+
+from fastapi.testclient import TestClient  # noqa: E402
+
+from app.main import app  # noqa: E402
 
 client = TestClient(app)
 

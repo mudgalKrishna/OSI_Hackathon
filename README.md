@@ -30,7 +30,7 @@ cd nitrotrace
 python -m venv .venv && .venv\Scripts\activate        # macOS/Linux: source .venv/bin/activate
 pip install -e .                                        # CLI only needs pydantic
 pip install -e ".[web]"                                 # + marimo web app
-pip install -e ".[dev]" && pytest -q                    # 97 passed, 2 skipped (PDF tests need PyMuPDF)
+pip install -e ".[dev]" && pytest -q                    # 92 passed, 3 skipped; with ".[dev,api]": 97 passed, 2 skipped (PDF tests need PyMuPDF)
 ```
 
 Without installing, `python -m app <command>` works the same as `nitrotrace <command>`.

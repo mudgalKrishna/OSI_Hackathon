@@ -21,5 +21,10 @@ dev = ["pytest>=8", "httpx>=0.27"]
 nitrotrace = "app.cli:main"
 
 [tool.setuptools]
-packages = ["app"]
-include-package-data = true
+# data/ ships inside the package as app/data, so a regular (non-editable) install finds the records.
+packages = ["app", "app.data"]
+package-dir = { "app" = "app", "app.data" = "data" }
+
+[tool.setuptools.package-data]
+"app" = ["static/*"]
+"app.data" = ["cases/*.json", "synthetic/*.json", "protocols/*.json"]

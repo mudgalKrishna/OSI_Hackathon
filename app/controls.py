@@ -12,7 +12,10 @@ from pathlib import Path
 
 from .schemas import Contribution, ExperimentRecord, Issue, Recommendation
 
-RULES_PATH = Path(__file__).resolve().parent.parent / "data" / "protocols" / "rules.json"
+# Repository checkout or editable install: <repo>/data. Regular install: the same files ship as app/data.
+_PKG = Path(__file__).resolve().parent
+DATA_DIR = _PKG.parent / "data" if (_PKG.parent / "data" / "protocols").is_dir() else _PKG / "data"
+RULES_PATH = DATA_DIR / "protocols" / "rules.json"
 SOURCES_PATH = RULES_PATH.with_name("sources.json")
 
 

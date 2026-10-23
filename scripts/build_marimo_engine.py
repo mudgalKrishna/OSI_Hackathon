@@ -31,6 +31,8 @@ def port(mod: str) -> str:
     if mod == "coverage":
         s = s.replace("def resolve(", "def coverage_resolve(").replace("def complete(", "def coverage_complete(")
     if mod == "controls":
+        s = re.sub(r"^# Repository checkout.*\n^_PKG = .*\n", "", s, flags=re.M)
+        s = re.sub(r"^DATA_DIR = .*\n", "DATA_DIR = None  # notebook: records come from the embedded DATA\n", s, flags=re.M)
         s = re.sub(r"RULES_PATH = .*\nSOURCES_PATH = .*\n", "", s)
         s = s.replace("@lru_cache\n", "")
         s = s.replace('json.loads(RULES_PATH.read_text(encoding="utf-8"))', 'DATA["protocols/rules.json"]')
